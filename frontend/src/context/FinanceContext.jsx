@@ -60,7 +60,7 @@ export const FinanceProvider = ({ children }) => {
   const addTransaction = useCallback(async (transaction) => {
     const created = await transactionsService.create({
       ...transaction,
-      date: new Date().toISOString(),
+      date: transaction.date || new Date().toISOString(),
     });
     setTransactions((prev) => [created, ...prev]);
 

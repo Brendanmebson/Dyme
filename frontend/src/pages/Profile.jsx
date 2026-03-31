@@ -48,10 +48,7 @@ const Profile = () => {
   const displayEmail = user?.email ?? '';
 
   const [name, setName]         = useState(fullName);
-  const [avatar, setAvatar]     = useState(() => {
-    // Load avatar from localStorage or user profile
-    return localStorage.getItem('dyme_avatar') || user?.avatar_url || null;
-  });
+  const [avatar, setAvatar]     = useState(user?.avatar_url || null);
   const [avatarDialogOpen, setAvatarDialogOpen] = useState(false);
   const [saving, setSaving]     = useState(false);
   const [saved, setSaved]       = useState(false);
@@ -71,7 +68,13 @@ const Profile = () => {
 
   const handleAvatarSave = async (dataUrl) => {
     setAvatar(dataUrl);
-    localStorage.setItem('dyme_avatar', dataUrl);
+    try {
+      await updateProfile({ avatar_url: dataUrl });
+    } catch (err) {
+      console.error('Failed to update avatar in context:', err);
+      // Fallback: still keep it in localStorage if needed, but context is primary
+      localStorage.setItem('dyme_avatar', dataUrl);
+    }
   };
 
   const handleProfileSave = async () => {

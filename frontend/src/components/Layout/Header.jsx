@@ -104,11 +104,14 @@ const Header = ({
               transition: 'all 0.2s ease',
             }}
           >
-            <Avatar sx={{
-              width: 36, height: 36, fontSize: '0.8rem', fontWeight: 700,
-              background: 'linear-gradient(135deg, #f43f6e, #fb7292)',
-              boxShadow: '0 2px 8px rgba(244,63,110,0.35)',
-            }}>
+            <Avatar
+              src={user?.avatar_url || undefined}
+              sx={{
+                width: 36, height: 36, fontSize: '0.8rem', fontWeight: 700,
+                background: 'linear-gradient(135deg, #f43f6e, #fb7292)',
+                boxShadow: '0 2px 8px rgba(244,63,110,0.35)',
+              }}
+            >
               {initials}
             </Avatar>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>

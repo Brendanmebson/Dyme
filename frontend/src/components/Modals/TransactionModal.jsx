@@ -13,27 +13,38 @@ import {
   InputLabel, Typography, ToggleButton, ToggleButtonGroup,
   IconButton,
 } from '@mui/material';
-import { X, TrendingUp, TrendingDown } from 'lucide-react';
+import { X, TrendingUp, TrendingDown, Calendar } from 'lucide-react';
 import { useCurrency } from '../../context/CurrencyContext';
+import { format } from 'date-fns';
 
-const DEFAULT_FORM = { type: 'expense', amount: '', category: '', description: '' };
+const DEFAULT_FORM = () => ({
+  type: 'expense',
+  amount: '',
+  category: '',
+  description: '',
+  date: format(new Date(), 'yyyy-MM-dd'),
+});
 
 const TransactionModal = ({ isOpen, onClose }) => {
   const { addTransaction, categories } = useFinance();
   const { currency, rates } = useCurrency();
-  const [form, setForm] = useState(DEFAULT_FORM);
+  const [form, setForm] = useState(DEFAULT_FORM());
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!form.amount || !form.category || !form.description) return;
     
     // Store the raw amount in the user's current currency — no conversion
+    // Convert YYYY-MM-DD to ISO string for the backend
+    const isoDate = new Date(form.date).toISOString();
+
     addTransaction({
       ...form,
       amount: parseFloat(form.amount),
       currency: currency.code,
+      date: isoDate,
     });
-    setForm(DEFAULT_FORM);
+    setForm(DEFAULT_FORM());
     onClose();
   };
 
@@ -121,6 +132,22 @@ const TransactionModal = ({ isOpen, onClose }) => {
               ))}
             </Select>
           </FormControl>
+
+          {/* Date Picker */}
+          <TextField
+            fullWidth label="Date" type="date"
+            value={form.date}
+            onChange={(e) => setForm({ ...form, date: e.target.value })}
+            required sx={{ mb: 2.5 }}
+            InputLabelProps={{ shrink: true }}
+            InputProps={{
+              startAdornment: (
+                <Box sx={{ mr: 1, color: '#98a2b3', display: 'flex', alignItems: 'center' }}>
+                  <Calendar size={18} />
+                </Box>
+              ),
+            }}
+          />
 
           {/* Description */}
           <TextField

@@ -141,7 +141,7 @@ export const updateMe = async (req, res) => {
       full_name: z.string().min(2).optional(),
       currency: z.string().length(3).optional(),
       timezone: z.string().optional(),
-      avatar_url: z.string().url().optional(),
+      avatar_url: z.string().optional(),
     });
 
     const body = UpdateSchema.parse(req.body);

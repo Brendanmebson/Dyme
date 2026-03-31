@@ -8,7 +8,7 @@ const TransactionSchema = z.object({
   category:    z.string().min(1),
   description: z.string().min(1),
   currency:    z.string().min(1).default('USD'),
-  date:        z.string().datetime().optional(),
+  date:        z.string().datetime().default(() => new Date().toISOString()),
   notes:       z.string().optional(),
 });
 

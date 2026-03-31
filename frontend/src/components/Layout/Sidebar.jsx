@@ -142,7 +142,9 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
 
       <Divider sx={{ borderColor: '#f1f3f6', width: '100%' }} />
       <Box sx={{ py: 2 }}>
-        <Avatar sx={{ width: 32, height: 32, fontSize: '0.75rem', fontWeight: 700, background: 'linear-gradient(135deg, #f43f6e, #fb7292)', boxShadow: '0 2px 8px rgba(244,63,110,0.3)' }}>
+        <Avatar
+          src={user?.avatar_url || undefined}
+          sx={{ width: 32, height: 32, fontSize: '0.75rem', fontWeight: 700, background: 'linear-gradient(135deg, #f43f6e, #fb7292)', boxShadow: '0 2px 8px rgba(244,63,110,0.3)' }}>
           {initials}
         </Avatar>
       </Box>
@@ -165,7 +167,9 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
 
       <Divider sx={{ borderColor: '#f1f3f6' }} />
       <Box sx={{ px: 2, py: 2, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-        <Avatar sx={{ width: 36, height: 36, fontSize: '0.8rem', fontWeight: 700, background: 'linear-gradient(135deg, #f43f6e, #fb7292)', boxShadow: '0 2px 8px rgba(244,63,110,0.3)', flexShrink: 0 }}>
+        <Avatar
+          src={user?.avatar_url || undefined}
+          sx={{ width: 36, height: 36, fontSize: '0.8rem', fontWeight: 700, background: 'linear-gradient(135deg, #f43f6e, #fb7292)', boxShadow: '0 2px 8px rgba(244,63,110,0.3)', flexShrink: 0 }}>
           {initials}
         </Avatar>
         <Box sx={{ animation: `${slideIn} 0.15s ease`, overflow: 'hidden' }}>
@@ -202,7 +206,7 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
       <Divider sx={{ borderColor: '#f1f3f6' }} />
       <Box sx={{ px: collapsed ? 1 : 2, py: 2, display: 'flex', alignItems: 'center', gap: collapsed ? 0 : 1.5, justifyContent: collapsed ? 'center' : 'flex-start' }}>
         <Avatar
-          src={typeof window !== 'undefined' ? localStorage.getItem('dyme_avatar') : undefined}
+          src={user?.avatar_url || undefined}
           sx={{ width: 36, height: 36, fontSize: '0.8rem', fontWeight: 700, background: 'linear-gradient(135deg, #f43f6e, #fb7292)', boxShadow: '0 2px 8px rgba(244,63,110,0.3)', flexShrink: 0 }}>
           {initials}
         </Avatar>
