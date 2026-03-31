@@ -1,4 +1,4 @@
-![Dyme](./assets/Dyme logo.png) 
+![Dyme Hero Banner](./assets/Dyme logo full(white).png)
 # Dyme — Premium Personal Finance Dashboard
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB&color=f43f6e)](https://reactjs.org/)
