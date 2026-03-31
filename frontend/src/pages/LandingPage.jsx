@@ -200,8 +200,8 @@ const LandingPage = () => {
 
   const NAV_LINKS = [
     { label: 'Features', id: 'features' },
-    { label: 'Pricing',  id: 'pricing'  },
-    { label: 'Why Us',   id: 'why-us'   },
+    { label: 'Pricing', id: 'pricing' },
+    { label: 'Why Us', id: 'why-us' },
   ];
 
   useEffect(() => {
@@ -245,7 +245,7 @@ const LandingPage = () => {
         </Box>
 
         <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
-          <Button onClick={() => navigate('/login')} sx={{ color: '#5a5a5a', fontWeight: 600, fontSize: '0.875rem', px: 2, borderRadius: '8px'}}>Login</Button>
+          <Button onClick={() => navigate('/login')} sx={{ color: '#5a5a5a', fontWeight: 600, fontSize: '0.875rem', px: 2, borderRadius: '8px' }}>Login</Button>
           <Button onClick={() => navigate('/login')} sx={{ bgcolor: '#0d0d0d', color: '#fff', fontWeight: 600, fontSize: '0.875rem', px: 2.5, py: 0.85, borderRadius: '9px', '&:hover': { bgcolor: '#1a1a1a', transform: 'translateY(-1px)', boxShadow: '0 6px 20px rgba(0,0,0,0.15)' }, transition: 'all 0.2s' }}>Join free</Button>
         </Box>
       </Box>
@@ -262,7 +262,7 @@ const LandingPage = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0, lg: 6 }, flexWrap: { xs: 'wrap', lg: 'nowrap' } }}>
 
             {/* Left */}
-            <Box sx={{ flex: '0 0 auto', width: { xs: '100%', lg: '48%' }, pr: { lg: 4 }, pt: {xs: '25px', md: '40px'} }}>
+            <Box sx={{ flex: '0 0 auto', width: { xs: '100%', lg: '48%' }, pr: { lg: 4 }, pt: { xs: '10px', md: '40px' } }}>
               <Typography component="h1" sx={{ ...sectionHead, fontSize: { xs: '2.8rem', md: '5rem' }, mb: 3, maxWidth: 560, animation: `${fadeSlideRight} 0.55s ease 0.08s both` }}>
                 Reimagine{' '}
                 <Box component="span" sx={{ position: 'relative', display: 'inline-block', '&::after': { content: '""', position: 'absolute', bottom: '4px', left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, #f43f6e, #ff8fa3)', borderRadius: '2px', animation: `${lineGrow} 0.9s cubic-bezier(0.4,0,0.2,1) 0.6s both` } }}>money.</Box>
@@ -632,23 +632,23 @@ const LandingPage = () => {
             xmlns="http://www.w3.org/2000/svg" style={{ position: 'absolute', inset: 0 }}>
             <defs>
               <radialGradient id="rg1" cx="50%" cy="100%" r="65%">
-                <stop offset="0%"   stopColor="#f43f6e" stopOpacity="0.2"  />
-                <stop offset="45%"  stopColor="#f43f6e" stopOpacity="0.06" />
-                <stop offset="100%" stopColor="#f43f6e" stopOpacity="0"    />
+                <stop offset="0%" stopColor="#f43f6e" stopOpacity="0.2" />
+                <stop offset="45%" stopColor="#f43f6e" stopOpacity="0.06" />
+                <stop offset="100%" stopColor="#f43f6e" stopOpacity="0" />
               </radialGradient>
               <radialGradient id="rg2" cx="8%" cy="0%" r="42%">
-                <stop offset="0%"   stopColor="#7c3aed" stopOpacity="0.12" />
-                <stop offset="100%" stopColor="#7c3aed" stopOpacity="0"    />
+                <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.12" />
+                <stop offset="100%" stopColor="#7c3aed" stopOpacity="0" />
               </radialGradient>
               <radialGradient id="rg3" cx="92%" cy="0%" r="35%">
-                <stop offset="0%"   stopColor="#f43f6e" stopOpacity="0.08" />
-                <stop offset="100%" stopColor="#f43f6e" stopOpacity="0"    />
+                <stop offset="0%" stopColor="#f43f6e" stopOpacity="0.08" />
+                <stop offset="100%" stopColor="#f43f6e" stopOpacity="0" />
               </radialGradient>
               <pattern id="dotgrid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
                 <circle cx="20" cy="20" r="0.85" fill="rgba(255,255,255,0.065)" />
               </pattern>
               <linearGradient id="bottomfade" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="55%"  stopColor="#0a0a0f" stopOpacity="0" />
+                <stop offset="55%" stopColor="#0a0a0f" stopOpacity="0" />
                 <stop offset="100%" stopColor="#0a0a0f" stopOpacity="1" />
               </linearGradient>
             </defs>
@@ -663,29 +663,29 @@ const LandingPage = () => {
             <circle cx="60" cy="600" r="120" fill="none" stroke="rgba(124,58,237,0.06)" strokeWidth="0.5" />
             <circle cx="60" cy="600" r="200" fill="none" stroke="rgba(124,58,237,0.04)" strokeWidth="0.5" />
             <line x1="-200" y1="0" x2="400" y2="600" stroke="rgba(255,255,255,0.018)" strokeWidth="1" />
-            <line x1="0"   y1="0" x2="600" y2="600" stroke="rgba(255,255,255,0.018)" strokeWidth="1" />
+            <line x1="0" y1="0" x2="600" y2="600" stroke="rgba(255,255,255,0.018)" strokeWidth="1" />
             <line x1="200" y1="0" x2="800" y2="600" stroke="rgba(255,255,255,0.018)" strokeWidth="1" />
             <line x1="400" y1="0" x2="1000" y2="600" stroke="rgba(255,255,255,0.018)" strokeWidth="1" />
             <line x1="600" y1="0" x2="1200" y2="600" stroke="rgba(255,255,255,0.018)" strokeWidth="1" />
             <line x1="800" y1="0" x2="1400" y2="600" stroke="rgba(255,255,255,0.018)" strokeWidth="1" />
             <line x1="1000" y1="0" x2="1600" y2="600" stroke="rgba(255,255,255,0.018)" strokeWidth="1" />
             <line x1="0" y1="0.5" x2="1440" y2="0.5" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-            <circle cx="80"  cy="55"  r="1.1" fill="rgba(244,63,110,0.55)" />
-            <circle cx="80"  cy="55"  r="4"   fill="rgba(244,63,110,0.07)" />
-            <circle cx="260" cy="35"  r="1.1" fill="rgba(244,63,110,0.55)" />
-            <circle cx="260" cy="35"  r="4"   fill="rgba(244,63,110,0.07)" />
-            <circle cx="510" cy="25"  r="1.1" fill="rgba(244,63,110,0.55)" />
-            <circle cx="510" cy="25"  r="4"   fill="rgba(244,63,110,0.07)" />
-            <circle cx="730" cy="48"  r="1.1" fill="rgba(244,63,110,0.55)" />
-            <circle cx="730" cy="48"  r="4"   fill="rgba(244,63,110,0.07)" />
-            <circle cx="960" cy="28"  r="1.1" fill="rgba(244,63,110,0.55)" />
-            <circle cx="960" cy="28"  r="4"   fill="rgba(244,63,110,0.07)" />
+            <circle cx="80" cy="55" r="1.1" fill="rgba(244,63,110,0.55)" />
+            <circle cx="80" cy="55" r="4" fill="rgba(244,63,110,0.07)" />
+            <circle cx="260" cy="35" r="1.1" fill="rgba(244,63,110,0.55)" />
+            <circle cx="260" cy="35" r="4" fill="rgba(244,63,110,0.07)" />
+            <circle cx="510" cy="25" r="1.1" fill="rgba(244,63,110,0.55)" />
+            <circle cx="510" cy="25" r="4" fill="rgba(244,63,110,0.07)" />
+            <circle cx="730" cy="48" r="1.1" fill="rgba(244,63,110,0.55)" />
+            <circle cx="730" cy="48" r="4" fill="rgba(244,63,110,0.07)" />
+            <circle cx="960" cy="28" r="1.1" fill="rgba(244,63,110,0.55)" />
+            <circle cx="960" cy="28" r="4" fill="rgba(244,63,110,0.07)" />
             <circle cx="1150" cy="52" r="1.1" fill="rgba(244,63,110,0.55)" />
-            <circle cx="1150" cy="52" r="4"   fill="rgba(244,63,110,0.07)" />
+            <circle cx="1150" cy="52" r="4" fill="rgba(244,63,110,0.07)" />
             <circle cx="1360" cy="38" r="1.1" fill="rgba(244,63,110,0.55)" />
-            <circle cx="1360" cy="38" r="4"   fill="rgba(244,63,110,0.07)" />
-            <circle cx="190" cy="110" r="1.1" fill="rgba(244,63,110,0.4)"  />
-            <circle cx="650" cy="90"  r="1.1" fill="rgba(244,63,110,0.4)"  />
+            <circle cx="1360" cy="38" r="4" fill="rgba(244,63,110,0.07)" />
+            <circle cx="190" cy="110" r="1.1" fill="rgba(244,63,110,0.4)" />
+            <circle cx="650" cy="90" r="1.1" fill="rgba(244,63,110,0.4)" />
             <circle cx="1040" cy="105" r="1.1" fill="rgba(244,63,110,0.4)" />
             <rect x="0" y="479" width="1440" height="1" fill="rgba(244,63,110,0.07)" />
             <rect width="1440" height="600" fill="url(#bottomfade)" />
@@ -720,7 +720,7 @@ const LandingPage = () => {
             {[
               { heading: 'Product', links: ['Features', 'Pricing', 'Changelog', 'Roadmap'] },
               { heading: 'Company', links: ['Why Us', 'Blog', 'Careers', 'Press'] },
-              { heading: 'Legal',   links: ['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'Security'] },
+              { heading: 'Legal', links: ['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'Security'] },
             ].map(({ heading, links }) => (
               <Box key={heading} sx={{ flex: '1 1 120px' }}>
                 <Typography sx={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.22)', mb: 3 }}>
