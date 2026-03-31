@@ -1,4 +1,5 @@
-# 🌸 Dyme — Premium Personal Finance Dashboard
+![Dyme](./assets/Dyme logo.png) 
+# Dyme — Premium Personal Finance Dashboard
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB&color=f43f6e)](https://reactjs.org/)
 [![Material UI](https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=mui&logoColor=white&color=f43f6e)](https://mui.com/)
@@ -7,7 +8,7 @@
 
 Dyme is a state-of-the-art personal finance management platform designed with **aesthetics, performance, and user experience** at its core. It empowers users to track their spending, manage budgets, and gain deep financial insights through a premium, responsive interface.
 
-![Dyme Hero Banner](https://via.placeholder.com/1200x600/f43f6e/ffffff?text=Dyme+Finance+Dashboard+Hero)
+![Dyme Hero Banner](./assets/hero.png)
 
 ---
 
@@ -15,7 +16,7 @@ Dyme is a state-of-the-art personal finance management platform designed with **
 
 ### 📉 Intelligent Dashboard
 A bird's-eye view of your financial health. Includes real-time balance tracking, monthly income vs. expense charts, and quick access to recent activities.
-> ![Dashboard Preview](https://via.placeholder.com/800x400/fb7292/ffffff?text=Dashboard+UI+Preview)
+> ![Dashboard Preview](./assets/dashboard.png)
 
 ### 💸 Multi-Currency Support
 Independent currency tracking for every transaction. Switch your global view between **USD, EUR, GBP, and NGN** with live exchange rates.
@@ -27,7 +28,7 @@ Visualize your spending habits with interactive charts and detailed breakdowns.
 - **💓 Spending by Category**: identify where your money goes.
 - **💓 Monthly Trends**: Track your net worth over time.
 - **💓 Exportable Reports**: Generate and download CSV reports for your records.
-> ![Reports Preview](https://via.placeholder.com/800x400/fda4b5/ffffff?text=Reports+%26+Analytics+UI)
+> ![Reports Preview](./assets/reports.png)
 
 ### 🎯 Budget Management
 Set monthly limits for specific categories and track your progress with smart progress bars.
@@ -114,7 +115,7 @@ dyme/
 
 | Dashboard | Transactions | Analytics |
 |:---:|:---:|:---:|
-| ![Dashboard](https://via.placeholder.com/300x200/f43f6e/ffffff?text=Dashboard) | ![Transactions](https://via.placeholder.com/300x200/fb7292/ffffff?text=Transactions) | ![Analytics](https://via.placeholder.com/300x200/fda4b5/ffffff?text=Analytics) |
+| ![Dashboard](./assets/dashboard.png) | ![Transactions](./assets/transactions.png) | ![Analytics](./assets/analytics.png) |
 
 ---
 
