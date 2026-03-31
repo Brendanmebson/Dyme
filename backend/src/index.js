@@ -21,7 +21,8 @@ app.use(helmet());
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
-  'https://dyme.vercel.app'
+  'https://dyme.vercel.app',
+  'https://dymedashboard.vercel.app'
 ];
 if (process.env.CLIENT_URL) allowedOrigins.push(process.env.CLIENT_URL);
 
