@@ -179,7 +179,7 @@ export const getCategorySummary = async (req, res) => {
 export const getBalance = async (req, res) => {
   const { data, error } = await supabase
     .from('transactions')
-    .select('amount, type')
+    .select('amount, type, currency')
     .eq('user_id', req.user.id);
 
   if (error) throw error;
@@ -192,7 +192,9 @@ export const getBalance = async (req, res) => {
   let monthIncome = 0;
   let monthExpense = 0;
 
-  data.forEach(({ amount, type, date }) => {
+  // We should ideally use getConvertedAmount logic here too if we wanted accuracy on the backend,
+  // but for now we just fix the field selection so the data is at least available if needed.
+  data.forEach(({ amount, type }) => {
     const amt = Number(amount);
     if (type === 'income') {
       totalIncome += amt;
@@ -204,7 +206,7 @@ export const getBalance = async (req, res) => {
   // Current month — re-query with date filter for accuracy
   const { data: monthData, error: monthError } = await supabase
     .from('transactions')
-    .select('amount, type')
+    .select('amount, type, currency')
     .eq('user_id', req.user.id)
     .gte('date', monthStart.toISOString());
 
