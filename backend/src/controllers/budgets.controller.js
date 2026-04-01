@@ -6,6 +6,9 @@ const BudgetSchema = z.object({
   category:     z.string().min(1),
   limit_amount: z.number().positive('Limit must be positive'),
   period:       z.enum(['monthly', 'weekly', 'yearly']).default('monthly'),
+  start_date:   z.string().datetime().optional(),
+  end_date:     z.string().datetime().optional(),
+  selected_transaction_ids: z.array(z.string().uuid()).optional(),
 });
 
 // GET /api/budgets  — returns budgets with live spent amount
@@ -34,10 +37,11 @@ export const getBudgets = async (req, res) => {
 // POST /api/budgets
 export const createBudget = async (req, res) => {
   const body = BudgetSchema.parse(req.body);
+  const { selected_transaction_ids, ...budgetData } = body;
 
   const { data, error } = await supabase
     .from('budgets')
-    .insert({ ...body, user_id: req.user.id })
+    .insert({ ...budgetData, user_id: req.user.id })
     .select()
     .single();
 
@@ -48,11 +52,46 @@ export const createBudget = async (req, res) => {
     throw error;
   }
 
+  // Handle historical transaction selection
+  if (selected_transaction_ids && selected_transaction_ids.length > 0) {
+    const budgetTransactions = selected_transaction_ids.map(txId => ({
+      budget_id: data.id,
+      transaction_id: txId,
+      user_id: req.user.id,
+    }));
+
+    const { error: btError } = await supabase
+      .from('budget_transactions')
+      .insert(budgetTransactions);
+
+    if (btError) {
+      console.error('Error inserting budget_transactions:', btError);
+      // We don't throw here to avoid failing the whole budget creation
+    }
+  }
+
+  // To return with correct 'spent' amount, we re-fetch via the view
+  const { data: budgetWithSpent, error: viewError } = await supabase
+    .from('budgets_with_spent')
+    .select('*')
+    .eq('id', data.id)
+    .single();
+
+  if (viewError) {
+    return res.status(201).json({
+      budget: {
+        ...data,
+        limit: Number(data.limit_amount),
+        spent: 0,
+      },
+    });
+  }
+
   return res.status(201).json({
     budget: {
-      ...data,
-      limit: Number(data.limit_amount),
-      spent: 0,
+      ...budgetWithSpent,
+      limit: Number(budgetWithSpent.limit_amount),
+      spent: Number(budgetWithSpent.spent),
     },
   });
 };

@@ -6,8 +6,9 @@ import {
   Box, Grid, Card, CardContent, Typography, Button,
   LinearProgress, Chip, IconButton,
 } from '@mui/material';
-import { Plus, Target, AlertTriangle, CheckCircle, Trash2 } from 'lucide-react';
+import { Plus, Target, AlertTriangle, CheckCircle, Trash2, Calendar } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
+import { format, differenceInDays } from 'date-fns';
 
 const STATUS_CONFIG = {
   exceeded: { color: '#ef4444', bg: '#fee2e2', label: 'Exceeded',   icon: AlertTriangle },
@@ -15,7 +16,9 @@ const STATUS_CONFIG = {
   good:     { color: '#10b981', bg: '#d1fae5', label: 'On track',   icon: CheckCircle },
 };
 
-const getBudgetStatus = ({ spent, limit }) => {
+const getBudgetStatus = ({ spent, limit, end_date }) => {
+  const now = new Date();
+  if (end_date && new Date(end_date) < now) return 'exceeded'; // Or a new 'expired' status
   const pct = (spent / limit) * 100;
   if (pct >= 100) return 'exceeded';
   if (pct >= 80)  return 'warning';
@@ -168,20 +171,37 @@ const Budgets = () => {
                         </Typography>
                         <Chip label={cfg.label} size="small"
                           sx={{ bgcolor: cfg.bg, color: cfg.color, fontWeight: 600, height: 18, fontSize: '0.62rem', borderRadius: '5px' }} />
+                        {budget.end_date && (
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.5 }}>
+                            <Calendar size={10} color="#98a2b3" />
+                            <Typography variant="caption" color="#98a2b3" sx={{ fontSize: '0.65rem' }}>
+                              {format(new Date(budget.start_date), 'MMM d')} - {format(new Date(budget.end_date), 'MMM d')}
+                            </Typography>
+                          </Box>
+                        )}
                       </Box>
                     </Box>
-                    <IconButton
-                      size="small"
-                      onClick={() => deleteBudget(budget.id)}
-                      sx={{
-                        opacity: isHover ? 1 : 0,
-                        color: '#cbd1db', borderRadius: '8px',
-                        '&:hover': { color: '#ef4444', bgcolor: '#fee2e2' },
-                        transition: 'all 0.2s ease',
-                      }}
-                    >
-                      <Trash2 size={14} />
-                    </IconButton>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                      <IconButton
+                        size="small"
+                        onClick={() => deleteBudget(budget.id)}
+                        sx={{
+                          opacity: isHover ? 1 : 0,
+                          color: '#cbd1db', borderRadius: '8px',
+                          '&:hover': { color: '#ef4444', bgcolor: '#fee2e2' },
+                          transition: 'all 0.2s ease',
+                        }}
+                      >
+                        <Trash2 size={14} />
+                      </IconButton>
+                      {budget.end_date && (
+                        <Typography variant="caption" fontWeight={600} color={differenceInDays(new Date(budget.end_date), new Date()) < 3 ? '#ef4444' : '#98a2b3'} sx={{ fontSize: '0.6rem', mt: 0.5 }}>
+                          {differenceInDays(new Date(budget.end_date), new Date()) > 0 
+                            ? `${differenceInDays(new Date(budget.end_date), new Date())}d left`
+                            : 'Expired'}
+                        </Typography>
+                      )}
+                    </Box>
                   </Box>
 
                   {/* Big remaining amount */}

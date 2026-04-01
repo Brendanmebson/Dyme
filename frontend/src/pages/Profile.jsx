@@ -62,6 +62,14 @@ const Profile = () => {
   const [pwSaved, setPwSaved]       = useState(false);
   const [pwError, setPwError]       = useState('');
 
+  // Sync with context if it changes from outside
+  React.useEffect(() => {
+    if (user) {
+      setName(user.full_name ?? user.user_metadata?.full_name ?? '');
+      setAvatar(user.avatar_url || null);
+    }
+  }, [user]);
+
   const initials = fullName
     ? fullName.split(' ').filter(Boolean).map((n) => n[0]).join('').toUpperCase().slice(0, 2)
     : '?';

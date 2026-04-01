@@ -1,30 +1,37 @@
 // App.jsx
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ThemeProvider, createTheme, CssBaseline, GlobalStyles } from '@mui/material';
+import { ThemeProvider, createTheme, CssBaseline, GlobalStyles, Box, CircularProgress } from '@mui/material';
 import { AuthProvider }     from './context/AuthContext';
 import { FinanceProvider }  from './context/FinanceContext';
 import { CurrencyProvider } from './context/CurrencyContext';
 import ProtectedRoute  from './components/ProtectedRoute';
 import Layout          from './components/Layout/Layout';
-import Login           from './pages/Login';
-import Dashboard       from './pages/Dashboard';
-import Transactions    from './pages/Transactions';
-import Budgets         from './pages/Budgets';
-import Analytics       from './pages/Analytics';
-import Reports         from './pages/Reports';
-import Profile         from './pages/Profile';
-import Settings        from './pages/Settings';
-import LandingPage     from './pages/LandingPage';
-import ScrollToTop     from './components/Common/ScrollToTop';
-import { muiTheme }    from './designSystem';
+import LandingPage      from './pages/LandingPage';
+import ScrollToTop      from './components/Common/ScrollToTop';
+import { muiTheme }     from './designSystem';
+
+// Lazy load other views
+const Login        = lazy(() => import('./pages/Login'));
+const Dashboard    = lazy(() => import('./pages/Dashboard'));
+const Transactions = lazy(() => import('./pages/Transactions'));
+const Budgets      = lazy(() => import('./pages/Budgets'));
+const Analytics    = lazy(() => import('./pages/Analytics'));
+const Reports      = lazy(() => import('./pages/Reports'));
+const Profile      = lazy(() => import('./pages/Profile'));
+const Settings     = lazy(() => import('./pages/Settings'));
 
 const theme = createTheme(muiTheme);
+
+const LoadingFallback = () => (
+  <Box sx={{ display: 'flex', height: '100vh', width: '100vw', alignItems: 'center', justifyContent: 'center', bgcolor: '#fafaf8' }}>
+    <CircularProgress sx={{ color: '#f43f6e' }} />
+  </Box>
+);
 
 const globalStyles = (
   <GlobalStyles
     styles={{
-      '@import': "url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap')",
       '*': { boxSizing: 'border-box' },
       'html, body': {
         margin: 0,
@@ -53,31 +60,33 @@ function App() {
           <FinanceProvider>
             <Router>
               <ScrollToTop />
-              <Routes>
-                {/* Public */}
-                <Route path="/"      element={<LandingPage />} />
-                <Route path="/login" element={<Login />} />
+              <Suspense fallback={<LoadingFallback />}>
+                <Routes>
+                  {/* Public */}
+                  <Route path="/"      element={<LandingPage />} />
+                  <Route path="/login" element={<Login />} />
 
-                {/* Protected app shell */}
-                <Route
-                  path="/dashboard"
-                  element={
-                    <ProtectedRoute>
-                      <Layout />
-                    </ProtectedRoute>
-                  }
-                >
-                  <Route index                element={<Dashboard />} />
-                  <Route path="transactions"  element={<Transactions />} />
-                  <Route path="budgets"       element={<Budgets />} />
-                  <Route path="analytics"     element={<Analytics />} />
-                  <Route path="reports"       element={<Reports />} />
-                  <Route path="profile"       element={<Profile />} />
-                  <Route path="settings"      element={<Settings />} />
-                </Route>
+                  {/* Protected app shell */}
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute>
+                        <Layout />
+                      </ProtectedRoute>
+                    }
+                  >
+                    <Route index                element={<Dashboard />} />
+                    <Route path="transactions"  element={<Transactions />} />
+                    <Route path="budgets"       element={<Budgets />} />
+                    <Route path="analytics"     element={<Analytics />} />
+                    <Route path="reports"       element={<Reports />} />
+                    <Route path="profile"       element={<Profile />} />
+                    <Route path="settings"      element={<Settings />} />
+                  </Route>
 
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </Suspense>
             </Router>
           </FinanceProvider>
         </CurrencyProvider>

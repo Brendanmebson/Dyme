@@ -12,6 +12,9 @@ export const budgetsService = {
       category:     budget.category,
       limit_amount: budget.limit,
       period:       budget.period || 'monthly',
+      start_date:   budget.start_date,
+      end_date:     budget.end_date,
+      selected_transaction_ids: budget.selected_transaction_ids,
     });
     return data.budget;
   },

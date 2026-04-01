@@ -126,7 +126,7 @@ export const getMe = async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    return res.json({ user: profile });
+    return res.json({ user: { ...profile, email: req.user.email } });
 
   } catch (err) {
     console.log("GETME ERROR:", err);
@@ -157,7 +157,7 @@ export const updateMe = async (req, res) => {
       return res.status(400).json({ error: error.message });
     }
 
-    return res.json({ user: data });
+    return res.json({ user: { ...data, email: req.user.email } });
 
   } catch (err) {
     console.log("UPDATE ERROR:", err);

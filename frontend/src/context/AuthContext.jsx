@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
 
   const updateProfile = useCallback(async (updates) => {
     const updated = await authService.updateMe(updates);
-    setUser(updated);
+    setUser(prev => ({ ...prev, ...updated }));
     return updated;
   }, []);
 

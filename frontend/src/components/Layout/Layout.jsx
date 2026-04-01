@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import { styled, keyframes } from '@mui/material/styles';
+import BudgetNotifications from '../BudgetNotifications';
 
 const DRAWER_WIDTH = 240;
 const COLLAPSED_WIDTH = 72;
@@ -37,6 +38,8 @@ const Layout = () => {
         mobileOpen={mobileOpen}
         onMobileToggle={() => setMobileOpen((prev) => !prev)}
       />
+
+      <BudgetNotifications />
 
       <Box
         component="main"
