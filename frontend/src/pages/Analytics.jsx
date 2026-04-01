@@ -151,10 +151,10 @@ const Analytics = () => {
         </Box>
         <Divider sx={{ borderColor: '#f1f3f6' }} />
         <CardContent sx={{ p: 0 }}>
-          <Grid container>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             {/* Spending by category */}
-            <Grid item xs={12} md={6} sx={{ borderRight: { md: '1px solid #f1f3f6' }, borderBottom: { xs: '1px solid #f1f3f6', md: 'none' } }}>
-              <Box sx={{ p: { xs: 2, md: 3 } }}>
+            <Box sx={{ borderBottom: '1px solid #f1f3f6', p: { xs: 2, md: 3 } }}>
+              <Box>
                 <Typography variant="subtitle2" fontWeight={700} color="#344054" sx={{ mb: 2 }}>
                   Spending Patterns
                 </Typography>
@@ -186,11 +186,11 @@ const Analytics = () => {
                   })
                 )}
               </Box>
-            </Grid>
+            </Box>
 
             {/* Monthly trend */}
-            <Grid item xs={12} md={6}>
-              <Box sx={{ p: { xs: 2, md: 3 } }}>
+            <Box sx={{ p: { xs: 2, md: 3 } }}>
+              <Box>
                 <Typography variant="subtitle2" fontWeight={700} color="#344054" sx={{ mb: 2 }}>
                   Recent Monthly Net
                 </Typography>
@@ -220,8 +220,8 @@ const Analytics = () => {
                   );
                 })}
               </Box>
-            </Grid>
-          </Grid>
+            </Box>
+          </Box>
         </CardContent>
       </Card>
     </Box>

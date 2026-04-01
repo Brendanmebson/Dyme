@@ -48,15 +48,7 @@ const ActivePill = styled(Box)(({ color }) => ({
 
 const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobileToggle }) => {
   const location = useLocation();
-  const { user, localAvatar } = useAuth();
   const desktopWidth = collapsed ? 72 : drawerWidth;
-
-  const fullName = user?.full_name ?? user?.user_metadata?.full_name ?? '';
-  const initials = fullName
-    ? fullName.split(' ').filter(Boolean).map((n) => n[0]).join('').toUpperCase().slice(0, 2)
-    : '?';
-  const displayName = fullName || 'Guest';
-  const displayEmail = user?.email ?? '';
 
   const NavItems = ({ isCollapsed, onItemClick, items = navigation }) => (
     <List sx={{ px: isCollapsed ? 1 : 1.5, pt: isCollapsed ? 1 : 0.5, pb: 0 }}>
@@ -139,15 +131,6 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
       <Box sx={{ flex: 1 }} />
       <Divider sx={{ borderColor: '#f1f3f6', width: '100%' }} />
       <NavItems isCollapsed={true} onItemClick={undefined} items={bottomNav} />
-
-      <Divider sx={{ borderColor: '#f1f3f6', width: '100%' }} />
-      <Box sx={{ py: 2 }}>
-        <Avatar
-          src={user?.avatar_url || user?.user_metadata?.avatar_url || undefined}
-          sx={{ width: 32, height: 32, fontSize: '0.75rem', fontWeight: 700, background: 'linear-gradient(135deg, #f43f6e, #fb7292)', boxShadow: '0 2px 8px rgba(244,63,110,0.3)' }}>
-          {initials}
-        </Avatar>
-      </Box>
     </Box>
   );
 
@@ -163,20 +146,7 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
       <NavItems isCollapsed={false} onItemClick={onMobileToggle} items={navigation} />
 
       <Box sx={{ flex: 1 }} />
-
-
-      <Divider sx={{ borderColor: '#f1f3f6' }} />
-      <Box sx={{ px: 2, py: 2, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-        <Avatar
-          src={localAvatar || user?.avatar_url || user?.user_metadata?.avatar_url || undefined}
-          sx={{ width: 36, height: 36, fontSize: '0.8rem', fontWeight: 700, background: 'linear-gradient(135deg, #f43f6e, #fb7292)', boxShadow: '0 2px 8px rgba(244,63,110,0.3)', flexShrink: 0 }}>
-          {initials}
-        </Avatar>
-        <Box sx={{ animation: `${slideIn} 0.15s ease`, overflow: 'hidden' }}>
-          <Typography variant="body2" fontWeight={600} color="#344054" noWrap>{displayName}</Typography>
-          <Typography variant="caption" color="#98a2b3" noWrap>{displayEmail}</Typography>
-        </Box>
-      </Box>
+      <NavItems isCollapsed={false} onItemClick={undefined} items={bottomNav} />
     </Box>
   );
 
@@ -201,22 +171,6 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
 
       <Divider sx={{ borderColor: '#f1f3f6', mx: collapsed ? 1 : 0, mb: 0.5 }} />
       <NavItems isCollapsed={collapsed} onItemClick={undefined} items={bottomNav} />
-
-
-      <Divider sx={{ borderColor: '#f1f3f6' }} />
-      <Box sx={{ px: collapsed ? 1 : 2, py: 2, display: 'flex', alignItems: 'center', gap: collapsed ? 0 : 1.5, justifyContent: collapsed ? 'center' : 'flex-start' }}>
-        <Avatar
-          src={localAvatar || user?.avatar_url || user?.user_metadata?.avatar_url || undefined}
-          sx={{ width: 36, height: 36, fontSize: '0.8rem', fontWeight: 700, background: 'linear-gradient(135deg, #f43f6e, #fb7292)', boxShadow: '0 2px 8px rgba(244,63,110,0.3)', flexShrink: 0 }}>
-          {initials}
-        </Avatar>
-        {!collapsed && (
-          <Box sx={{ animation: `${slideIn} 0.15s ease`, overflow: 'hidden' }}>
-            <Typography variant="body2" fontWeight={600} color="#344054" noWrap>{displayName}</Typography>
-            <Typography variant="caption" color="#98a2b3" noWrap>{displayEmail}</Typography>
-          </Box>
-        )}
-      </Box>
     </Box>
   );
 
