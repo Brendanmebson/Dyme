@@ -49,6 +49,7 @@ const Layout = () => {
           display: 'flex',
           flexDirection: 'column',
           width: '100%', // ✅ changed here
+          overflowX: 'hidden',
         }}
       >
         <Header

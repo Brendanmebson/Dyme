@@ -74,8 +74,8 @@ const Budgets = () => {
       {budgets.length > 0 && (
         <Card sx={{ mb: { xs: 3, md: 4 }, borderRadius: { xs: '12px', md: '16px' }, border: '1px solid #e4e7ed', boxShadow: 'none' }}>
           <CardContent sx={{ p: { xs: '16px !important', md: '24px !important' } }}>
-            <Grid container spacing={{ xs: 2, md: 3 }} alignItems="center">
-              <Grid item xs={12} sm={4}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '4fr 5fr 3fr' }, gap: { xs: 2, md: 3 }, alignItems: 'center' }}>
+              <Box>
                 <Typography variant="caption" color="#98a2b3" fontWeight={600}
                   sx={{ textTransform: 'uppercase', letterSpacing: '0.06em', fontSize: '0.7rem' }}>
                   Overall Spending
@@ -88,8 +88,8 @@ const Budgets = () => {
                     {' '} / {formatCurrency(totalBudgeted)}
                   </Typography>
                 </Typography>
-              </Grid>
-              <Grid item xs={12} sm={5}>
+              </Box>
+              <Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.75 }}>
                   <Typography variant="caption" color="#667085" fontWeight={500}>{overallPct.toFixed(1)}% used</Typography>
                   <Typography variant="caption" color={totalLeft >= 0 ? '#10b981' : '#ef4444'} fontWeight={600}>
@@ -106,8 +106,8 @@ const Budgets = () => {
                     },
                   }}
                 />
-              </Grid>
-              <Grid item xs={12} sm={3}>
+              </Box>
+              <Box>
                 <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
                   {Object.entries(
                     budgets.reduce((acc, b) => {
@@ -123,14 +123,14 @@ const Budgets = () => {
                     );
                   })}
                 </Box>
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
           </CardContent>
         </Card>
       )}
 
       {/* ─── Budget cards ─────────────────────────── */}
-      <Grid container spacing={{ xs: 2, md: 3 }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', lg: 'repeat(3, 1fr)' }, gap: { xs: 2, md: 3 } }}>
         {budgets.map((budget) => {
           const status  = getBudgetStatus(budget);
           const cfg     = STATUS_CONFIG[status];
@@ -138,7 +138,7 @@ const Budgets = () => {
           const isHover = hoveredId === budget.id;
 
           return (
-            <Grid item xs={12} sm={6} lg={4} key={budget.id}>
+            <Box key={budget.id}>
               <Card
                 onMouseEnter={() => setHoveredId(budget.id)}
                 onMouseLeave={() => setHoveredId(null)}
@@ -241,10 +241,10 @@ const Budgets = () => {
                   </Box>
                 </CardContent>
               </Card>
-            </Grid>
+            </Box>
           );
         })}
-      </Grid>
+      </Box>
 
       {/* ─── Empty state ──────────────────────────── */}
       {budgets.length === 0 && (
