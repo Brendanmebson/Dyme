@@ -105,7 +105,7 @@ const Header = ({
             }}
           >
             <Avatar
-              src={user?.avatar_url || undefined}
+              src={user?.avatar_url || user?.user_metadata?.avatar_url || undefined}
               sx={{
                 width: 36, height: 36, fontSize: '0.8rem', fontWeight: 700,
                 background: 'linear-gradient(135deg, #f43f6e, #fb7292)',

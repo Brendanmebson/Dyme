@@ -62,7 +62,7 @@ export const CurrencyProvider = ({ children }) => {
    * @param {number} amount - The amount in its original currency
    * @param {string} fromCurrency - The currency of the input amount
    */
-  const format = useCallback((amount, fromCurrency = currency.code) => {
+  const format = useCallback((amount, fromCurrency = BASE_CURRENCY) => {
     if (amount === null || amount === undefined || isNaN(amount)) return `${currency.symbol}0.00`;
 
     let value = Number(amount);

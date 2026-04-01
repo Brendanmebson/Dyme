@@ -259,6 +259,5 @@ const BudgetModal = ({ isOpen, onClose }) => {
   );
 };
 
-export default BudgetModal;
 
 export default BudgetModal;
