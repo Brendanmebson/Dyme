@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import {
   Eye, EyeOff, AlertCircle, ArrowRight, Sparkles,
-  BarChart3, Target, TrendingUp, UserPlus, LogIn,
+  BarChart3, Target, TrendingUp, UserPlus, LogIn, ArrowLeft,
 } from 'lucide-react';
 import {
   Box, Typography, TextField, Button, IconButton,
@@ -162,11 +162,29 @@ const Login = () => {
   const onSuccess = () => navigate('/dashboard');
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, bgcolor: '#f8f9fb' }}>
+    <Box sx={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, bgcolor: '#f8f9fb' }}>
+      
+      {/* ─── Back Button ─── */}
+      <IconButton 
+        onClick={() => navigate('/landing')}
+        sx={{
+          position: 'absolute', top: { xs: 20, md: 32 }, left: { xs: 20, md: 32 },
+          zIndex: 10,
+          bgcolor: { xs: 'transparent', md: 'rgba(255,255,255,0.15)' },
+          color: { xs: '#555', md: '#fff' },
+          border: '1px solid',
+          borderColor: { xs: '#e2e2e2', md: 'rgba(255,255,255,0.25)' },
+          backdropFilter: 'blur(4px)',
+          transition: 'all 0.2s ease',
+          '&:hover': { bgcolor: { xs: '#f4f4f4', md: 'rgba(255,255,255,0.25)' }, transform: 'translateY(-1px)' }
+        }}
+      >
+        <ArrowLeft size={20} />
+      </IconButton>
 
       {/* ─── Left brand panel ─── */}
       <Box sx={{
-        display: 'flex', flex: { md: '0 0 48%' },
+        display: { xs: 'none', md: 'flex' }, flex: { md: '0 0 48%' },
         flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         position: 'relative', overflow: 'hidden',
         background: '#f43f6e', p: { xs: 4, md: 6 }, py: { xs: 5, md: 6 },
@@ -194,7 +212,11 @@ const Login = () => {
       </Box>
 
       {/* ─── Right form panel ─── */}
-      <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: { xs: 3, md: 6 }, bgcolor: '#fff', minHeight: { xs: 'auto', md: '100vh' } }}>
+      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', p: { xs: 3, md: 6 }, bgcolor: '#fff', minHeight: '100vh' }}>
+        <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 4, animation: `${slideUp} 0.4s ease` }}>
+          <Box component="img" src={logofull} alt="Dyme" sx={{ height: 42, width: 'auto' }} />
+        </Box>
+
         <Box sx={{ width: '100%', maxWidth: 420, animation: `${slideUp} 0.4s ease` }}>
 
           {/* Tab switcher */}

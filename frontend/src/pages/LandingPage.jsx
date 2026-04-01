@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Button, Container } from '@mui/material';
 import {
   ArrowRight, BarChart3, Shield, Zap, Target, TrendingUp,
-  CreditCard, Check, ArrowUpRight,
+  CreditCard, Check, ArrowUpRight, Menu, X,
 } from 'lucide-react';
 import { keyframes } from '@mui/material/styles';
 import logofull from '../assets/Dyme logo full.png';
@@ -192,6 +192,7 @@ const DymeLogo = ({ height = 50, priority = "auto" }) => (
 const LandingPage = () => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollTo = (id) => {
     const el = document.getElementById(id);
@@ -213,7 +214,7 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <Box sx={{ bgcolor: '#fafaf8', overflowX: 'hidden', fontFamily: '"DM Sans", "Plus Jakarta Sans", sans-serif' }}>
+    <Box sx={{ bgcolor: '#fafaf87a', overflowX: 'hidden', fontFamily: '"DM Sans", "Plus Jakarta Sans", sans-serif' }}>
 
       {/* ══════════════════════════════════════
           NAV
@@ -246,9 +247,98 @@ const LandingPage = () => {
           ))}
         </Box>
 
-        <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+        <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1.5, alignItems: 'center' }}>
           <Button onClick={() => navigate('/login')} sx={{ color: '#5a5a5a', fontWeight: 600, fontSize: '0.875rem', px: 2, borderRadius: '8px' }}>Login</Button>
           <Button onClick={() => navigate('/login')} sx={{ bgcolor: '#0d0d0d', color: '#fff', fontWeight: 600, fontSize: '0.875rem', px: 2.5, py: 0.85, borderRadius: '9px', '&:hover': { bgcolor: '#1a1a1a', transform: 'translateY(-1px)', boxShadow: '0 6px 20px rgba(0,0,0,0.15)' }, transition: 'all 0.2s' }}>Join free</Button>
+        </Box>
+
+        {/* Mobile Nav Icon */}
+        <Box
+          onClick={() => setMobileMenuOpen(true)}
+          sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', cursor: 'pointer', p: 1, transition: 'transform 0.3s ease, opacity 0.3s', transform: mobileMenuOpen ? 'rotate(90deg)' : 'rotate(0deg)', opacity: mobileMenuOpen ? 0 : 1, pointerEvents: mobileMenuOpen ? 'none' : 'auto' }}
+        >
+          <Menu size={24} color="#0d0d0d" />
+        </Box>
+      </Box>
+
+      {/* Mobile Menu Backdrop */}
+      <Box
+        onClick={() => setMobileMenuOpen(false)}
+        sx={{
+          position: 'fixed', inset: 0, zIndex: 9998,
+          bgcolor: 'rgba(250,250,248,0.5)',
+          backdropFilter: mobileMenuOpen ? 'blur(12px)' : 'none',
+          WebkitBackdropFilter: mobileMenuOpen ? 'blur(12px)' : 'none',
+          opacity: mobileMenuOpen ? 1 : 0,
+          pointerEvents: mobileMenuOpen ? 'auto' : 'none',
+          transition: 'opacity 0.4s ease, backdrop-filter 0.4s ease',
+          display: { xs: 'block', md: 'none' }
+        }}
+      />
+
+      {/* Mobile Menu Drawer */}
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bgcolor: 'rgba(250,250,248,0.85)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          zIndex: 9999,
+          display: 'flex',
+          flexDirection: 'column',
+          px: 3,
+          pt: 1.5,
+          pb: 4,
+          borderBottomLeftRadius: '24px',
+          borderBottomRightRadius: '24px',
+          transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(-100%)',
+          transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+          boxShadow: mobileMenuOpen ? '0 10px 40px rgba(0,0,0,0.1)' : 'none',
+        }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 5 }}>
+          <Box onClick={() => setMobileMenuOpen(false)} sx={{ cursor: 'pointer' }}>
+            <DymeLogo height={50} priority="high" />
+          </Box>
+          <Box onClick={() => setMobileMenuOpen(false)} sx={{ cursor: 'pointer', p: 1, transform: mobileMenuOpen ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.4s ease 0.1s' }}>
+            <X size={28} color="#0d0d0d" />
+          </Box>
+        </Box>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, flex: 1, px: 1, mb: 4 }}>
+          {['About', 'Features', 'FAQs'].map((label) => (
+            <Typography
+              key={label}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                const id = label.toLowerCase();
+                scrollTo(id);
+              }}
+              sx={{ fontSize: '1.8rem', fontWeight: 700, color: '#0d0d0d', cursor: 'pointer', letterSpacing: '-0.02em', '&:hover': { color: '#f43f6e' } }}
+            >
+              {label}
+            </Typography>
+          ))}
+        </Box>
+
+        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', width: '100%', mt: 'auto' }}>
+          <Button
+            fullWidth
+            onClick={() => { setMobileMenuOpen(false); navigate('/login'); }}
+            sx={{ color: '#0d0d0d', border: '1.5px solid rgba(0,0,0,0.12)', fontWeight: 700, fontSize: '0.95rem', py: 1.5, borderRadius: '12px' }}
+          >
+            Login
+          </Button>
+          <Button
+            fullWidth
+            onClick={() => { setMobileMenuOpen(false); navigate('/login'); }}
+            sx={{ bgcolor: '#0d0d0d', color: '#fff', fontWeight: 700, fontSize: '0.95rem', py: 1.5, borderRadius: '12px', '&:hover': { bgcolor: '#1a1a1a' } }}
+          >
+            Sign up
+          </Button>
         </Box>
       </Box>
 
@@ -265,11 +355,12 @@ const LandingPage = () => {
 
             {/* Left */}
             <Box sx={{ flex: '0 0 auto', width: { xs: '100%', lg: '48%' }, pr: { lg: 4 }, pt: { xs: '10px', md: '40px' } }}>
-              <Typography component="h1" sx={{ ...sectionHead, fontSize: { xs: '2.8rem', md: '5rem' }, mb: 3, maxWidth: 560, animation: `${fadeSlideRight} 0.55s ease 0.08s both` }}>
-                Reimagine{' '}
-                <Box component="span" sx={{ position: 'relative', display: 'inline-block', '&::after': { content: '""', position: 'absolute', bottom: '4px', left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, #f43f6e, #ff8fa3)', borderRadius: '2px', animation: `${lineGrow} 0.9s cubic-bezier(0.4,0,0.2,1) 0.6s both` } }}>money.</Box>
-                <br />
-                <Box component="span" sx={{ color: '#f43f6e' }}>Simple</Box> solutions.
+              <Typography component="h1" sx={{ ...sectionHead, fontSize: { xs: '3.8rem', sm: '3.5rem', md: '5rem' }, lineHeight: { xs: 1.1, md: 1.08 }, mb: 3, maxWidth: 560, animation: `${fadeSlideRight} 0.55s ease 0.08s both` }}>
+                <Box component="span" sx={{ display: { xs: 'block', sm: 'inline' } }}>Reimagine</Box>{' '}
+                <Box component="span" sx={{ position: 'relative', display: { xs: 'inline-block', sm: 'inline-block' }, '&::after': { content: '""', position: 'absolute', bottom: '4px', left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, #f43f6e, #ff8fa3)', borderRadius: '2px', animation: `${lineGrow} 0.9s cubic-bezier(0.4,0,0.2,1) 0.6s both` } }}>money.</Box>
+                <Box component="br" sx={{ display: { xs: 'none', sm: 'block' } }} />
+                <Box component="span" sx={{ color: '#f43f6e', display: { xs: 'block', sm: 'inline' }, mt: { xs: 1, sm: 0 } }}>Simple</Box>{' '}
+                <Box component="span" sx={{ display: { xs: 'block', sm: 'inline' } }}>solutions.</Box>
               </Typography>
 
               <Typography sx={{ fontSize: { xs: '1rem', md: '1.1rem' }, color: '#6b6b6b', lineHeight: 1.7, maxWidth: 440, mb: 5, animation: `${fadeSlideRight} 0.55s ease 0.18s both` }}>
@@ -550,7 +641,7 @@ const LandingPage = () => {
           </Box>
 
           <Typography sx={{ fontSize: '0.8rem', color: '#ccc', textAlign: 'center', mt: 4 }}>
-            All plans include a 14-day free trial · Cancel any time · No credit card for Free plan
+            All plans include a 14-day free trial · Cancel any time · No credit card for Free plan (Disclamer just a prototype)
           </Typography>
         </Container>
       </Box>

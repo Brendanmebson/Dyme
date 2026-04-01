@@ -113,12 +113,12 @@ const Analytics = () => {
             icon={TrendingDown} iconColor="#ef4444" iconBg="#fee2e2"
             sub={`Over ${months} months`} />
         </Grid>
-        <Grid item xs={6} sm={6} lg={3}>
+        <Grid item xs={12} sm={6} lg={3}>
           <InsightCard label="Savings Rate" value={`${savingsRate.toFixed(1)}%`}
             icon={DollarSign} iconColor="#7c3aed" iconBg="#ede9fe"
             sub={savingsRate >= 20 ? '🎉 Excellent!' : savingsRate >= 10 ? '👍 Good' : '⚠️ Could be higher'} />
         </Grid>
-        <Grid item xs={6} sm={6} lg={3}>
+        <Grid item xs={12} sm={6} lg={3}>
           <InsightCard label="Top Spending" value={topCategory?.category || 'N/A'}
             icon={Target} iconColor="#f59e0b" iconBg="#fef3c7"
             sub={topCategory ? `${formatCurrency(topCategory.amount)} total` : 'No data yet'} />

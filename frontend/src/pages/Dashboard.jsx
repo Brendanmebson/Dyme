@@ -122,7 +122,7 @@ const Dashboard = () => {
       {/* Stats */}
       <Grid container spacing={{ xs: 2, md: 3 }} sx={{ mb: { xs: 3, md: 4 } }}>
         {stats.map((card, idx) => (
-          <Grid item xs={6} sm={6} lg={3} key={idx}>
+          <Grid item xs={12} sm={6} lg={3} key={idx}>
             <StatsCard {...card} />
           </Grid>
         ))}
@@ -130,10 +130,10 @@ const Dashboard = () => {
 
       {/* Charts row */}
       <Grid container spacing={{ xs: 2, md: 3 }} sx={{ mb: { xs: 2, md: 3 } }}>
-        <Grid item xs={6} lg={7}>
+        <Grid item xs={12} lg={7}>
           <MonthlyChart data={chartData} />
         </Grid>
-        <Grid item xs={6} sx={{ display: { lg: 'none' } }}>
+        <Grid item xs={12} sx={{ display: { lg: 'none' } }}>
           <RecentTransactions transactions={transactions} compact />
         </Grid>
         <Grid item xs={12} lg={5}>

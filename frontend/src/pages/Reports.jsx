@@ -128,7 +128,7 @@ const Reports = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={6} sm={4}>
+            <Grid item xs={12} sm={4}>
               <FormControl fullWidth size="small">
                 <InputLabel>Category</InputLabel>
                 <Select value={selectedCategory} label="Category" onChange={e => setSelectedCategory(e.target.value)}>
@@ -137,7 +137,7 @@ const Reports = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={6} sm={4}>
+            <Grid item xs={12} sm={4}>
               <FormControl fullWidth size="small">
                 <InputLabel>Type</InputLabel>
                 <Select value={selectedType} label="Type" onChange={e => setSelectedType(e.target.value)}>
