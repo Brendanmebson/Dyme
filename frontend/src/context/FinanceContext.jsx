@@ -56,6 +56,24 @@ export const FinanceProvider = ({ children }) => {
     bootstrap();
   }, [user]);
 
+  const refreshData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const [txData, budgetData, catData] = await Promise.all([
+        transactionsService.getAll({ limit: 500 }),
+        budgetsService.getAll(),
+        categoriesService.getAll(),
+      ]);
+      setTransactions(txData.transactions);
+      setBudgets(budgetData);
+      setCategories(catData);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   // ── Transactions ───────────────────────────────────────────
   const addTransaction = useCallback(async (transaction) => {
     const created = await transactionsService.create({
@@ -156,6 +174,7 @@ export const FinanceProvider = ({ children }) => {
     getMonthlyData,
     getSpendingByCategory,
     getConvertedAmount,
+    refreshData,
   };
 
   return <FinanceContext.Provider value={value}>{children}</FinanceContext.Provider>;

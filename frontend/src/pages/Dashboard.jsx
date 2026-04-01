@@ -1,5 +1,5 @@
 // src/pages/Dashboard.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFinance } from '../context/FinanceContext';
 import { useAuth } from '../context/AuthContext';
 import { useCurrency } from '../context/CurrencyContext';
@@ -7,10 +7,11 @@ import StatsCard from '../components/Dashboard/StatsCard';
 import RecentTransactions from '../components/Dashboard/RecentTransactions';
 import SpendingChart from '../components/Charts/SpendingChart';
 import MonthlyChart from '../components/Charts/MonthlyChart';
-import { DollarSign, TrendingUp, TrendingDown, Wallet, ArrowUpRight } from 'lucide-react';
-import { Box, Typography, Grid, Button, CircularProgress } from '@mui/material';
+import { DollarSign, TrendingUp, TrendingDown, Wallet, ArrowUpRight, Upload, X, Zap } from 'lucide-react';
+import { Box, Typography, Button, CircularProgress } from '@mui/material';
 import { subMonths, format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import { bankingService } from '../services/banking.service';
 
 const getGreeting = () => {
   const h = new Date().getHours();
@@ -30,7 +31,55 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { format: formatCurrency, currency } = useCurrency();
-  const { transactions = [], getMonthlyData, getSpendingByCategory, loading } = useFinance();
+  const { 
+    transactions = [], 
+    getMonthlyData, 
+    getSpendingByCategory, 
+    loading, 
+    refreshData 
+  } = useFinance();
+
+  const [uploading, setUploading] = useState(false);
+  const [bankStatus, setBankStatus] = useState({ connected: false });
+  const [bannerDismissed, setBannerDismissed] = useState(
+    () => localStorage.getItem('dyme_bank_banner_dismissed') === '1'
+  );
+
+  // Sync bank status on mount
+  useEffect(() => {
+    bankingService.getStatus()
+      .then(setBankStatus)
+      .catch(() => setBankStatus({ connected: false }));
+  }, []);
+
+  const handleFileUpload = async (file) => {
+    if (!file || !file.name.endsWith('.csv')) {
+      alert('Please upload a valid CSV bank statement.');
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const res = await bankingService.uploadCSV(file);
+      alert(res.message || `Imported ${res.count} transactions.`);
+      await refreshData(); // Triggers FinanceContext to reload all transactions
+      setBankStatus({ connected: true, bank_name: 'CSV Import' });
+    } catch (err) {
+      alert(err.message || 'Failed to import CSV.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const onDrop = (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    handleFileUpload(file);
+  };
+
+  const onDragOver = (e) => {
+    e.preventDefault();
+  };
 
   if (loading) {
     return (
@@ -90,15 +139,14 @@ const Dashboard = () => {
               sx={{ letterSpacing: '-0.02em', fontSize: { xs: '1.2rem', md: '2.125rem' } }}>
               {getGreeting()}, {firstName} 👋
             </Typography>
-            {/* Currency badge */}
             <Box sx={{
               display: 'inline-flex', alignItems: 'center', gap: 0.5,
               px: 1.25, py: 0.4, borderRadius: '20px',
               bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.1)' : '#fff1f3', border: (theme) => theme.palette.mode === 'dark' ? '1px solid rgba(244,63,110,0.2)' : '1px solid #fecdd6',
             }}>
-              <Typography sx={{ fontSize: '0.9rem' }}>{currency.flag}</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{currency?.flag}</Typography>
               <Typography variant="caption" fontWeight={700} color="#f43f6e">
-                {currency.code}
+                {currency?.code}
               </Typography>
             </Box>
           </Box>
@@ -118,6 +166,73 @@ const Dashboard = () => {
           Add Transaction
         </Button>
       </Box>
+
+      {/* Bank Link Banner (Drag & Drop Zone) */}
+      {!bannerDismissed && bankStatus && !bankStatus.connected && (
+        <Box
+          onDragOver={onDragOver}
+          onDrop={onDrop}
+          sx={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2,
+            mb: 4, px: 3, py: 2.5, borderRadius: '20px',
+            background: (theme) => theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.06)' : 'linear-gradient(135deg, rgba(244,63,110,0.06), rgba(244,63,110,0.02))',
+            border: '2px dashed rgba(244,63,110,0.2)',
+            transition: 'all 0.2s',
+            position: 'relative',
+            '&:hover': { borderColor: '#f43f6e', bgcolor: 'rgba(244,63,110,0.04)' },
+          }}
+        >
+          {uploading && (
+            <Box sx={{ position: 'absolute', inset: 0, bgcolor: 'rgba(255,255,255,0.85)', zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, borderRadius: '20px' }}>
+              <CircularProgress size={20} sx={{ color: '#f43f6e' }} />
+              <Typography fontWeight={700} sx={{ color: '#f43f6e' }}>Syncing data...</Typography>
+            </Box>
+          )}
+          
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Box sx={{ width: 48, height: 48, borderRadius: '14px', bgcolor: 'rgba(244,63,110,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Upload size={24} color="#f43f6e" strokeWidth={2.5} />
+            </Box>
+            <Box>
+              <Typography fontWeight={700} fontSize="1rem" color="text.primary">
+                🏦 Instant CSV Bank Sync
+              </Typography>
+              <Typography fontSize="0.8rem" color="text.secondary">
+                Drag and drop your bank's CSV statement here to instantly update your dashboard.
+              </Typography>
+              <Typography fontSize="0.7rem" color="#f43f6e" fontWeight={800} sx={{ mt: 0.5, textTransform: 'uppercase' }}>
+                ⚡ Automatic bank linking coming soon
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+            <input
+              type="file" accept=".csv" id="dash-csv-upload"
+              style={{ display: 'none' }}
+              onChange={(e) => handleFileUpload(e.target.files[0])}
+            />
+            <label htmlFor="dash-csv-upload">
+              <Button
+                component="span"
+                variant="contained"
+                size="small"
+                startIcon={<Zap size={14} />}
+                sx={{ borderRadius: '10px', fontWeight: 800, px: 2.5, py: 1, background: 'linear-gradient(135deg, #f43f6e, #ff6b8a)', boxShadow: '0 4px 12px rgba(244,63,110,0.3)', textTransform: 'none' }}
+              >
+                Select File
+              </Button>
+            </label>
+            <Button
+              size="small" variant="text"
+              onClick={() => { setBannerDismissed(true); localStorage.setItem('dyme_bank_banner_dismissed', '1'); }}
+              sx={{ color: 'text.disabled', minWidth: 0, p: 1 }}
+            >
+              <X size={16} />
+            </Button>
+          </Box>
+        </Box>
+      )}
 
       {/* Stats */}
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }, gap: { xs: 1.5, md: 3 }, mb: { xs: 3, md: 4 } }}>

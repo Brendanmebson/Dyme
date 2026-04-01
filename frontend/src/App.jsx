@@ -13,6 +13,7 @@ import { AppThemeProvider } from './context/ThemeContext';
 
 // Lazy load other views
 const Login        = lazy(() => import('./pages/Login'));
+const Onboarding   = lazy(() => import('./pages/Onboarding'));
 const Dashboard    = lazy(() => import('./pages/Dashboard'));
 const Transactions = lazy(() => import('./pages/Transactions'));
 const Budgets      = lazy(() => import('./pages/Budgets'));
@@ -63,8 +64,11 @@ function App() {
               <Suspense fallback={<LoadingFallback />}>
                 <Routes>
                   {/* Public */}
-                  <Route path="/"      element={<LandingPage />} />
-                  <Route path="/login" element={<Login />} />
+                  <Route path="/"           element={<LandingPage />} />
+                  <Route path="/login"      element={<Login />} />
+
+                  {/* Post-signup onboarding (protected) */}
+                  <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
 
                   {/* Protected app shell */}
                   <Route

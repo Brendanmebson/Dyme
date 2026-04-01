@@ -99,24 +99,24 @@ const Transactions = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={6} md={3}>
-              <Select
-                value={filterType} size="small" fullWidth
-                onChange={(e) => { setFilterType(e.target.value); setCurrentPage(1); }}
-              >
-                <MenuItem value="all">All Types</MenuItem>
-                <MenuItem value="income">Income</MenuItem>
-                <MenuItem value="expense">Expense</MenuItem>
-              </Select>
-            </Grid>
-            <Grid item xs={6} md={4}>
-              <Select
-                value={filterCategory} size="small" fullWidth
-                onChange={(e) => { setFilterCategory(e.target.value); setCurrentPage(1); }}
-              >
-                <MenuItem value="all">All Categories</MenuItem>
-                {categories.map((c) => <MenuItem key={c} value={c}>{c}</MenuItem>)}
-              </Select>
+            <Grid item xs={12} md={7}>
+              <Box sx={{ display: 'flex', gap: { xs: 1.5, md: 2 } }}>
+                <Select
+                  value={filterType} size="small" sx={{ flex: 1 }}
+                  onChange={(e) => { setFilterType(e.target.value); setCurrentPage(1); }}
+                >
+                  <MenuItem value="all">All Types</MenuItem>
+                  <MenuItem value="income">Income</MenuItem>
+                  <MenuItem value="expense">Expense</MenuItem>
+                </Select>
+                <Select
+                  value={filterCategory} size="small" sx={{ flex: 1 }}
+                  onChange={(e) => { setFilterCategory(e.target.value); setCurrentPage(1); }}
+                >
+                  <MenuItem value="all">All Categories</MenuItem>
+                  {categories.map((c) => <MenuItem key={c} value={c}>{c}</MenuItem>)}
+                </Select>
+              </Box>
             </Grid>
           </Grid>
         </CardContent>

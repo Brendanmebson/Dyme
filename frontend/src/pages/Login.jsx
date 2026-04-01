@@ -163,7 +163,8 @@ const Login = () => {
   const { mode } = useAppTheme();
   const [tab, setTab] = useState(0);
 
-  const onSuccess = () => navigate('/dashboard');
+  const onLoginSuccess    = () => navigate('/dashboard');
+  const onRegisterSuccess = () => navigate('/onboarding');
 
   return (
     <Box sx={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, bgcolor: 'background.default' }}>
@@ -264,7 +265,7 @@ const Login = () => {
             <Typography variant="body1" color="text.secondary" sx={{ mb: 3, fontSize: { xs: '0.875rem', md: '1rem' } }}>
               Sign in to your account to continue.
             </Typography>
-            <LoginForm onSuccess={onSuccess} />
+            <LoginForm onSuccess={onLoginSuccess} />
           </Box>
 
           <Box sx={{ display: tab === 1 ? 'block' : 'none' }}>
@@ -276,7 +277,7 @@ const Login = () => {
             <Typography variant="body1" color="text.secondary" sx={{ mb: 3, fontSize: { xs: '0.875rem', md: '1rem' } }}>
               Start tracking your finances for free.
             </Typography>
-            <RegisterForm onSuccess={onSuccess} />
+            <RegisterForm onSuccess={onRegisterSuccess} />
           </Box>
 
           <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mt: 3 }}>

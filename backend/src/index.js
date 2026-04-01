@@ -11,6 +11,7 @@ import authRoutes         from './routes/auth.routes.js';
 import transactionRoutes  from './routes/transactions.routes.js';
 import budgetRoutes       from './routes/budgets.routes.js';
 import categoryRoutes     from './routes/categories.routes.js';
+import bankingRoutes      from './routes/banking.routes.js';
 import { errorHandler }   from './middleware/errorHandler.js';
 
 const app  = express();
@@ -67,6 +68,7 @@ app.use('/api/v1/auth',         authLimiter, authRoutes);
 app.use('/api/v1/transactions', apiLimiter,  transactionRoutes);
 app.use('/api/v1/budgets',      apiLimiter,  budgetRoutes);
 app.use('/api/v1/categories',   apiLimiter,  categoryRoutes);
+app.use('/api/v1/banking',      apiLimiter,  bankingRoutes);
 
 // ── 404 ───────────────────────────────────────────────────────
 app.use((req, res) => {

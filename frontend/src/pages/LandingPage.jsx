@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Button, Container } from '@mui/material';
 import {
   ArrowRight, BarChart3, Shield, Zap, Target, TrendingUp,
-  CreditCard, Check, ArrowUpRight, Menu, X,
+  CreditCard, Check, ArrowUpRight, Menu, X, Building2, Link2,
 } from 'lucide-react';
 import { keyframes } from '@mui/material/styles';
 import ThemeToggle from '../components/ThemeToggle';
@@ -65,9 +65,9 @@ const FEATURES = [
     desc: '256-bit AES encryption, biometric login, and zero data selling. Period.',
   },
   {
-    icon: Zap,
-    title: 'Instant Sync',
-    desc: 'Log a purchase in under 4 seconds. Syncs across all your devices instantly.',
+    icon: Link2,
+    title: 'Free Bank Sync',
+    desc: 'Connect your EU/UK bank for free via GoCardless, or upload a CSV for other regions. No monthly fees.',
   },
   {
     icon: TrendingUp,
@@ -368,9 +368,17 @@ const LandingPage = () => {
                 <Box component="span" sx={{ display: { xs: 'block', sm: 'inline' } }}>solutions.</Box>
               </Typography>
 
-              <Typography sx={{ fontSize: { xs: '1rem', md: '1.1rem' }, color: 'text.secondary', lineHeight: 1.7, maxWidth: 440, mb: 5, animation: `${fadeSlideRight} 0.55s ease 0.18s both` }}>
-                Automatically track your expenses, set budgets, and achieve your financial goals — beautifully.
+              <Typography sx={{ fontSize: { xs: '1rem', md: '1.1rem' }, color: 'text.secondary', lineHeight: 1.7, maxWidth: 440, mb: 4, animation: `${fadeSlideRight} 0.55s ease 0.18s both` }}>
+                Automatically track your expenses, import your bank for free, and achieve your financial goals — beautifully.
               </Typography>
+
+              {/* Free-tier trust strip */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 4, animation: `${fadeSlideRight} 0.55s ease 0.22s both`, flexWrap: 'wrap' }}>
+                <Typography sx={{ fontSize: '0.72rem', color: 'text.disabled', fontWeight: 500 }}>Universal CSV Sync</Typography>
+                <Box sx={{ inlineFlex: 'center', gap: 0.75, px: 1.5, py: 0.5, borderRadius: '20px', border: '1px solid', borderColor: 'divider', bgcolor: 'background.paper' }}>
+                  <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, color: '#f43f6e', textTransform: 'uppercase' }}>Auto-Sync coming soon</Typography>
+                </Box>
+              </Box>
 
               <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 5, animation: `${fadeSlideRight} 0.55s ease 0.26s both` }}>
                 <Button onClick={() => navigate('/login')} sx={{ bgcolor: 'text.primary', color: 'background.paper', fontWeight: 700, fontSize: '0.95rem', px: 3.5, py: 1.4, borderRadius: '12px', display: 'flex', alignItems: 'center', gap: 1, boxShadow: '0 4px 20px rgba(0,0,0,0.18)', '&:hover': { bgcolor: '#1f1f1f', transform: 'translateY(-2px)', boxShadow: '0 10px 30px rgba(0,0,0,0.22)' }, transition: 'all 0.22s' }}>
