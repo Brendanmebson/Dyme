@@ -122,19 +122,21 @@ const Dashboard = () => {
       {/* Stats */}
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }, gap: { xs: 1.5, md: 3 }, mb: { xs: 3, md: 4 } }}>
         {stats.map((card, idx) => (
-          <StatsCard key={idx} {...card} />
+          <Box key={idx} sx={{ minWidth: 0 }}>
+            <StatsCard {...card} />
+          </Box>
         ))}
       </Box>
 
       {/* Charts row */}
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '7fr 5fr' }, gap: { xs: 2, md: 3 }, mb: { xs: 2, md: 3 } }}>
-        <Box>
+        <Box sx={{ minWidth: 0 }}>
           <MonthlyChart data={chartData} />
         </Box>
-        <Box sx={{ display: { xs: 'block', lg: 'none' } }}>
+        <Box sx={{ display: { xs: 'block', lg: 'none' }, minWidth: 0 }}>
           <RecentTransactions transactions={transactions} compact />
         </Box>
-        <Box>
+        <Box sx={{ minWidth: 0 }}>
           <SpendingChart data={spendingData} />
         </Box>
       </Box>

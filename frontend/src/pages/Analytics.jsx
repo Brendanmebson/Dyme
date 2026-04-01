@@ -103,22 +103,22 @@ const Analytics = () => {
 
       {/* ─── Insight cards ─────────────────────── */}
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }, gap: { xs: 1.5, md: 3 }, mb: { xs: 3, md: 4 } }}>
-        <Box>
+        <Box sx={{ minWidth: 0 }}>
           <InsightCard label="Avg Monthly Income" value={formatCurrency(avgIncome)}
             icon={TrendingUp} iconColor="#10b981" iconBg="#d1fae5"
             sub={`Over ${months} months`} />
         </Box>
-        <Box>
+        <Box sx={{ minWidth: 0 }}>
           <InsightCard label="Avg Monthly Expenses" value={formatCurrency(avgExpenses)}
             icon={TrendingDown} iconColor="#ef4444" iconBg="#fee2e2"
             sub={`Over ${months} months`} />
         </Box>
-        <Box>
+        <Box sx={{ minWidth: 0 }}>
           <InsightCard label="Savings Rate" value={`${savingsRate.toFixed(1)}%`}
             icon={DollarSign} iconColor="#7c3aed" iconBg="#ede9fe"
             sub={savingsRate >= 20 ? '🎉 Excellent!' : savingsRate >= 10 ? '👍 Good' : '⚠️ Could be higher'} />
         </Box>
-        <Box>
+        <Box sx={{ minWidth: 0 }}>
           <InsightCard label="Top Spending" value={topCategory?.category || 'N/A'}
             icon={Target} iconColor="#f59e0b" iconBg="#fef3c7"
             sub={topCategory ? `${formatCurrency(topCategory.amount)} total` : 'No data yet'} />
@@ -127,10 +127,10 @@ const Analytics = () => {
 
       {/* ─── Charts ────────────────────────────── */}
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '7fr 5fr' }, gap: { xs: 2, md: 3 }, mb: { xs: 3, md: 4 } }}>
-        <Box>
+        <Box sx={{ minWidth: 0 }}>
           <MonthlyChart data={monthlyChartData} />
         </Box>
-        <Box>
+        <Box sx={{ minWidth: 0 }}>
           <SpendingChart data={spendingData} />
         </Box>
       </Box>
