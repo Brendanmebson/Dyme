@@ -64,34 +64,13 @@ export const FinanceProvider = ({ children }) => {
     });
     setTransactions((prev) => [created, ...prev]);
 
-    // Update budget spent optimistically
-    if (created.type === 'expense') {
-      setBudgets((prev) =>
-        prev.map((b) =>
-          b.category === created.category
-            ? { ...b, spent: b.spent + Number(created.amount) }
-            : b
-        )
-      );
-    }
-
+    // Update budget spent is now handled by enrichedBudgets mapping over transactions
     return created;
   }, []);
 
   const deleteTransaction = useCallback(async (id) => {
-    const tx = transactions.find((t) => t.id === id);
     await transactionsService.delete(id);
     setTransactions((prev) => prev.filter((t) => t.id !== id));
-
-    if (tx?.type === 'expense') {
-      setBudgets((prev) =>
-        prev.map((b) =>
-          b.category === tx.category
-            ? { ...b, spent: Math.max(0, b.spent - Number(tx.amount)) }
-            : b
-        )
-      );
-    }
   }, [transactions]);
 
   // ── Budgets ───────────────────────────────────────────────
@@ -112,15 +91,16 @@ export const FinanceProvider = ({ children }) => {
     setBudgets((prev) => prev.filter((b) => b.id !== id));
   }, []);
 
-  // ── Analytics helpers ──────────────────────────────────────
+  // ── Analytics helpers (Always calculate in USD/Base) ────────
   const getConvertedAmount = useCallback((amount, fromCurr) => {
     const c = fromCurr || 'USD';
-    if (c === currency.code) return Number(amount);
-    if (rates[c] && rates[currency.code]) {
-      return (Number(amount) / rates[c]) * rates[currency.code];
+    if (c === 'USD') return Number(amount);
+    if (rates[c]) {
+      // Convert from source currency to USD
+      return Number(amount) / rates[c];
     }
     return Number(amount);
-  }, [currency.code, rates]);
+  }, [rates]);
 
   const getMonthlyData = useCallback((month = new Date()) => {
     const start = startOfMonth(month);
@@ -129,6 +109,7 @@ export const FinanceProvider = ({ children }) => {
     const monthlyTx = transactions.filter((t) =>
       isWithinInterval(new Date(t.date), { start, end })
     );
+    
     const income   = monthlyTx.filter((t) => t.type === 'income').reduce((s, t) => s + getConvertedAmount(t.amount, t.currency), 0);
     const expenses = monthlyTx.filter((t) => t.type === 'expense').reduce((s, t) => s + getConvertedAmount(t.amount, t.currency), 0);
 
@@ -140,16 +121,30 @@ export const FinanceProvider = ({ children }) => {
     transactions
       .filter((t) => t.type === 'expense')
       .forEach((t) => {
-        totals[t.category] = (totals[t.category] || 0) + getConvertedAmount(t.amount, t.currency);
+        const amountInUSD = getConvertedAmount(t.amount, t.currency);
+        totals[t.category] = (totals[t.category] || 0) + amountInUSD;
       });
     return Object.entries(totals)
       .map(([category, amount]) => ({ category, amount }))
       .sort((a, b) => b.amount - a.amount);
-  }, [transactions, getConvertedAmount]);
+  }, [transactions, rates]);
+
+  // ── Enriched Budgets (Live calculate 'spent' from transactions) ──
+  const enrichedBudgets = React.useMemo(() => {
+    return budgets.map((b) => {
+      const spent = transactions
+        .filter((t) => t.type === 'expense' && t.category === b.category)
+        .reduce((sum, t) => {
+          const amountInUSD = (Number(t.amount) / (rates[t.currency || 'USD'] || 1));
+          return sum + amountInUSD;
+        }, 0);
+      return { ...b, spent };
+    });
+  }, [budgets, transactions, rates]);
 
   const value = {
     transactions,
-    budgets,
+    budgets: enrichedBudgets,
     categories,
     loading,
     error,
