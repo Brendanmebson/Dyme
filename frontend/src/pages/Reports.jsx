@@ -119,16 +119,16 @@ const Reports = () => {
       {/* ─── Filters ────────────────────────────── */}
       <Card sx={{ mb: { xs: 3, md: 4 }, borderRadius: { xs: '12px', md: '16px' }, border: '1px solid #e4e7ed', boxShadow: 'none' }}>
         <CardContent sx={{ py: { xs: 2, md: 2.5 }, px: { xs: 2, md: 3 } }}>
-          <Grid container spacing={{ xs: 1.5, md: 2 }} alignItems="center">
-            <Grid item xs={12} sm={4}>
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' }, gap: { xs: 2, md: 2 }, alignItems: 'center' }}>
+            <Box>
               <FormControl fullWidth size="small">
                 <InputLabel>Period</InputLabel>
                 <Select value={reportType} label="Period" onChange={e => setReportType(e.target.value)}>
                   {PERIOD_OPTIONS.map(o => <MenuItem key={o.value} value={o.value}>{o.label}</MenuItem>)}
                 </Select>
               </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={4}>
+            </Box>
+            <Box>
               <FormControl fullWidth size="small">
                 <InputLabel>Category</InputLabel>
                 <Select value={selectedCategory} label="Category" onChange={e => setSelectedCategory(e.target.value)}>
@@ -136,8 +136,8 @@ const Reports = () => {
                   {categories.map(c => <MenuItem key={c} value={c}>{c}</MenuItem>)}
                 </Select>
               </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={4}>
+            </Box>
+            <Box>
               <FormControl fullWidth size="small">
                 <InputLabel>Type</InputLabel>
                 <Select value={selectedType} label="Type" onChange={e => setSelectedType(e.target.value)}>
@@ -146,19 +146,19 @@ const Reports = () => {
                   <MenuItem value="expense">Expense</MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
-          </Grid>
+            </Box>
+          </Box>
         </CardContent>
       </Card>
 
       {/* ─── Summary cards ──────────────────────── */}
-      <Grid container spacing={{ xs: 1.5, md: 3 }} sx={{ mb: { xs: 3, md: 4 } }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 1.5, md: 3 }, mb: { xs: 3, md: 4 } }}>
         {[
           { label: 'Total Income',   value: formatCurrency(totalIncome),   color: '#10b981', bg: '#d1fae5', icon: TrendingUp },
           { label: 'Total Expenses', value: formatCurrency(totalExpenses), color: '#ef4444', bg: '#fee2e2', icon: TrendingDown },
           { label: 'Net Amount',     value: `${net >= 0 ? '+' : ''}${formatCurrency(Math.abs(net))}`, color: net >= 0 ? '#10b981' : '#ef4444', bg: net >= 0 ? '#d1fae5' : '#fee2e2', icon: DollarSign },
         ].map((s) => (
-          <Grid item xs={12} sm={4} key={s.label}>
+          <Box key={s.label}>
             <Card sx={{
               borderRadius: { xs: '12px', md: '16px' }, border: '1px solid #e4e7ed', boxShadow: 'none',
               transition: 'all 0.25s ease', '&:hover': { transform: 'translateY(-2px)', boxShadow: '0 8px 24px rgba(16,24,40,0.08)' },
@@ -187,9 +187,9 @@ const Reports = () => {
                 </Typography>
               </CardContent>
             </Card>
-          </Grid>
+          </Box>
         ))}
-      </Grid>
+      </Box>
 
       {/* ─── Category breakdown ─────────────────── */}
       {categoryBreakdown.length > 0 && (

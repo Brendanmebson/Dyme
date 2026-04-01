@@ -120,26 +120,24 @@ const Dashboard = () => {
       </Box>
 
       {/* Stats */}
-      <Grid container spacing={{ xs: 2, md: 3 }} sx={{ mb: { xs: 3, md: 4 } }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }, gap: { xs: 1.5, md: 3 }, mb: { xs: 3, md: 4 } }}>
         {stats.map((card, idx) => (
-          <Grid item xs={12} sm={6} lg={3} key={idx}>
-            <StatsCard {...card} />
-          </Grid>
+          <StatsCard key={idx} {...card} />
         ))}
-      </Grid>
+      </Box>
 
       {/* Charts row */}
-      <Grid container spacing={{ xs: 2, md: 3 }} sx={{ mb: { xs: 2, md: 3 } }}>
-        <Grid item xs={12} lg={7}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '7fr 5fr' }, gap: { xs: 2, md: 3 }, mb: { xs: 2, md: 3 } }}>
+        <Box>
           <MonthlyChart data={chartData} />
-        </Grid>
-        <Grid item xs={12} sx={{ display: { lg: 'none' } }}>
+        </Box>
+        <Box sx={{ display: { xs: 'block', lg: 'none' } }}>
           <RecentTransactions transactions={transactions} compact />
-        </Grid>
-        <Grid item xs={12} lg={5}>
+        </Box>
+        <Box>
           <SpendingChart data={spendingData} />
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
       {/* Recent transactions (desktop) */}
       <Box sx={{ display: { xs: 'none', lg: 'block' } }}>

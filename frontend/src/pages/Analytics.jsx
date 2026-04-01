@@ -102,38 +102,38 @@ const Analytics = () => {
       </Box>
 
       {/* ─── Insight cards ─────────────────────── */}
-      <Grid container spacing={{ xs: 1.5, md: 3 }} sx={{ mb: { xs: 3, md: 4 } }}>
-        <Grid item xs={12} sm={6} lg={3}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }, gap: { xs: 1.5, md: 3 }, mb: { xs: 3, md: 4 } }}>
+        <Box>
           <InsightCard label="Avg Monthly Income" value={formatCurrency(avgIncome)}
             icon={TrendingUp} iconColor="#10b981" iconBg="#d1fae5"
             sub={`Over ${months} months`} />
-        </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
+        </Box>
+        <Box>
           <InsightCard label="Avg Monthly Expenses" value={formatCurrency(avgExpenses)}
             icon={TrendingDown} iconColor="#ef4444" iconBg="#fee2e2"
             sub={`Over ${months} months`} />
-        </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
+        </Box>
+        <Box>
           <InsightCard label="Savings Rate" value={`${savingsRate.toFixed(1)}%`}
             icon={DollarSign} iconColor="#7c3aed" iconBg="#ede9fe"
             sub={savingsRate >= 20 ? '🎉 Excellent!' : savingsRate >= 10 ? '👍 Good' : '⚠️ Could be higher'} />
-        </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
+        </Box>
+        <Box>
           <InsightCard label="Top Spending" value={topCategory?.category || 'N/A'}
             icon={Target} iconColor="#f59e0b" iconBg="#fef3c7"
             sub={topCategory ? `${formatCurrency(topCategory.amount)} total` : 'No data yet'} />
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
       {/* ─── Charts ────────────────────────────── */}
-      <Grid container spacing={{ xs: 2, md: 3 }} sx={{ mb: { xs: 3, md: 4 } }}>
-        <Grid item xs={12} lg={7}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '7fr 5fr' }, gap: { xs: 2, md: 3 }, mb: { xs: 3, md: 4 } }}>
+        <Box>
           <MonthlyChart data={monthlyChartData} />
-        </Grid>
-        <Grid item xs={12} lg={5}>
+        </Box>
+        <Box>
           <SpendingChart data={spendingData} />
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
       {/* ─── Detailed Insights ─────────────────── */}
       <Card sx={{ borderRadius: { xs: '12px', md: '16px' }, border: '1px solid #e4e7ed', boxShadow: 'none' }}>
