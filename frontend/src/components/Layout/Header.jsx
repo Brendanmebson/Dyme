@@ -28,7 +28,7 @@ const Header = ({
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate  = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, logout, localAvatar } = useAuth();
 
   // Sidebar always occupies collapsedWidth in layout; it overlaps on hover
   const currentDrawerWidth = collapsedWidth;
@@ -105,7 +105,7 @@ const Header = ({
             }}
           >
             <Avatar
-              src={user?.avatar_url || user?.user_metadata?.avatar_url || undefined}
+              src={localAvatar || user?.avatar_url || user?.user_metadata?.avatar_url || undefined}
               sx={{
                 width: 36, height: 36, fontSize: '0.8rem', fontWeight: 700,
                 background: 'linear-gradient(135deg, #f43f6e, #fb7292)',

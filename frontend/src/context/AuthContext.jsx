@@ -69,11 +69,27 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const updateProfile = useCallback(async (updates) => {
-    const updated = await authService.updateMe(updates);
-    setUser(prev => ({ ...prev, ...updated }));
-    return updated;
+  const [localAvatar, setLocalAvatarState] = useState(localStorage.getItem('dyme_avatar'));
+
+  const setLocalAvatar = useCallback((url) => {
+    setLocalAvatarState(url);
+    if (url) localStorage.setItem('dyme_avatar', url);
+    else localStorage.removeItem('dyme_avatar');
   }, []);
+
+  const updateProfile = useCallback(async (updates) => {
+    if (updates.avatar_url) {
+      setLocalAvatar(updates.avatar_url);
+    }
+    try {
+      const updated = await authService.updateMe(updates);
+      setUser(prev => ({ ...prev, ...updated, ...updates, user_metadata: { ...(prev?.user_metadata || {}), ...updates } }));
+      return updated;
+    } catch(err) {
+      setUser(prev => ({ ...prev, ...updates, user_metadata: { ...(prev?.user_metadata || {}), ...updates } }));
+      throw err;
+    }
+  }, [setLocalAvatar]);
 
   if (loading) {
     return (
@@ -84,7 +100,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, error, register, login, logout, updateProfile }}>
+    <AuthContext.Provider value={{ user, loading, error, register, login, logout, updateProfile, localAvatar, setLocalAvatar }}>
       {children}
     </AuthContext.Provider>
   );

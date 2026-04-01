@@ -48,7 +48,7 @@ const ActivePill = styled(Box)(({ color }) => ({
 
 const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobileToggle }) => {
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, localAvatar } = useAuth();
   const desktopWidth = collapsed ? 72 : drawerWidth;
 
   const fullName = user?.full_name ?? user?.user_metadata?.full_name ?? '';
@@ -168,7 +168,7 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
       <Divider sx={{ borderColor: '#f1f3f6' }} />
       <Box sx={{ px: 2, py: 2, display: 'flex', alignItems: 'center', gap: 1.5 }}>
         <Avatar
-          src={user?.avatar_url || user?.user_metadata?.avatar_url || undefined}
+          src={localAvatar || user?.avatar_url || user?.user_metadata?.avatar_url || undefined}
           sx={{ width: 36, height: 36, fontSize: '0.8rem', fontWeight: 700, background: 'linear-gradient(135deg, #f43f6e, #fb7292)', boxShadow: '0 2px 8px rgba(244,63,110,0.3)', flexShrink: 0 }}>
           {initials}
         </Avatar>
@@ -206,7 +206,7 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
       <Divider sx={{ borderColor: '#f1f3f6' }} />
       <Box sx={{ px: collapsed ? 1 : 2, py: 2, display: 'flex', alignItems: 'center', gap: collapsed ? 0 : 1.5, justifyContent: collapsed ? 'center' : 'flex-start' }}>
         <Avatar
-          src={user?.avatar_url || user?.user_metadata?.avatar_url || undefined}
+          src={localAvatar || user?.avatar_url || user?.user_metadata?.avatar_url || undefined}
           sx={{ width: 36, height: 36, fontSize: '0.8rem', fontWeight: 700, background: 'linear-gradient(135deg, #f43f6e, #fb7292)', boxShadow: '0 2px 8px rgba(244,63,110,0.3)', flexShrink: 0 }}>
           {initials}
         </Avatar>
