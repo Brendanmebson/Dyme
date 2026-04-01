@@ -186,10 +186,10 @@ const Budgets = () => {
                         size="small"
                         onClick={() => deleteBudget(budget.id)}
                         sx={{
-                          opacity: isHover ? 1 : 0,
                           color: '#cbd1db', borderRadius: '8px',
                           '&:hover': { color: '#ef4444', bgcolor: '#fee2e2' },
                           transition: 'all 0.2s ease',
+                          mb: 0.5,
                         }}
                       >
                         <Trash2 size={14} />
