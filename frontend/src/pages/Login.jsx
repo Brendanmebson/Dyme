@@ -1,6 +1,7 @@
 // src/pages/Login.jsx
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useAppTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import {
   Eye, EyeOff, AlertCircle, ArrowRight, Sparkles,
@@ -13,15 +14,16 @@ import {
 import { keyframes } from '@mui/material/styles';
 import ThemeToggle from '../components/ThemeToggle';
 import logofull from '../assets/Dyme logo full.png';
+import logofullWhite from '../assets/Dyme logo full(white).png';
 
 const float1 = keyframes`0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(5deg)}`;
 const float2 = keyframes`0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-14px) rotate(-4deg)}`;
 const slideUp = keyframes`from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}`;
 
 const FEATURES = [
-  { icon: BarChart3,  label: 'Real-time spending insights' },
-  { icon: Target,     label: 'Smart budget tracking'       },
-  { icon: TrendingUp, label: 'Visual analytics & reports'  },
+  { icon: BarChart3, label: 'Real-time spending insights' },
+  { icon: Target, label: 'Smart budget tracking' },
+  { icon: TrendingUp, label: 'Visual analytics & reports' },
 ];
 
 // ── Reusable field ──────────────────────────────────────────────
@@ -37,11 +39,11 @@ const Field = ({ label, type = 'text', value, onChange, required, endAdornment }
 // ── Login form ──────────────────────────────────────────────────
 const LoginForm = ({ onSuccess }) => {
   const { login } = useAuth();
-  const [email, setEmail]     = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPw, setShowPw]   = useState(false);
+  const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -93,10 +95,10 @@ const LoginForm = ({ onSuccess }) => {
 // ── Register form ───────────────────────────────────────────────
 const RegisterForm = ({ onSuccess }) => {
   const { register } = useAuth();
-  const [form, setForm]       = useState({ full_name: '', email: '', password: '', confirm: '' });
-  const [showPw, setShowPw]   = useState(false);
+  const [form, setForm] = useState({ full_name: '', email: '', password: '', confirm: '' });
+  const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState('');
+  const [error, setError] = useState('');
 
   const set = (key) => (e) => setForm((prev) => ({ ...prev, [key]: e.target.value }));
 
@@ -109,8 +111,8 @@ const RegisterForm = ({ onSuccess }) => {
     setError('');
     const result = await register({
       full_name: form.full_name,
-      email:     form.email,
-      password:  form.password,
+      email: form.email,
+      password: form.password,
     });
     if (!result.success) { setError(result.error); setLoading(false); }
     else onSuccess();
@@ -125,7 +127,7 @@ const RegisterForm = ({ onSuccess }) => {
         </Alert>
       )}
 
-      <Field label="Full name"     value={form.full_name} onChange={set('full_name')} required />
+      <Field label="Full name" value={form.full_name} onChange={set('full_name')} required />
       <Field label="Email address" type="email" value={form.email} onChange={set('email')} required />
       <Field
         label="Password (min 8 chars)" type={showPw ? 'text' : 'password'}
@@ -158,15 +160,16 @@ const RegisterForm = ({ onSuccess }) => {
 // ── Main Login page ─────────────────────────────────────────────
 const Login = () => {
   const navigate = useNavigate();
+  const { mode } = useAppTheme();
   const [tab, setTab] = useState(0);
 
   const onSuccess = () => navigate('/dashboard');
 
   return (
     <Box sx={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, bgcolor: 'background.default' }}>
-      
+
       {/* ─── Back Button ─── */}
-      <IconButton 
+      <IconButton
         onClick={() => navigate('/landing')}
         sx={{
           position: 'absolute', top: { xs: 20, md: 32 }, left: { xs: 20, md: 32 },
@@ -185,7 +188,7 @@ const Login = () => {
 
       {/* ─── Theme Toggle ─── */}
       <Box sx={{ position: 'absolute', top: { xs: 20, md: 32 }, right: { xs: 20, md: 32 }, zIndex: 10 }}>
-        <ThemeToggle sx={{ 
+        <ThemeToggle sx={{
           bgcolor: { xs: 'transparent', md: 'rgba(255,255,255,0.15)' },
           border: '1px solid',
           borderColor: { xs: '#e2e2e2', md: 'rgba(255,255,255,0.25)' },
@@ -207,7 +210,7 @@ const Login = () => {
         <Box sx={{ position: 'relative', zIndex: 1, textAlign: 'center', color: '#fff' }}>
           <Box sx={{ mb: 1, mx: 'auto' }}>
             <Box component="img" src={logofull} alt="Dyme"
-              sx={{ height: { xs: 52, md: 84 }, width: 'auto', filter: 'brightness(0) invert(1)' }} />
+              sx={{ height: { xs: 80, md: 84 }, width: 'auto', filter: 'brightness(0) invert(1)' }} />
           </Box>
           <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.75)', fontWeight: 400, mb: { xs: 2.5, md: 4 }, maxWidth: 340, mx: 'auto', fontSize: { xs: '0.9rem', md: '1.25rem' } }}>
             The smarter way to track your money, built for real life.
@@ -226,28 +229,28 @@ const Login = () => {
       {/* ─── Right form panel ─── */}
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', p: { xs: 3, md: 6 }, bgcolor: 'background.paper', minHeight: '100vh' }}>
         <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 4, animation: `${slideUp} 0.4s ease` }}>
-          <Box component="img" src={logofull} alt="Dyme" sx={{ height: 42, width: 'auto' }} />
+          <Box component="img" src={mode === 'dark' ? logofullWhite : logofull} alt="Dyme" sx={{ height: 42, width: 'auto' }} />
         </Box>
 
         <Box sx={{ width: '100%', maxWidth: 420, animation: `${slideUp} 0.4s ease` }}>
 
           {/* Tab switcher */}
-            <Tabs
-              value={tab} onChange={(_, v) => setTab(v)}
-              sx={{
-                mb: 3, borderRadius: '14px',
-                bgcolor: 'background.default', border: '1px solid', borderColor: 'divider', p: 0.5,
-                '& .MuiTabs-indicator': { display: 'none' },
-                '& .MuiTab-root': {
-                  flex: 1, borderRadius: '10px', fontWeight: 600, fontSize: '0.875rem',
-                  color: 'text.secondary', transition: 'all 0.2s ease', minHeight: 40,
-                },
-                '& .Mui-selected': {
-                  bgcolor: 'background.paper', color: 'primary.main',
-                  boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-                },
-              }}
-            >
+          <Tabs
+            value={tab} onChange={(_, v) => setTab(v)}
+            sx={{
+              mb: 3, borderRadius: '14px',
+              bgcolor: 'background.default', border: '1px solid', borderColor: 'divider', p: 0.5,
+              '& .MuiTabs-indicator': { display: 'none' },
+              '& .MuiTab-root': {
+                flex: 1, borderRadius: '10px', fontWeight: 600, fontSize: '0.875rem',
+                color: 'text.secondary', transition: 'all 0.2s ease', minHeight: 40,
+              },
+              '& .Mui-selected': {
+                bgcolor: 'background.paper', color: 'primary.main',
+                boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+              },
+            }}
+          >
             <Tab icon={<LogIn size={15} />} iconPosition="start" label="Sign in" />
             <Tab icon={<UserPlus size={15} />} iconPosition="start" label="Create account" />
           </Tabs>

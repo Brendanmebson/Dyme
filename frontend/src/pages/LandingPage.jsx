@@ -257,9 +257,9 @@ const LandingPage = () => {
         {/* Mobile Nav Icon */}
         <Box
           onClick={() => setMobileMenuOpen(true)}
-          sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', cursor: 'pointer', p: 1, transition: 'transform 0.3s ease, opacity 0.3s', transform: mobileMenuOpen ? 'rotate(90deg)' : 'rotate(0deg)', opacity: mobileMenuOpen ? 0 : 1, pointerEvents: mobileMenuOpen ? 'none' : 'auto' }}
+          sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', cursor: 'pointer', p: 1, transition: 'transform 0.3s ease, opacity 0.3s', transform: mobileMenuOpen ? 'rotate(90deg)' : 'rotate(0deg)', opacity: mobileMenuOpen ? 0 : 1, pointerEvents: mobileMenuOpen ? 'none' : 'auto', color: 'text.primary' }}
         >
-          <Menu size={24} color="#0d0d0d" />
+          <Menu size={24} color="currentColor" />
         </Box>
       </Box>
 
@@ -307,8 +307,8 @@ const LandingPage = () => {
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <ThemeToggle />
-            <Box onClick={() => setMobileMenuOpen(false)} sx={{ cursor: 'pointer', p: 1, transform: mobileMenuOpen ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.4s ease 0.1s' }}>
-              <X size={28} color="#0d0d0d" />
+            <Box onClick={() => setMobileMenuOpen(false)} sx={{ cursor: 'pointer', p: 1, transform: mobileMenuOpen ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.4s ease 0.1s', color: 'text.primary' }}>
+              <X size={28} color="currentColor" />
             </Box>
           </Box>
         </Box>
@@ -437,10 +437,10 @@ const LandingPage = () => {
                   ].map(({ label, pct, color, amount }) => (
                     <Box key={label} sx={{ mb: 1.25 }}>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.4 }}>
-                        <Typography sx={{ fontSize: '0.68rem', color: '#444', fontWeight: 500 }}>{label}</Typography>
+                        <Typography sx={{ fontSize: '0.68rem', color: 'text.primary', fontWeight: 500 }}>{label}</Typography>
                         <Typography sx={{ fontSize: '0.68rem', color: 'text.secondary', fontWeight: 500 }}>{amount}</Typography>
                       </Box>
-                      <Box sx={{ height: 5, bgcolor: '#f3f3f1', borderRadius: '10px', overflow: 'hidden' }}>
+                      <Box sx={{ height: 5, bgcolor: (theme) => theme.palette.mode === 'dark' ? '#333' : '#f3f3f1', borderRadius: '10px', overflow: 'hidden' }}>
                         <Box sx={{ height: '100%', width: `${pct}%`, bgcolor: color, borderRadius: '10px' }} />
                       </Box>
                     </Box>
@@ -460,7 +460,7 @@ const LandingPage = () => {
                       <Box sx={{ width: 32, height: 32, borderRadius: '9px', bgcolor: tx.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.6rem', fontWeight: 700, color: tx.color, flexShrink: 0 }}>{tx.initials}</Box>
                       <Box sx={{ flex: 1, minWidth: 0 }}>
                         <Typography sx={{ fontSize: '0.72rem', fontWeight: 600, color: 'text.primary', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{tx.name}</Typography>
-                        <Typography sx={{ fontSize: '0.65rem', color: '#aaa' }}>{tx.card}</Typography>
+                        <Typography sx={{ fontSize: '0.65rem', color: 'text.secondary' }}>{tx.card}</Typography>
                       </Box>
                       <Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#f43f6e', flexShrink: 0 }}>{tx.amount}</Typography>
                     </Box>
@@ -489,7 +489,7 @@ const LandingPage = () => {
           <Box sx={{ display: 'flex', gap: 2.5, flexWrap: 'wrap', mb: 2.5 }}>
             <Box sx={{ flex: '1 1 200px', minWidth: 200, minHeight: 220, bgcolor: '#fff1f3', borderRadius: '20px', border: '1px solid rgba(244,63,110,0.12)', p: 4, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', transition: 'all 0.25s', '&:hover': { transform: 'translateY(-3px)', boxShadow: '0 12px 36px rgba(244,63,110,0.10)' } }}>
               <Typography sx={{ fontFamily: '"Syne", sans-serif', fontSize: '3.8rem', fontWeight: 800, letterSpacing: '-0.05em', color: '#f43f6e', lineHeight: 1 }}>8.4k+</Typography>
-              <Typography sx={{ fontSize: '0.9rem', color: '#7a2a3a', fontWeight: 500, mt: 2, lineHeight: 1.5 }}>Active users tracking<br />their finances daily</Typography>
+              <Typography sx={{ fontSize: '0.9rem', color: (theme) => theme.palette.mode === 'dark' ? '#fda4b5' : '#7a2a3a', fontWeight: 500, mt: 2, lineHeight: 1.5 }}>Active users tracking<br />their finances daily</Typography>
             </Box>
 
             <Box sx={{ flex: '2 1 340px', minHeight: 220, bgcolor: 'background.default', borderRadius: '20px', border: '1px solid', borderColor: 'divider', p: 4, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', transition: 'all 0.25s', '&:hover': { transform: 'translateY(-3px)', boxShadow: '0 12px 36px rgba(0,0,0,0.06)' } }}>
@@ -500,7 +500,7 @@ const LandingPage = () => {
                 <Box sx={{ width: 54, height: 54, borderRadius: '16px', bgcolor: '#f43f6e', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', boxShadow: '0 4px 16px rgba(244,63,110,0.3)', p: 0.5 }}>
                   <Box component="img" src={logo} alt="Dyme" loading="lazy" sx={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </Box>
-                <Box sx={{ flex: 1, position: 'relative', height: 2, bgcolor: '#f0e0e4' }}>
+                <Box sx={{ flex: 1, position: 'relative', height: 2, bgcolor: (theme) => theme.palette.mode === 'dark' ? '#444' : '#f0e0e4' }}>
                   <Box sx={{ position: 'absolute', left: '18%', top: '50%', transform: 'translateY(-50%)', width: 7, height: 7, bgcolor: '#f43f6e', borderRadius: '50%' }} />
                   <Box sx={{ position: 'absolute', left: '50%', top: '50%', transform: 'translateY(-50%)', width: 7, height: 7, bgcolor: '#f43f6e', borderRadius: '50%', opacity: 0.45 }} />
                   <Box sx={{ position: 'absolute', left: '78%', top: '50%', transform: 'translateY(-50%)', width: 7, height: 7, bgcolor: '#f43f6e', borderRadius: '50%', opacity: 0.2 }} />
@@ -522,7 +522,7 @@ const LandingPage = () => {
             <Box sx={{ flex: '1 1 260px', minWidth: 260 }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 1.5 }}>
                 <Box>
-                  <Typography sx={{ fontSize: '0.65rem', color: '#bbb', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Avg. Annual Savings</Typography>
+                  <Typography sx={{ fontSize: '0.65rem', color: 'text.secondary', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Avg. Annual Savings</Typography>
                   <Typography sx={{ fontFamily: '"Syne", sans-serif', fontSize: '1.6rem', fontWeight: 800, color: 'text.primary', letterSpacing: '-0.04em' }}>$3,200</Typography>
                 </Box>
                 <Typography sx={{ fontSize: '0.72rem', color: '#f43f6e', fontWeight: 600, bgcolor: 'rgba(244,63,110,0.07)', px: 1.5, py: 0.5, borderRadius: '100px', border: '1px solid rgba(244,63,110,0.15)' }}>
@@ -543,7 +543,7 @@ const LandingPage = () => {
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 0.5 }}>
                 {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'].map(m => (
-                  <Typography key={m} sx={{ fontSize: '0.65rem', color: '#ccc' }}>{m}</Typography>
+                  <Typography key={m} sx={{ fontSize: '0.65rem', color: 'text.secondary' }}>{m}</Typography>
                 ))}
               </Box>
             </Box>
@@ -588,7 +588,7 @@ const LandingPage = () => {
                     borderRight: { md: '1px solid', lg: 'none' }, borderColor: 'divider',
                     bgcolor: 'background.paper',
                     transition: 'all 0.22s',
-                    '&:hover': { bgcolor: '#fff8f9' },
+                    '&:hover': { bgcolor: (theme) => theme.palette.mode === 'dark' ? '#1a1a1a' : '#fff8f9' },
                     cursor: 'default',
                     boxSizing: 'border-box',
                   }}
@@ -624,19 +624,19 @@ const LandingPage = () => {
                 {plan.badge && (
                   <Box sx={{ position: 'absolute', top: 20, right: 20, bgcolor: '#f43f6e', color: '#fff', borderRadius: '100px', px: 1.5, py: 0.4, fontSize: '0.63rem', fontWeight: 700, boxShadow: '0 3px 10px rgba(244,63,110,0.3)' }}>{plan.badge}</Box>
                 )}
-                <Typography sx={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: plan.highlight ? '#f43f6e' : '#bbb', mb: 3 }}>{plan.name}</Typography>
+                <Typography sx={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: plan.highlight ? '#f43f6e' : 'text.secondary', mb: 3 }}>{plan.name}</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5, mb: 1 }}>
-                  <Typography sx={{ fontFamily: '"Syne", sans-serif', fontSize: '3rem', fontWeight: 800, letterSpacing: '-0.06em', color: plan.highlight ? '#fff' : '#0d0d0d', lineHeight: 1 }}>{plan.price}</Typography>
-                  <Typography sx={{ fontSize: '0.8rem', color: plan.highlight ? '#555' : '#ccc', fontWeight: 500 }}>{plan.period}</Typography>
+                  <Typography sx={{ fontFamily: '"Syne", sans-serif', fontSize: '3rem', fontWeight: 800, letterSpacing: '-0.06em', color: plan.highlight ? '#fff' : 'text.primary', lineHeight: 1 }}>{plan.price}</Typography>
+                  <Typography sx={{ fontSize: '0.8rem', color: plan.highlight ? '#aaa' : 'text.secondary', fontWeight: 500 }}>{plan.period}</Typography>
                 </Box>
-                <Box sx={{ height: '1px', bgcolor: plan.highlight ? 'rgba(255,255,255,0.07)' : '#e8e8e4', my: 3 }} />
+                <Box sx={{ height: '1px', bgcolor: plan.highlight ? 'rgba(255,255,255,0.07)' : 'divider', my: 3 }} />
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mb: 4 }}>
                   {plan.features.map(feat => (
                     <Box key={feat} sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                       <Box sx={{ width: 16, height: 16, borderRadius: '50%', flexShrink: 0, border: plan.highlight ? '1.5px solid rgba(244,63,110,0.5)' : '1.5px solid #d8d8d2', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: `${tickIn} 0.3s ease both` }}>
-                        <Check size={9} color={plan.highlight ? '#ff8fa3' : '#aaa'} strokeWidth={3} />
+                        <Check size={9} color={plan.highlight ? '#ff8fa3' : 'currentColor'} strokeWidth={3} />
                       </Box>
-                      <Typography sx={{ fontSize: '0.855rem', color: plan.highlight ? 'rgba(255,255,255,0.6)' : '#666', fontWeight: 400 }}>{feat}</Typography>
+                      <Typography sx={{ fontSize: '0.855rem', color: plan.highlight ? 'rgba(255,255,255,0.6)' : 'text.secondary', fontWeight: 400 }}>{feat}</Typography>
                     </Box>
                   ))}
                 </Box>
@@ -645,7 +645,7 @@ const LandingPage = () => {
             ))}
           </Box>
 
-          <Typography sx={{ fontSize: '0.8rem', color: '#ccc', textAlign: 'center', mt: 4 }}>
+          <Typography sx={{ fontSize: '0.8rem', color: 'text.secondary', textAlign: 'center', mt: 4 }}>
             All plans include a 14-day free trial · Cancel any time · No credit card for Free plan (Disclamer just a prototype)
           </Typography>
         </Container>
@@ -661,7 +661,7 @@ const LandingPage = () => {
               <Typography sx={{ ...overline }}>Testimonials</Typography>
               <Typography sx={{ ...sectionHead, fontSize: { xs: '2rem', md: '2.8rem' } }}>
                 People actually<br />love it.
-                <Typography sx={{ fontSize: '1.75rem', color: '#bbb' }}>Don't take our word for it.</Typography>
+                <Typography sx={{ fontSize: '1.75rem', color: 'text.secondary' }}>Don't take our word for it.</Typography>
               </Typography>
             </Box>
           </Box>
@@ -670,14 +670,14 @@ const LandingPage = () => {
             {TESTIMONIALS.map((t, i) => (
               <Box key={i} sx={{ flex: '1 1 260px', maxWidth: 380, bgcolor: 'background.paper', borderRadius: '20px', border: '1px solid', borderColor: 'divider', p: 4, transition: 'all 0.25s', '&:hover': { transform: 'translateY(-3px)', boxShadow: '0 12px 40px rgba(244,63,110,0.07)', borderColor: 'rgba(244,63,110,0.15)' } }}>
                 <Typography sx={{ fontSize: '2.8rem', color: 'rgba(244,63,110,0.15)', fontFamily: 'Georgia, serif', lineHeight: 1, mb: 2, mt: -0.5 }}>"</Typography>
-                <Typography sx={{ fontSize: '0.925rem', color: '#555', lineHeight: 1.8, mb: 4 }}>{t.text}</Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, pt: 3, borderTop: '1px solid #f3f3f1' }}>
-                  <Box sx={{ width: 42, height: 42, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '2px solid #f3f3f1' }}>
+                <Typography sx={{ fontSize: '0.925rem', color: 'text.secondary', lineHeight: 1.8, mb: 4 }}>{t.text}</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, pt: 3, borderTop: '1px solid', borderColor: 'divider' }}>
+                  <Box sx={{ width: 42, height: 42, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '2px solid', borderColor: 'divider' }}>
                     <img src={t.photo} alt={t.name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </Box>
                   <Box>
                     <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: 'text.primary' }}>{t.name}</Typography>
-                    <Typography sx={{ fontSize: '0.75rem', color: '#c0c0b8' }}>{t.role}</Typography>
+                    <Typography sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>{t.role}</Typography>
                   </Box>
                 </Box>
               </Box>

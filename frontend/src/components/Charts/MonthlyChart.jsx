@@ -18,13 +18,13 @@ const CustomTooltip = ({ active, payload, label }) => {
         boxShadow: '0 8px 24px rgba(16,24,40,0.12)',
       }}
     >
-      <Typography variant="caption" fontWeight={700} color="#344054" sx={{ mb: 1, display: 'block' }}>
+      <Typography variant="caption" fontWeight={700} color="text.primary" sx={{ mb: 1, display: 'block' }}>
         {label}
       </Typography>
       {payload.map((p) => (
         <Box key={p.dataKey} sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.25 }}>
           <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: p.color }} />
-          <Typography variant="caption" color="#667085">
+          <Typography variant="caption" color="text.secondary">
             {p.name}: <strong style={{ color: 'text.primary' }}>{formatCurrency(p.value)}</strong>
           </Typography>
         </Box>
@@ -52,19 +52,19 @@ const MonthlyChart = ({ data }) => {
       }}>
         <Box>
           <Typography
-            variant="h6" fontWeight={700} color="#101828"
+            variant="h6" fontWeight={700} color="text.primary"
             fontFamily='"Plus Jakarta Sans", sans-serif'
             sx={{ fontSize: { xs: '0.95rem', md: '1.25rem' } }}
           >
             Monthly Overview
           </Typography>
-          <Typography variant="caption" color="#98a2b3">Income vs Expenses trend</Typography>
+          <Typography variant="caption" color="text.secondary">Income vs Expenses trend</Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 2 }}>
           {[{ color: '#10b981', label: 'Income' }, { color: '#f43f6e', label: 'Expenses' }].map((l) => (
             <Box key={l.label} sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
               <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: l.color }} />
-              <Typography variant="caption" color="#667085" fontWeight={500}>{l.label}</Typography>
+              <Typography variant="caption" color="text.secondary" fontWeight={500}>{l.label}</Typography>
             </Box>
           ))}
         </Box>
@@ -84,18 +84,18 @@ const MonthlyChart = ({ data }) => {
                   <stop offset="95%" stopColor="#f43f6e" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f3f6" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} vertical={false} />
               <XAxis
                 dataKey="month"
-                tick={{ fontSize: isMobile ? 10 : 12, fill: '#98a2b3', fontWeight: 500 }}
+                tick={{ fontSize: isMobile ? 10 : 12, fill: theme.palette.text.secondary, fontWeight: 500 }}
                 axisLine={false} tickLine={false}
               />
                 <YAxis
-                  tick={{ fontSize: isMobile ? 10 : 12, fill: '#98a2b3' }}
+                  tick={{ fontSize: isMobile ? 10 : 12, fill: theme.palette.text.secondary }}
                   axisLine={false} tickLine={false}
                   tickFormatter={(v) => `${currency.symbol}${v}`}
                 />
-              <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#e4e7ed' }} />
+              <Tooltip content={<CustomTooltip />} cursor={{ stroke: theme.palette.divider }} />
               <Area type="monotone" dataKey="income"   name="Income"   stroke="#10b981" strokeWidth={2} fill="url(#incomeGrad)"  dot={false} activeDot={{ r: 4, fill: '#10b981' }} />
               <Area type="monotone" dataKey="expenses" name="Expenses" stroke="#f43f6e" strokeWidth={2} fill="url(#expenseGrad)" dot={false} activeDot={{ r: 4, fill: '#f43f6e' }} />
             </AreaChart>

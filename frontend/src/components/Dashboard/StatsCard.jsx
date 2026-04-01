@@ -26,7 +26,7 @@ const StatsCard = ({
         '&:hover': {
           transform: 'translateY(-3px)',
           boxShadow: '0 8px 32px rgba(16,24,40,0.10)',
-          borderColor: '#fecdd6',
+          borderColor: (theme) => theme.palette.mode === 'dark' ? '#f43f6e' : '#fecdd6',
         },
       }}
     >
@@ -36,7 +36,7 @@ const StatsCard = ({
           <Typography
             variant="caption"
             fontWeight={600}
-            color="#667085"
+            color="text.secondary"
             sx={{
               textTransform: 'uppercase',
               letterSpacing: '0.06em',
@@ -66,7 +66,7 @@ const StatsCard = ({
         <Typography
           variant="h4"
           fontWeight={800}
-          color="#101828"
+          color="text.primary"
           fontFamily='"Plus Jakarta Sans", sans-serif'
           sx={{
             letterSpacing: '-0.02em',
@@ -85,8 +85,8 @@ const StatsCard = ({
             <Box
               sx={{
                 display: 'flex', alignItems: 'center', gap: 0.25,
-                bgcolor: isPositive ? '#d1fae5' : '#fee2e2',
-                color:   isPositive ? '#065f46' : '#991b1b',
+                bgcolor: (theme) => isPositive ? (theme.palette.mode === 'dark' ? 'rgba(16,185,129,0.1)' : '#d1fae5') : (theme.palette.mode === 'dark' ? 'rgba(239,68,68,0.1)' : '#fee2e2'),
+                color: (theme) => isPositive ? (theme.palette.mode === 'dark' ? '#34d399' : '#065f46') : (theme.palette.mode === 'dark' ? '#f87171' : '#991b1b'),
                 borderRadius: '6px', px: 0.75, py: 0.25,
               }}
             >
@@ -95,7 +95,7 @@ const StatsCard = ({
                 {isPositive ? '+' : ''}{change}%
               </Typography>
             </Box>
-            <Typography variant="caption" color="#98a2b3" fontSize="0.65rem" sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <Typography variant="caption" color="text.secondary" fontSize="0.65rem" sx={{ display: { xs: 'none', sm: 'block' } }}>
               vs last month
             </Typography>
           </Box>

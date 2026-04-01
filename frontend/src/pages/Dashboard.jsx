@@ -85,7 +85,7 @@ const Dashboard = () => {
       }}>
         <Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 0.5, flexWrap: 'wrap' }}>
-            <Typography variant="h4" fontWeight={800} color="#101828"
+            <Typography variant="h4" fontWeight={800} color="text.primary"
               fontFamily='"Plus Jakarta Sans", sans-serif'
               sx={{ letterSpacing: '-0.02em', fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
               {getGreeting()}, {firstName} 👋
@@ -94,7 +94,7 @@ const Dashboard = () => {
             <Box sx={{
               display: 'inline-flex', alignItems: 'center', gap: 0.5,
               px: 1.25, py: 0.4, borderRadius: '20px',
-              bgcolor: '#fff1f3', border: '1px solid #fecdd6',
+              bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.1)' : '#fff1f3', border: (theme) => theme.palette.mode === 'dark' ? '1px solid rgba(244,63,110,0.2)' : '1px solid #fecdd6',
             }}>
               <Typography sx={{ fontSize: '0.9rem' }}>{currency.flag}</Typography>
               <Typography variant="caption" fontWeight={700} color="#f43f6e">
@@ -102,7 +102,7 @@ const Dashboard = () => {
               </Typography>
             </Box>
           </Box>
-          <Typography variant="body2" color="#667085" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
+          <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
             Here's what's happening with your money today.
           </Typography>
         </Box>

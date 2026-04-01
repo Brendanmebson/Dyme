@@ -12,8 +12,8 @@ const CustomTooltip = ({ active, payload }) => {
   const { name, value } = payload[0];
   return (
     <Box sx={{ bgcolor: 'background.paper', border: '1px solid', borderColor: 'divider', borderRadius: '12px', px: 2, py: 1.5, boxShadow: '0 8px 24px rgba(16,24,40,0.12)' }}>
-      <Typography variant="caption" fontWeight={700} color="#344054">{name}</Typography>
-      <Typography variant="body2" fontWeight={700} color="#101828">{formatCurrency(value)}</Typography>
+      <Typography variant="caption" fontWeight={700} color="text.secondary">{name}</Typography>
+      <Typography variant="body2" fontWeight={700} color="text.primary">{formatCurrency(value)}</Typography>
     </Box>
   );
 };
@@ -36,13 +36,13 @@ const SpendingChart = ({ data }) => {
     }}>
       <Box sx={{ px: { xs: 2, md: 3 }, pt: { xs: 2, md: 3 }, pb: 1 }}>
         <Typography
-          variant="h6" fontWeight={700} color="#101828"
+          variant="h6" fontWeight={700} color="text.primary"
           fontFamily='"Plus Jakarta Sans", sans-serif'
           sx={{ fontSize: { xs: '0.95rem', md: '1.25rem' } }}
         >
           Spending by Category
         </Typography>
-        <Typography variant="caption" color="#98a2b3">This month's breakdown</Typography>
+        <Typography variant="caption" color="text.secondary">This month's breakdown</Typography>
       </Box>
 
       <CardContent sx={{ pt: 1, px: { xs: 2, md: 2 }, pb: { xs: '12px !important', md: '16px !important' } }}>
@@ -75,8 +75,8 @@ const SpendingChart = ({ data }) => {
                 transform: 'translate(-50%,-50%)',
                 textAlign: 'center', pointerEvents: 'none',
               }}>
-                <Typography variant="caption" color="#98a2b3" fontWeight={600} sx={{ fontSize: '0.6rem', display: 'block' }}>TOTAL</Typography>
-                <Typography variant="body2" fontWeight={800} color="#101828" sx={{ fontSize: { xs: '0.8rem', md: '0.875rem' } }}>
+                <Typography variant="caption" color="text.secondary" fontWeight={600} sx={{ fontSize: '0.6rem', display: 'block' }}>TOTAL</Typography>
+                <Typography variant="body2" fontWeight={800} color="text.primary" sx={{ fontSize: { xs: '0.8rem', md: '0.875rem' } }}>
                   {formatCurrency(total)}
                 </Typography>
               </Box>
@@ -91,18 +91,18 @@ const SpendingChart = ({ data }) => {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.3 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
                         <Box sx={{ width: 7, height: 7, borderRadius: '50%', bgcolor: PALETTE[i % PALETTE.length], flexShrink: 0 }} />
-                        <Typography variant="caption" color="#344054" fontWeight={500} noWrap sx={{ maxWidth: { xs: 90, md: 110 }, fontSize: { xs: '0.7rem', md: '0.75rem' } }}>
+                        <Typography variant="caption" color="text.primary" fontWeight={500} noWrap sx={{ maxWidth: { xs: 90, md: 110 }, fontSize: { xs: '0.7rem', md: '0.75rem' } }}>
                           {d.category}
                         </Typography>
                       </Box>
-                      <Typography variant="caption" fontWeight={700} color="#101828" sx={{ fontSize: { xs: '0.7rem', md: '0.75rem' } }}>
+                      <Typography variant="caption" fontWeight={700} color="text.primary" sx={{ fontSize: { xs: '0.7rem', md: '0.75rem' } }}>
                         {formatCurrency(d.amount)}
                       </Typography>
                     </Box>
                     <LinearProgress
                       variant="determinate" value={pct}
                       sx={{
-                        height: { xs: 3, md: 4 }, borderRadius: '4px', bgcolor: '#f1f3f6',
+                        height: { xs: 3, md: 4 }, borderRadius: '4px', bgcolor: theme.palette.mode === 'dark' ? '#333' : '#f1f3f6',
                         '& .MuiLinearProgress-bar': { bgcolor: PALETTE[i % PALETTE.length], borderRadius: '4px' },
                       }}
                     />

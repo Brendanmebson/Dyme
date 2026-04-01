@@ -51,7 +51,7 @@ const RecentTransactions = ({ transactions, compact = false }) => {
         borderBottom: '1px solid', borderColor: 'divider',
       }}>
         <Typography
-          variant="h6" fontWeight={700} color="#101828"
+          variant="h6" fontWeight={700} color="text.primary"
           fontFamily='"Plus Jakarta Sans", sans-serif'
           sx={{ fontSize: { xs: '0.95rem', md: '1.25rem' } }}
         >
@@ -64,7 +64,7 @@ const RecentTransactions = ({ transactions, compact = false }) => {
           sx={{
             color: '#f43f6e', fontWeight: 600, borderRadius: '8px',
             fontSize: { xs: '0.75rem', md: '0.8rem' },
-            '&:hover': { bgcolor: '#fff1f3' },
+            '&:hover': { bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.1)' : '#fff1f3' },
           }}
         >
           View all
@@ -91,9 +91,10 @@ const RecentTransactions = ({ transactions, compact = false }) => {
                   gap: compact ? 1 : { xs: 1.25, md: 2 },
                   px: compact ? 1.5 : { xs: 2, md: 3 },
                   py: compact ? 1.25 : { xs: 1.5, md: 2 },
-                  borderBottom: idx < recent.length - 1 ? '1px solid #f8f9fb' : 'none',
+                  borderBottom: idx < recent.length - 1 ? '1px solid' : 'none',
+                  borderBottomColor: 'divider',
                   transition: 'background 0.15s ease',
-                  '&:hover': { bgcolor: '#fafbfc' },
+                  '&:hover': { bgcolor: 'action.hover' },
                 }}
               >
                 {/* Icon */}
@@ -102,8 +103,8 @@ const RecentTransactions = ({ transactions, compact = false }) => {
                     width: compact ? 28 : { xs: 34, md: 40 },
                     height: compact ? 28 : { xs: 34, md: 40 },
                     borderRadius: '8px', flexShrink: 0,
-                    bgcolor: isIncome ? '#d1fae5' : '#fff1f3',
-                    color:   isIncome ? '#10b981' : '#f43f6e',
+                    bgcolor: (theme) => isIncome ? (theme.palette.mode === 'dark' ? 'rgba(16,185,129,0.15)' : '#d1fae5') : (theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.15)' : '#fff1f3'),
+                    color: (theme) => isIncome ? (theme.palette.mode === 'dark' ? '#34d399' : '#10b981') : (theme.palette.mode === 'dark' ? '#fb7185' : '#f43f6e'),
                   }}
                 >
                   {isIncome ? <ArrowUpRight size={compact ? 13 : 16} /> : <ArrowDownRight size={compact ? 13 : 16} />}
@@ -112,7 +113,7 @@ const RecentTransactions = ({ transactions, compact = false }) => {
                 {/* Description + category */}
                 <Box sx={{ flex: 1, minWidth: 0 }}>
                   <Typography
-                    variant="body2" fontWeight={600} color="#344054" noWrap
+                    variant="body2" fontWeight={600} color="text.primary" noWrap
                     sx={{ fontSize: compact ? '0.72rem' : { xs: '0.8rem', md: '0.875rem' } }}
                   >
                     {tx.description}
@@ -129,7 +130,7 @@ const RecentTransactions = ({ transactions, compact = false }) => {
                     />
                   )}
                   {compact && (
-                    <Typography variant="caption" color="#98a2b3" sx={{ fontSize: '0.62rem' }} noWrap>
+                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.62rem' }} noWrap>
                       {formatDate(tx.date)}
                     </Typography>
                   )}
@@ -139,13 +140,13 @@ const RecentTransactions = ({ transactions, compact = false }) => {
                 <Box sx={{ textAlign: 'right', flexShrink: 0 }}>
                   <Typography
                     variant="body2" fontWeight={700}
-                    color={isIncome ? '#10b981' : '#ef4444'}
+                    color={(theme) => isIncome ? (theme.palette.mode === 'dark' ? '#34d399' : '#10b981') : (theme.palette.mode === 'dark' ? '#f87171' : '#ef4444')}
                     sx={{ fontSize: compact ? '0.75rem' : { xs: '0.8rem', md: '0.875rem' } }}
                   >
                     {isIncome ? '+' : '-'}{formatCurrency(tx.amount, tx.currency)}
                   </Typography>
                   {!compact && (
-                    <Typography variant="caption" color="#98a2b3" sx={{ fontSize: { xs: '0.65rem', md: '0.75rem' } }}>
+                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: { xs: '0.65rem', md: '0.75rem' } }}>
                       {formatDate(tx.date)}
                     </Typography>
                   )}
