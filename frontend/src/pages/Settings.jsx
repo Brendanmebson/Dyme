@@ -10,12 +10,13 @@ import {
 } from 'lucide-react';
 import { keyframes } from '@mui/material/styles';
 import { useCurrency, CURRENCIES } from '../context/CurrencyContext';
+import { useAppTheme } from '../context/ThemeContext';
 
 const fadeUp = keyframes`from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}`;
 
 const Section = ({ title, subtitle, icon: Icon, iconColor = '#f43f6e', children, delay = 0 }) => (
   <Paper elevation={0} sx={{
-    border: '1px solid #e4e7ed', borderRadius: '20px', p: { xs: 3, md: 4 },
+    border: '1px solid', borderColor: 'divider', borderRadius: '20px', p: { xs: 3, md: 4 },
     animation: `${fadeUp} 0.4s ease both`, animationDelay: `${delay}ms`,
     mb: 3,
   }}>
@@ -35,7 +36,7 @@ const Section = ({ title, subtitle, icon: Icon, iconColor = '#f43f6e', children,
         {subtitle && <Typography variant="caption" color="#98a2b3">{subtitle}</Typography>}
       </Box>
     </Box>
-    <Divider sx={{ borderColor: '#f1f3f6', mb: 3 }} />
+    <Divider sx={{ borderColor: 'divider', mb: 3 }} />
     {children}
   </Paper>
 );
@@ -62,6 +63,7 @@ const ToggleRow = ({ label, description, checked, onChange }) => (
 
 const Settings = () => {
   const { currency, setCurrency } = useCurrency();
+  const { mode, toggleTheme } = useAppTheme();
   const [saved, setSaved] = useState(false);
 
   // Notifications
@@ -202,6 +204,12 @@ const Settings = () => {
       {/* Preferences */}
       <Section title="Preferences" subtitle="Personalise how Dyme looks and behaves" icon={Palette} iconColor="#7c3aed" delay={250}>
         <ToggleRow
+          label="Dark Mode"
+          description="Switch to a dark appearance"
+          checked={mode === 'dark'}
+          onChange={toggleTheme}
+        />
+        <ToggleRow
           label="Compact Mode"
           description="Show more data with less spacing"
           checked={prefs.compactMode}
@@ -226,7 +234,7 @@ const Settings = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
           <Box sx={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            p: 2, borderRadius: '12px', bgcolor: '#f9fafb', border: '1px solid #f1f3f6',
+            p: 2, borderRadius: '12px', bgcolor: 'background.default', border: '1px solid', borderColor: 'divider',
           }}>
             <Box>
               <Typography variant="body2" fontWeight={600} color="#344054">Two-Factor Authentication</Typography>
@@ -236,7 +244,7 @@ const Settings = () => {
           </Box>
           <Box sx={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            p: 2, borderRadius: '12px', bgcolor: '#f9fafb', border: '1px solid #f1f3f6',
+            p: 2, borderRadius: '12px', bgcolor: 'background.default', border: '1px solid', borderColor: 'divider',
           }}>
             <Box>
               <Typography variant="body2" fontWeight={600} color="#344054">Active Sessions</Typography>

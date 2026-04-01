@@ -9,7 +9,7 @@ import ProtectedRoute  from './components/ProtectedRoute';
 import Layout          from './components/Layout/Layout';
 import LandingPage      from './pages/LandingPage';
 import ScrollToTop      from './components/Common/ScrollToTop';
-import { muiTheme }     from './designSystem';
+import { AppThemeProvider } from './context/ThemeContext';
 
 // Lazy load other views
 const Login        = lazy(() => import('./pages/Login'));
@@ -21,7 +21,7 @@ const Reports      = lazy(() => import('./pages/Reports'));
 const Profile      = lazy(() => import('./pages/Profile'));
 const Settings     = lazy(() => import('./pages/Settings'));
 
-const theme = createTheme(muiTheme);
+// const theme = createTheme(muiTheme); // Removed static theme
 
 const LoadingFallback = () => (
   <Box sx={{ display: 'flex', height: '100vh', width: '100vw', alignItems: 'center', justifyContent: 'center', bgcolor: '#fafaf8' }}>
@@ -52,7 +52,7 @@ const globalStyles = (
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <AppThemeProvider>
       <CssBaseline />
       {globalStyles}
       <AuthProvider>
@@ -91,7 +91,7 @@ function App() {
           </FinanceProvider>
         </CurrencyProvider>
       </AuthProvider>
-    </ThemeProvider>
+    </AppThemeProvider>
   );
 }
 

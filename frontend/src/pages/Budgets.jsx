@@ -72,7 +72,7 @@ const Budgets = () => {
 
       {/* ─── Summary card ─────────────────────────── */}
       {budgets.length > 0 && (
-        <Card sx={{ mb: { xs: 3, md: 4 }, borderRadius: { xs: '12px', md: '16px' }, border: '1px solid #e4e7ed', boxShadow: 'none' }}>
+        <Card sx={{ mb: { xs: 3, md: 4 }, borderRadius: { xs: '12px', md: '16px' }, border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
           <CardContent sx={{ p: { xs: '16px !important', md: '24px !important' } }}>
             <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '4fr 5fr 3fr' }, gap: { xs: 2, md: 3 }, alignItems: 'center' }}>
               <Box>

@@ -39,7 +39,7 @@ const RecentTransactions = ({ transactions, compact = false }) => {
     <Card
       sx={{
         borderRadius: { xs: '12px', md: '16px' },
-        border: '1px solid #e4e7ed',
+        border: '1px solid', borderColor: 'divider',
         boxShadow: '0 1px 3px rgba(16,24,40,0.06)',
         overflow: 'hidden',
       }}
@@ -48,7 +48,7 @@ const RecentTransactions = ({ transactions, compact = false }) => {
       <Box sx={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         px: { xs: 2, md: 3 }, py: { xs: 2, md: 2.5 },
-        borderBottom: '1px solid #f1f3f6',
+        borderBottom: '1px solid', borderColor: 'divider',
       }}>
         <Typography
           variant="h6" fontWeight={700} color="#101828"
@@ -73,7 +73,7 @@ const RecentTransactions = ({ transactions, compact = false }) => {
 
       <CardContent sx={{ p: 0 }}>
         {recent.length === 0 ? (
-          <Box sx={{ textAlign: 'center', py: compact ? 3 : 8, color: '#98a2b3' }}>
+          <Box sx={{ textAlign: 'center', py: compact ? 3 : 8, color: 'text.secondary' }}>
             <Typography fontSize={compact ? '1.5rem' : '2.5rem'} mb={1}>💸</Typography>
             <Typography variant="body2" fontWeight={500}>No transactions yet</Typography>
             {!compact && <Typography variant="caption">Add one to get started</Typography>}

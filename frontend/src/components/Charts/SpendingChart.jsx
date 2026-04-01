@@ -11,7 +11,7 @@ const CustomTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null;
   const { name, value } = payload[0];
   return (
-    <Box sx={{ bgcolor: '#fff', border: '1px solid #e4e7ed', borderRadius: '12px', px: 2, py: 1.5, boxShadow: '0 8px 24px rgba(16,24,40,0.12)' }}>
+    <Box sx={{ bgcolor: 'background.paper', border: '1px solid', borderColor: 'divider', borderRadius: '12px', px: 2, py: 1.5, boxShadow: '0 8px 24px rgba(16,24,40,0.12)' }}>
       <Typography variant="caption" fontWeight={700} color="#344054">{name}</Typography>
       <Typography variant="body2" fontWeight={700} color="#101828">{formatCurrency(value)}</Typography>
     </Box>
@@ -30,7 +30,7 @@ const SpendingChart = ({ data }) => {
   return (
     <Card sx={{
       borderRadius: { xs: '12px', md: '16px' },
-      border: '1px solid #e4e7ed',
+      border: '1px solid', borderColor: 'divider',
       boxShadow: '0 1px 3px rgba(16,24,40,0.06)',
       height: '100%',
     }}>
@@ -112,7 +112,7 @@ const SpendingChart = ({ data }) => {
             </Box>
           </Box>
         ) : (
-          <Box sx={{ height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#98a2b3' }}>
+          <Box sx={{ height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'text.secondary' }}>
             <Box sx={{ textAlign: 'center' }}>
               <Typography fontSize="2rem" mb={1}>🥧</Typography>
               <Typography variant="body2">No spending data yet</Typography>

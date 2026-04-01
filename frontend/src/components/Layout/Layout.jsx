@@ -28,7 +28,7 @@ const Layout = () => {
   const desktopWidth = collapsed ? COLLAPSED_WIDTH : DRAWER_WIDTH;
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#f8f9fb' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
       <CssBaseline />
 
       <Sidebar

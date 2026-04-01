@@ -14,7 +14,7 @@ const fadeUp = keyframes`from{opacity:0;transform:translateY(16px)}to{opacity:1;
 
 const Section = ({ title, subtitle, children, delay = 0 }) => (
   <Paper elevation={0} sx={{
-    border: '1px solid #e4e7ed', borderRadius: '20px', p: { xs: 3, md: 4 },
+    border: '1px solid', borderColor: 'divider', borderRadius: '20px', p: { xs: 3, md: 4 },
     animation: `${fadeUp} 0.4s ease both`, animationDelay: `${delay}ms`,
     mb: 3,
   }}>
@@ -25,7 +25,7 @@ const Section = ({ title, subtitle, children, delay = 0 }) => (
       </Typography>
       {subtitle && <Typography variant="body2" color="#667085">{subtitle}</Typography>}
     </Box>
-    <Divider sx={{ borderColor: '#f1f3f6', mb: 3 }} />
+    <Divider sx={{ borderColor: 'divider', mb: 3 }} />
     {children}
   </Paper>
 );
@@ -33,7 +33,7 @@ const Section = ({ title, subtitle, children, delay = 0 }) => (
 const inputSx = {
   '& .MuiOutlinedInput-root': {
     borderRadius: '12px',
-    '& fieldset': { borderColor: '#e4e7ed' },
+    '& fieldset': { borderColor: 'divider' },
     '&:hover fieldset': { borderColor: '#fda4b5' },
     '&.Mui-focused fieldset': { borderColor: '#f43f6e' },
   },
@@ -170,7 +170,7 @@ const Profile = () => {
               variant="outlined" size="small" startIcon={<Pencil size={13} />}
               onClick={() => setAvatarDialogOpen(true)}
               sx={{
-                borderRadius: '8px', borderColor: '#e4e7ed', color: '#667085',
+                borderRadius: '8px', borderColor: 'divider', color: 'text.secondary',
                 fontSize: '0.78rem', fontWeight: 600, textTransform: 'none',
                 '&:hover': { borderColor: '#f43f6e', color: '#f43f6e', bgcolor: '#fff1f3' },
               }}

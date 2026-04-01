@@ -13,7 +13,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   return (
     <Box
       sx={{
-        bgcolor: '#fff', border: '1px solid #e4e7ed',
+        bgcolor: 'background.paper', border: '1px solid', borderColor: 'divider',
         borderRadius: '12px', px: 2, py: 1.5,
         boxShadow: '0 8px 24px rgba(16,24,40,0.12)',
       }}
@@ -25,7 +25,7 @@ const CustomTooltip = ({ active, payload, label }) => {
         <Box key={p.dataKey} sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.25 }}>
           <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: p.color }} />
           <Typography variant="caption" color="#667085">
-            {p.name}: <strong style={{ color: '#101828' }}>{formatCurrency(p.value)}</strong>
+            {p.name}: <strong style={{ color: 'text.primary' }}>{formatCurrency(p.value)}</strong>
           </Typography>
         </Box>
       ))}
@@ -41,7 +41,7 @@ const MonthlyChart = ({ data }) => {
   return (
     <Card sx={{
       borderRadius: { xs: '12px', md: '16px' },
-      border: '1px solid #e4e7ed',
+      border: '1px solid', borderColor: 'divider',
       boxShadow: '0 1px 3px rgba(16,24,40,0.06)',
       height: '100%',
     }}>
@@ -101,7 +101,7 @@ const MonthlyChart = ({ data }) => {
             </AreaChart>
           </ResponsiveContainer>
         ) : (
-          <Box sx={{ height: isMobile ? 200 : 260, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#98a2b3' }}>
+          <Box sx={{ height: isMobile ? 200 : 260, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'text.secondary' }}>
             <Box sx={{ textAlign: 'center' }}>
               <Typography fontSize="2rem" mb={1}>📊</Typography>
               <Typography variant="body2">No data yet</Typography>

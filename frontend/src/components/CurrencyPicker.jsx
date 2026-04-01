@@ -17,8 +17,8 @@ const CurrencyPicker = () => {
             display: 'flex', alignItems: 'center', gap: 0.75,
             cursor: 'pointer', borderRadius: '10px',
             px: 1.25, py: 0.75,
-            border: '1px solid #e4e7ed',
-            bgcolor: '#fafafa',
+            border: '1px solid', borderColor: 'divider',
+            bgcolor: 'background.default',
             '&:hover': { bgcolor: '#fff1f3', borderColor: '#fda4b5' },
             transition: 'all 0.2s ease',
             userSelect: 'none',
@@ -40,11 +40,11 @@ const CurrencyPicker = () => {
           sx: {
             mt: 1.5, borderRadius: '14px', minWidth: 190,
             boxShadow: '0 16px 48px rgba(16,24,40,0.12)',
-            border: '1px solid #e4e7ed', overflow: 'hidden',
+            border: '1px solid', borderColor: 'divider', overflow: 'hidden',
           },
         }}
       >
-        <Box sx={{ px: 2, py: 1.25, borderBottom: '1px solid #f1f3f6' }}>
+        <Box sx={{ px: 2, py: 1.25, borderBottom: '1px solid', borderColor: 'divider' }}>
           <Typography variant="caption" color="#98a2b3" fontWeight={700}
             sx={{ textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.68rem' }}>
             Select Currency

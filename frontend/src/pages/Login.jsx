@@ -11,6 +11,7 @@ import {
   InputAdornment, Alert, CircularProgress, Tabs, Tab,
 } from '@mui/material';
 import { keyframes } from '@mui/material/styles';
+import ThemeToggle from '../components/ThemeToggle';
 import logofull from '../assets/Dyme logo full.png';
 
 const float1 = keyframes`0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(5deg)}`;
@@ -162,7 +163,7 @@ const Login = () => {
   const onSuccess = () => navigate('/dashboard');
 
   return (
-    <Box sx={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, bgcolor: '#f8f9fb' }}>
+    <Box sx={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, bgcolor: 'background.default' }}>
       
       {/* ─── Back Button ─── */}
       <IconButton 
@@ -181,6 +182,17 @@ const Login = () => {
       >
         <ArrowLeft size={20} />
       </IconButton>
+
+      {/* ─── Theme Toggle ─── */}
+      <Box sx={{ position: 'absolute', top: { xs: 20, md: 32 }, right: { xs: 20, md: 32 }, zIndex: 10 }}>
+        <ThemeToggle sx={{ 
+          bgcolor: { xs: 'transparent', md: 'rgba(255,255,255,0.15)' },
+          border: '1px solid',
+          borderColor: { xs: '#e2e2e2', md: 'rgba(255,255,255,0.25)' },
+          backdropFilter: 'blur(4px)',
+          '&:hover': { bgcolor: { xs: '#f4f4f4', md: 'rgba(255,255,255,0.25)' } }
+        }} />
+      </Box>
 
       {/* ─── Left brand panel ─── */}
       <Box sx={{
@@ -212,7 +224,7 @@ const Login = () => {
       </Box>
 
       {/* ─── Right form panel ─── */}
-      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', p: { xs: 3, md: 6 }, bgcolor: '#fff', minHeight: '100vh' }}>
+      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', p: { xs: 3, md: 6 }, bgcolor: 'background.paper', minHeight: '100vh' }}>
         <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 4, animation: `${slideUp} 0.4s ease` }}>
           <Box component="img" src={logofull} alt="Dyme" sx={{ height: 42, width: 'auto' }} />
         </Box>
@@ -220,53 +232,53 @@ const Login = () => {
         <Box sx={{ width: '100%', maxWidth: 420, animation: `${slideUp} 0.4s ease` }}>
 
           {/* Tab switcher */}
-          <Tabs
-            value={tab} onChange={(_, v) => setTab(v)}
-            sx={{
-              mb: 3, borderRadius: '14px',
-              bgcolor: '#f8f9fb', border: '1px solid #e4e7ed', p: 0.5,
-              '& .MuiTabs-indicator': { display: 'none' },
-              '& .MuiTab-root': {
-                flex: 1, borderRadius: '10px', fontWeight: 600, fontSize: '0.875rem',
-                color: '#667085', transition: 'all 0.2s ease', minHeight: 40,
-              },
-              '& .Mui-selected': {
-                bgcolor: '#fff !important', color: '#f43f6e !important',
-                boxShadow: '0 1px 4px rgba(16,24,40,0.08)',
-              },
-            }}
-          >
+            <Tabs
+              value={tab} onChange={(_, v) => setTab(v)}
+              sx={{
+                mb: 3, borderRadius: '14px',
+                bgcolor: 'background.default', border: '1px solid', borderColor: 'divider', p: 0.5,
+                '& .MuiTabs-indicator': { display: 'none' },
+                '& .MuiTab-root': {
+                  flex: 1, borderRadius: '10px', fontWeight: 600, fontSize: '0.875rem',
+                  color: 'text.secondary', transition: 'all 0.2s ease', minHeight: 40,
+                },
+                '& .Mui-selected': {
+                  bgcolor: 'background.paper', color: 'primary.main',
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+                },
+              }}
+            >
             <Tab icon={<LogIn size={15} />} iconPosition="start" label="Sign in" />
             <Tab icon={<UserPlus size={15} />} iconPosition="start" label="Create account" />
           </Tabs>
 
           {tab === 0 ? (
             <>
-              <Typography variant="h4" fontWeight={800} color="#101828"
+              <Typography variant="h4" fontWeight={800} color="text.primary"
                 fontFamily='"Plus Jakarta Sans", sans-serif'
                 sx={{ letterSpacing: '-0.02em', mb: 0.5, fontSize: { xs: '1.6rem', md: '2.125rem' } }}>
                 Welcome back
               </Typography>
-              <Typography variant="body1" color="#667085" sx={{ mb: 3, fontSize: { xs: '0.875rem', md: '1rem' } }}>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 3, fontSize: { xs: '0.875rem', md: '1rem' } }}>
                 Sign in to your account to continue.
               </Typography>
               <LoginForm onSuccess={onSuccess} />
             </>
           ) : (
             <>
-              <Typography variant="h4" fontWeight={800} color="#101828"
+              <Typography variant="h4" fontWeight={800} color="text.primary"
                 fontFamily='"Plus Jakarta Sans", sans-serif'
                 sx={{ letterSpacing: '-0.02em', mb: 0.5, fontSize: { xs: '1.6rem', md: '2.125rem' } }}>
                 Create your account
               </Typography>
-              <Typography variant="body1" color="#667085" sx={{ mb: 3, fontSize: { xs: '0.875rem', md: '1rem' } }}>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 3, fontSize: { xs: '0.875rem', md: '1rem' } }}>
                 Start tracking your finances for free.
               </Typography>
               <RegisterForm onSuccess={onSuccess} />
             </>
           )}
 
-          <Typography variant="caption" color="#98a2b3" sx={{ display: 'block', textAlign: 'center', mt: 3 }}>
+          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mt: 3 }}>
             By continuing, you agree to our Terms of Service.
           </Typography>
         </Box>

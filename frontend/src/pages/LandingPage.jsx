@@ -7,6 +7,7 @@ import {
   CreditCard, Check, ArrowUpRight, Menu, X,
 } from 'lucide-react';
 import { keyframes } from '@mui/material/styles';
+import ThemeToggle from '../components/ThemeToggle';
 import logofull from '../assets/Dyme logo full.png';
 import logo from '../assets/Dyme logo.png';
 import FooterBackground from '../components/Landing/FooterBackground';
@@ -164,7 +165,7 @@ const sectionHead = {
   fontWeight: 800,
   letterSpacing: '-0.04em',
   lineHeight: 1.08,
-  color: '#0d0d0d',
+  color: 'text.primary',
 };
 
 const overline = {
@@ -214,7 +215,7 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <Box sx={{ bgcolor: '#fafaf87a', overflowX: 'hidden', fontFamily: '"DM Sans", "Plus Jakarta Sans", sans-serif' }}>
+    <Box sx={{ bgcolor: 'background.default', overflowX: 'hidden', fontFamily: '"DM Sans", "Plus Jakarta Sans", sans-serif' }}>
 
       {/* ══════════════════════════════════════
           NAV
@@ -226,7 +227,7 @@ const LandingPage = () => {
           px: { xs: 3, md: 6 }, py: 1.5,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           transition: 'all 0.3s',
-          bgcolor: scrolled ? 'rgba(250,250,248,0.88)' : 'transparent',
+          bgcolor: scrolled ? (theme) => theme.palette.mode === 'dark' ? 'rgba(18, 18, 18, 0.88)' : 'rgba(250,250,248,0.88)' : 'transparent',
           backdropFilter: scrolled ? 'blur(24px)' : 'none',
           borderBottom: scrolled ? '1px solid rgba(0,0,0,0.06)' : 'none',
         }}
@@ -240,7 +241,7 @@ const LandingPage = () => {
             <Typography
               key={label}
               onClick={() => scrollTo(id)}
-              sx={{ fontSize: '0.875rem', fontWeight: 500, color: '#5a5a5a', cursor: 'pointer', transition: 'color 0.2s', '&:hover': { color: '#0d0d0d' } }}
+              sx={{ fontSize: '0.875rem', fontWeight: 500, color: 'text.secondary', cursor: 'pointer', transition: 'color 0.2s', '&:hover': { color: 'text.primary' } }}
             >
               {label}
             </Typography>
@@ -248,8 +249,9 @@ const LandingPage = () => {
         </Box>
 
         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1.5, alignItems: 'center' }}>
-          <Button onClick={() => navigate('/login')} sx={{ color: '#5a5a5a', fontWeight: 600, fontSize: '0.875rem', px: 2, borderRadius: '8px' }}>Login</Button>
-          <Button onClick={() => navigate('/login')} sx={{ bgcolor: '#0d0d0d', color: '#fff', fontWeight: 600, fontSize: '0.875rem', px: 2.5, py: 0.85, borderRadius: '9px', '&:hover': { bgcolor: '#1a1a1a', transform: 'translateY(-1px)', boxShadow: '0 6px 20px rgba(0,0,0,0.15)' }, transition: 'all 0.2s' }}>Join free</Button>
+          <ThemeToggle />
+          <Button onClick={() => navigate('/login')} sx={{ color: 'text.secondary', fontWeight: 600, fontSize: '0.875rem', px: 2, borderRadius: '8px' }}>Login</Button>
+          <Button onClick={() => navigate('/login')} sx={{ bgcolor: 'text.primary', color: 'background.paper', fontWeight: 600, fontSize: '0.875rem', px: 2.5, py: 0.85, borderRadius: '9px', '&:hover': { bgcolor: '#1a1a1a', transform: 'translateY(-1px)', boxShadow: '0 6px 20px rgba(0,0,0,0.15)' }, transition: 'all 0.2s' }}>Join free</Button>
         </Box>
 
         {/* Mobile Nav Icon */}
@@ -266,7 +268,7 @@ const LandingPage = () => {
         onClick={() => setMobileMenuOpen(false)}
         sx={{
           position: 'fixed', inset: 0, zIndex: 9998,
-          bgcolor: 'rgba(250,250,248,0.5)',
+          bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(18, 18, 18, 0.5)' : 'rgba(250,250,248,0.5)',
           backdropFilter: mobileMenuOpen ? 'blur(12px)' : 'none',
           WebkitBackdropFilter: mobileMenuOpen ? 'blur(12px)' : 'none',
           opacity: mobileMenuOpen ? 1 : 0,
@@ -283,7 +285,7 @@ const LandingPage = () => {
           top: 0,
           left: 0,
           right: 0,
-          bgcolor: 'rgba(250,250,248,0.85)',
+          bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(18, 18, 18, 0.85)' : 'rgba(250,250,248,0.85)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
           zIndex: 9999,
@@ -303,8 +305,11 @@ const LandingPage = () => {
           <Box onClick={() => setMobileMenuOpen(false)} sx={{ cursor: 'pointer' }}>
             <DymeLogo height={50} priority="high" />
           </Box>
-          <Box onClick={() => setMobileMenuOpen(false)} sx={{ cursor: 'pointer', p: 1, transform: mobileMenuOpen ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.4s ease 0.1s' }}>
-            <X size={28} color="#0d0d0d" />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <ThemeToggle />
+            <Box onClick={() => setMobileMenuOpen(false)} sx={{ cursor: 'pointer', p: 1, transform: mobileMenuOpen ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.4s ease 0.1s' }}>
+              <X size={28} color="#0d0d0d" />
+            </Box>
           </Box>
         </Box>
 
@@ -317,7 +322,7 @@ const LandingPage = () => {
                 const id = label.toLowerCase();
                 scrollTo(id);
               }}
-              sx={{ fontSize: '1.8rem', fontWeight: 700, color: '#0d0d0d', cursor: 'pointer', letterSpacing: '-0.02em', '&:hover': { color: '#f43f6e' } }}
+              sx={{ fontSize: '1.8rem', fontWeight: 700, color: 'text.primary', cursor: 'pointer', letterSpacing: '-0.02em', '&:hover': { color: '#f43f6e' } }}
             >
               {label}
             </Typography>
@@ -328,14 +333,14 @@ const LandingPage = () => {
           <Button
             fullWidth
             onClick={() => { setMobileMenuOpen(false); navigate('/login'); }}
-            sx={{ color: '#0d0d0d', border: '1.5px solid rgba(0,0,0,0.12)', fontWeight: 700, fontSize: '0.95rem', py: 1.5, borderRadius: '12px' }}
+            sx={{ color: 'text.primary', border: '1.5px solid', borderColor: 'divider', fontWeight: 700, fontSize: '0.95rem', py: 1.5, borderRadius: '12px' }}
           >
             Login
           </Button>
           <Button
             fullWidth
             onClick={() => { setMobileMenuOpen(false); navigate('/login'); }}
-            sx={{ bgcolor: '#0d0d0d', color: '#fff', fontWeight: 700, fontSize: '0.95rem', py: 1.5, borderRadius: '12px', '&:hover': { bgcolor: '#1a1a1a' } }}
+            sx={{ bgcolor: 'text.primary', color: 'background.paper', fontWeight: 700, fontSize: '0.95rem', py: 1.5, borderRadius: '12px', '&:hover': { bgcolor: '#1a1a1a' } }}
           >
             Sign up
           </Button>
@@ -346,7 +351,7 @@ const LandingPage = () => {
           HERO
       ══════════════════════════════════════ */}
       <Box sx={{ minHeight: '100vh', pt: '90px', pb: 12, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
-        <Box sx={{ position: 'absolute', inset: 0, zIndex: 0, background: 'radial-gradient(ellipse 70% 60% at 100% 20%, rgba(244,63,110,0.10) 0%, transparent 70%), radial-gradient(ellipse 60% 50% at 10% 80%, rgba(16,185,129,0.07) 0%, transparent 70%), #fafaf8' }} />
+        <Box sx={{ position: 'absolute', inset: 0, zIndex: 0, background: (theme) => `radial-gradient(ellipse 70% 60% at 100% 20%, rgba(244,63,110,0.10) 0%, transparent 70%), radial-gradient(ellipse 60% 50% at 10% 80%, rgba(16,185,129,0.07) 0%, transparent 70%), ${theme.palette.mode === 'dark' ? '#121212' : '#fafaf8'}` }} />
         <Box sx={{ position: 'absolute', top: '-5%', right: '-8%', width: 600, height: 600, background: 'radial-gradient(circle, rgba(244,63,110,0.13) 0%, transparent 70%)', animation: `${blobDrift} 14s ease-in-out infinite`, pointerEvents: 'none', zIndex: 0 }} />
         <Box sx={{ position: 'absolute', bottom: '5%', left: '-5%', width: 400, height: 400, background: 'radial-gradient(circle, rgba(16,185,129,0.09) 0%, transparent 70%)', animation: `${blobDrift} 18s ease-in-out infinite 3s`, pointerEvents: 'none', zIndex: 0 }} />
 
@@ -363,15 +368,15 @@ const LandingPage = () => {
                 <Box component="span" sx={{ display: { xs: 'block', sm: 'inline' } }}>solutions.</Box>
               </Typography>
 
-              <Typography sx={{ fontSize: { xs: '1rem', md: '1.1rem' }, color: '#6b6b6b', lineHeight: 1.7, maxWidth: 440, mb: 5, animation: `${fadeSlideRight} 0.55s ease 0.18s both` }}>
+              <Typography sx={{ fontSize: { xs: '1rem', md: '1.1rem' }, color: 'text.secondary', lineHeight: 1.7, maxWidth: 440, mb: 5, animation: `${fadeSlideRight} 0.55s ease 0.18s both` }}>
                 Automatically track your expenses, set budgets, and achieve your financial goals — beautifully.
               </Typography>
 
               <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 5, animation: `${fadeSlideRight} 0.55s ease 0.26s both` }}>
-                <Button onClick={() => navigate('/login')} sx={{ bgcolor: '#0d0d0d', color: '#fff', fontWeight: 700, fontSize: '0.95rem', px: 3.5, py: 1.4, borderRadius: '12px', display: 'flex', alignItems: 'center', gap: 1, boxShadow: '0 4px 20px rgba(0,0,0,0.18)', '&:hover': { bgcolor: '#1f1f1f', transform: 'translateY(-2px)', boxShadow: '0 10px 30px rgba(0,0,0,0.22)' }, transition: 'all 0.22s' }}>
+                <Button onClick={() => navigate('/login')} sx={{ bgcolor: 'text.primary', color: 'background.paper', fontWeight: 700, fontSize: '0.95rem', px: 3.5, py: 1.4, borderRadius: '12px', display: 'flex', alignItems: 'center', gap: 1, boxShadow: '0 4px 20px rgba(0,0,0,0.18)', '&:hover': { bgcolor: '#1f1f1f', transform: 'translateY(-2px)', boxShadow: '0 10px 30px rgba(0,0,0,0.22)' }, transition: 'all 0.22s' }}>
                   Create Account <ArrowRight size={16} />
                 </Button>
-                <Button onClick={() => navigate('/login')} sx={{ color: '#0d0d0d', fontWeight: 600, fontSize: '0.95rem', px: 3.5, py: 1.4, borderRadius: '12px', border: '1.5px solid rgba(0,0,0,0.12)', display: 'flex', alignItems: 'center', gap: 1, '&:hover': { borderColor: '#f43f6e', color: '#f43f6e', bgcolor: 'rgba(244,63,110,0.04)' }, transition: 'all 0.2s' }}>
+                <Button onClick={() => navigate('/login')} sx={{ color: 'text.primary', fontWeight: 600, fontSize: '0.95rem', px: 3.5, py: 1.4, borderRadius: '12px', border: '1.5px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', gap: 1, '&:hover': { borderColor: '#f43f6e', color: '#f43f6e', bgcolor: 'rgba(244,63,110,0.04)' }, transition: 'all 0.2s' }}>
                   Contact Sales <ArrowUpRight size={15} />
                 </Button>
               </Box>
@@ -379,14 +384,14 @@ const LandingPage = () => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, animation: `${fadeSlideRight} 0.55s ease 0.34s both` }}>
                 <Box sx={{ display: 'flex' }}>
                   {PROOF_FACES.map((src, i) => (
-                    <Box key={i} sx={{ width: 30, height: 30, borderRadius: '50%', border: '2.5px solid #fafaf8', ml: i > 0 ? '-8px' : 0, zIndex: 5 - i, overflow: 'hidden', flexShrink: 0 }}>
+                    <Box key={i} sx={{ width: 30, height: 30, borderRadius: '50%', border: (theme) => `2.5px solid ${theme.palette.mode === 'dark' ? '#121212' : '#fafaf8'}`, ml: i > 0 ? '-8px' : 0, zIndex: 5 - i, overflow: 'hidden', flexShrink: 0 }}>
                       <img src={src} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </Box>
                   ))}
                 </Box>
                 <Box>
-                  <Typography sx={{ fontSize: '0.85rem', fontWeight: 700, color: '#0d0d0d' }}>4.8 ★ on the App Store</Typography>
-                  <Typography sx={{ fontSize: '0.75rem', color: '#888' }}>Trusted by 8,400+ users worldwide</Typography>
+                  <Typography sx={{ fontSize: '0.85rem', fontWeight: 700, color: 'text.primary' }}>4.8 ★ on the App Store</Typography>
+                  <Typography sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>Trusted by 8,400+ users worldwide</Typography>
                 </Box>
               </Box>
             </Box>
@@ -394,7 +399,7 @@ const LandingPage = () => {
             {/* Right — floating cards */}
             <Box sx={{ flex: '1 1 0', position: 'relative', height: { xs: 420, lg: 540 }, display: { xs: 'none', md: 'block' }, mt: { xs: 6, lg: 0 } }}>
               <Box sx={{ position: 'absolute', top: '5%', left: '12%', width: 260, zIndex: 3, animation: `${floatA} 6s ease-in-out infinite` }}>
-                <Box sx={{ bgcolor: '#fff', borderRadius: '24px', boxShadow: '0 24px 64px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.05)', overflow: 'hidden' }}>
+                <Box sx={{ bgcolor: 'background.paper', borderRadius: '24px', boxShadow: '0 24px 64px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.05)', overflow: 'hidden' }}>
                   <Box sx={{ bgcolor: '#f43f6e', px: 2.5, py: 2, color: '#fff' }}>
                     <Typography sx={{ fontSize: '0.7rem', opacity: 0.8, fontWeight: 500, mb: 0.5 }}>Total Savings This Year</Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -415,16 +420,16 @@ const LandingPage = () => {
                     </Box>
                   </Box>
                   <Box sx={{ p: 2 }}>
-                    <Typography sx={{ fontSize: '0.65rem', color: '#999', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', mb: 1 }}>Monthly Income</Typography>
-                    <Typography sx={{ fontSize: '1.4rem', fontWeight: 800, color: '#0d0d0d', fontFamily: '"Syne", sans-serif', letterSpacing: '-0.03em', mb: 0.5 }}>$5,200.00</Typography>
+                    <Typography sx={{ fontSize: '0.65rem', color: 'text.secondary', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', mb: 1 }}>Monthly Income</Typography>
+                    <Typography sx={{ fontSize: '1.4rem', fontWeight: 800, color: 'text.primary', fontFamily: '"Syne", sans-serif', letterSpacing: '-0.03em', mb: 0.5 }}>$5,200.00</Typography>
                     <Typography sx={{ fontSize: '0.7rem', color: '#10b981', fontWeight: 600 }}>$840 under budget this month</Typography>
                   </Box>
                 </Box>
               </Box>
 
               <Box sx={{ position: 'absolute', top: '38%', left: '2%', width: 200, zIndex: 4, animation: `${floatB} 7s ease-in-out infinite 1s` }}>
-                <Box sx={{ bgcolor: '#fff', borderRadius: '18px', boxShadow: '0 16px 48px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04)', p: 2 }}>
-                  <Typography sx={{ fontSize: '0.65rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', mb: 1.5 }}>Spending This Month</Typography>
+                <Box sx={{ bgcolor: 'background.paper', borderRadius: '18px', boxShadow: '0 16px 48px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04)', p: 2 }}>
+                  <Typography sx={{ fontSize: '0.65rem', color: 'text.secondary', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', mb: 1.5 }}>Spending This Month</Typography>
                   {[
                     { label: 'Food & Dining', pct: 68, color: '#f43f6e', amount: '$354' },
                     { label: 'Shopping', pct: 42, color: '#7c3aed', amount: '$218' },
@@ -433,7 +438,7 @@ const LandingPage = () => {
                     <Box key={label} sx={{ mb: 1.25 }}>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.4 }}>
                         <Typography sx={{ fontSize: '0.68rem', color: '#444', fontWeight: 500 }}>{label}</Typography>
-                        <Typography sx={{ fontSize: '0.68rem', color: '#888', fontWeight: 500 }}>{amount}</Typography>
+                        <Typography sx={{ fontSize: '0.68rem', color: 'text.secondary', fontWeight: 500 }}>{amount}</Typography>
                       </Box>
                       <Box sx={{ height: 5, bgcolor: '#f3f3f1', borderRadius: '10px', overflow: 'hidden' }}>
                         <Box sx={{ height: '100%', width: `${pct}%`, bgcolor: color, borderRadius: '10px' }} />
@@ -445,8 +450,8 @@ const LandingPage = () => {
               </Box>
 
               <Box sx={{ position: 'absolute', top: '28%', right: '2%', width: 218, zIndex: 5, animation: `${floatC} 5s ease-in-out infinite 0.5s` }}>
-                <Box sx={{ bgcolor: '#fff', borderRadius: '18px', boxShadow: '0 16px 48px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04)', p: 2 }}>
-                  <Typography sx={{ fontSize: '0.8rem', fontWeight: 700, color: '#0d0d0d', mb: 1.5 }}>Recent Transactions</Typography>
+                <Box sx={{ bgcolor: 'background.paper', borderRadius: '18px', boxShadow: '0 16px 48px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04)', p: 2 }}>
+                  <Typography sx={{ fontSize: '0.8rem', fontWeight: 700, color: 'text.primary', mb: 1.5 }}>Recent Transactions</Typography>
                   {[
                     { name: 'Whole Foods Market', card: 'Debit •••4821', amount: '-$62.40', color: '#f43f6e', bg: '#fff1f3', initials: 'WF' },
                     { name: 'Uber', card: 'Credit •••9034', amount: '-$14.80', color: '#3b82f6', bg: '#dbeafe', initials: 'UB' },
@@ -454,7 +459,7 @@ const LandingPage = () => {
                     <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: i === 0 ? 1.25 : 0, pb: i === 0 ? 1.25 : 0, borderBottom: i === 0 ? '1px solid #f3f3f1' : 'none' }}>
                       <Box sx={{ width: 32, height: 32, borderRadius: '9px', bgcolor: tx.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.6rem', fontWeight: 700, color: tx.color, flexShrink: 0 }}>{tx.initials}</Box>
                       <Box sx={{ flex: 1, minWidth: 0 }}>
-                        <Typography sx={{ fontSize: '0.72rem', fontWeight: 600, color: '#0d0d0d', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{tx.name}</Typography>
+                        <Typography sx={{ fontSize: '0.72rem', fontWeight: 600, color: 'text.primary', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{tx.name}</Typography>
                         <Typography sx={{ fontSize: '0.65rem', color: '#aaa' }}>{tx.card}</Typography>
                       </Box>
                       <Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#f43f6e', flexShrink: 0 }}>{tx.amount}</Typography>
@@ -472,7 +477,7 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           WHY US
       ══════════════════════════════════════ */}
-      <Box id="why-us" sx={{ py: { xs: 10, md: 10 }, bgcolor: '#fff' }}>
+      <Box id="why-us" sx={{ py: { xs: 10, md: 10 }, bgcolor: 'background.paper' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 9 }}>
             <Typography sx={{ ...overline }}>Why Us</Typography>
@@ -487,8 +492,8 @@ const LandingPage = () => {
               <Typography sx={{ fontSize: '0.9rem', color: '#7a2a3a', fontWeight: 500, mt: 2, lineHeight: 1.5 }}>Active users tracking<br />their finances daily</Typography>
             </Box>
 
-            <Box sx={{ flex: '2 1 340px', minHeight: 220, bgcolor: '#fafaf8', borderRadius: '20px', border: '1px solid #ebebea', p: 4, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', transition: 'all 0.25s', '&:hover': { transform: 'translateY(-3px)', boxShadow: '0 12px 36px rgba(0,0,0,0.06)' } }}>
-              <Typography sx={{ fontSize: '1.15rem', fontWeight: 700, color: '#0d0d0d', maxWidth: 300, lineHeight: 1.45 }}>
+            <Box sx={{ flex: '2 1 340px', minHeight: 220, bgcolor: 'background.default', borderRadius: '20px', border: '1px solid', borderColor: 'divider', p: 4, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', transition: 'all 0.25s', '&:hover': { transform: 'translateY(-3px)', boxShadow: '0 12px 36px rgba(0,0,0,0.06)' } }}>
+              <Typography sx={{ fontSize: '1.15rem', fontWeight: 700, color: 'text.primary', maxWidth: 300, lineHeight: 1.45 }}>
                 Instant access to your balance — no waiting, no lock-in
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 3 }}>
@@ -500,17 +505,17 @@ const LandingPage = () => {
                   <Box sx={{ position: 'absolute', left: '50%', top: '50%', transform: 'translateY(-50%)', width: 7, height: 7, bgcolor: '#f43f6e', borderRadius: '50%', opacity: 0.45 }} />
                   <Box sx={{ position: 'absolute', left: '78%', top: '50%', transform: 'translateY(-50%)', width: 7, height: 7, bgcolor: '#f43f6e', borderRadius: '50%', opacity: 0.2 }} />
                 </Box>
-                <Box sx={{ width: 54, height: 54, borderRadius: '16px', bgcolor: '#0d0d0d', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}>🏦</Box>
+                <Box sx={{ width: 54, height: 54, borderRadius: '16px', bgcolor: 'text.primary', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}>🏦</Box>
               </Box>
             </Box>
           </Box>
 
-          <Box sx={{ bgcolor: '#fafaf8', borderRadius: '20px', border: '1px solid #ebebea', p: 4, display: 'flex', gap: 4, flexWrap: 'wrap', alignItems: 'center', transition: 'all 0.25s', '&:hover': { transform: 'translateY(-3px)', boxShadow: '0 12px 36px rgba(0,0,0,0.06)' } }}>
+          <Box sx={{ bgcolor: 'background.default', borderRadius: '20px', border: '1px solid', borderColor: 'divider', p: 4, display: 'flex', gap: 4, flexWrap: 'wrap', alignItems: 'center', transition: 'all 0.25s', '&:hover': { transform: 'translateY(-3px)', boxShadow: '0 12px 36px rgba(0,0,0,0.06)' } }}>
             <Box sx={{ flex: '0 0 auto', maxWidth: 260 }}>
-              <Typography sx={{ fontSize: '1.4rem', fontWeight: 700, color: '#0d0d0d', mb: 1.5, lineHeight: 1.35 }}>
+              <Typography sx={{ fontSize: '1.4rem', fontWeight: 700, color: 'text.primary', mb: 1.5, lineHeight: 1.35 }}>
                 Your savings grow,<br />automatically.
               </Typography>
-              <Typography sx={{ fontSize: '0.875rem', color: '#999', lineHeight: 1.75 }}>
+              <Typography sx={{ fontSize: '0.875rem', color: 'text.secondary', lineHeight: 1.75 }}>
                 Users who stick to their budgets save an average of $3,200 in their first year.
               </Typography>
             </Box>
@@ -518,7 +523,7 @@ const LandingPage = () => {
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 1.5 }}>
                 <Box>
                   <Typography sx={{ fontSize: '0.65rem', color: '#bbb', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Avg. Annual Savings</Typography>
-                  <Typography sx={{ fontFamily: '"Syne", sans-serif', fontSize: '1.6rem', fontWeight: 800, color: '#0d0d0d', letterSpacing: '-0.04em' }}>$3,200</Typography>
+                  <Typography sx={{ fontFamily: '"Syne", sans-serif', fontSize: '1.6rem', fontWeight: 800, color: 'text.primary', letterSpacing: '-0.04em' }}>$3,200</Typography>
                 </Box>
                 <Typography sx={{ fontSize: '0.72rem', color: '#f43f6e', fontWeight: 600, bgcolor: 'rgba(244,63,110,0.07)', px: 1.5, py: 0.5, borderRadius: '100px', border: '1px solid rgba(244,63,110,0.15)' }}>
                   ↑ per user / yr
@@ -549,7 +554,7 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           FEATURES
       ══════════════════════════════════════ */}
-      <Box id="features" sx={{ py: { xs: 10, md: 10 }, bgcolor: '#fafaf8' }}>
+      <Box id="features" sx={{ py: { xs: 10, md: 10 }, bgcolor: 'background.default' }}>
         <Container maxWidth="lg">
           <Box sx={{ display: 'flex', gap: { xs: 4, md: 10 }, flexWrap: 'wrap', mb: 10, alignItems: 'flex-start' }}>
             <Box sx={{ flex: '0 0 auto', maxWidth: 480 }}>
@@ -559,13 +564,13 @@ const LandingPage = () => {
               </Typography>
             </Box>
             <Box sx={{ flex: '1 1 260px', pt: { md: 1.5 } }}>
-              <Typography sx={{ fontSize: '1rem', color: '#888', lineHeight: 1.8, maxWidth: 360 }}>
+              <Typography sx={{ fontSize: '1rem', color: 'text.secondary', lineHeight: 1.8, maxWidth: 360 }}>
                 Dyme is built around simplicity. We cut the bloat, kept the power, and made it actually pleasant to use every day.
               </Typography>
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', border: '1px solid #e8e8e4', borderRadius: '20px', overflow: 'hidden' }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', border: '1px solid', borderColor: 'divider', borderRadius: '20px', overflow: 'hidden' }}>
             {FEATURES.map((f, i) => {
               const col = i % 3;
               const row = Math.floor(i / 3);
@@ -579,9 +584,9 @@ const LandingPage = () => {
                     width: { xs: '100%', sm: '50%', md: '33.333%' },
                     flexShrink: 0,
                     p: { xs: 3, md: 4 },
-                    borderBottom: isLastRow ? 'none' : '1px solid #e8e8e4',
-                    borderRight: { md: isLastCol ? 'none' : '1px solid #e8e8e4' },
-                    bgcolor: '#fff',
+                    borderBottom: '1px solid', borderColor: 'divider',
+                    borderRight: { md: '1px solid', lg: 'none' }, borderColor: 'divider',
+                    bgcolor: 'background.paper',
                     transition: 'all 0.22s',
                     '&:hover': { bgcolor: '#fff8f9' },
                     cursor: 'default',
@@ -591,8 +596,8 @@ const LandingPage = () => {
                   <Box sx={{ mb: 3, width: 44, height: 44, borderRadius: '12px', border: '1.5px solid rgba(244,63,110,0.2)', bgcolor: 'rgba(244,63,110,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f43f6e' }}>
                     <f.icon size={20} strokeWidth={1.5} />
                   </Box>
-                  <Typography sx={{ fontFamily: '"Syne", sans-serif', fontWeight: 700, fontSize: '0.975rem', color: '#0d0d0d', mb: 1.25 }}>{f.title}</Typography>
-                  <Typography sx={{ fontSize: '0.85rem', color: '#999', lineHeight: 1.75 }}>{f.desc}</Typography>
+                  <Typography sx={{ fontFamily: '"Syne", sans-serif', fontWeight: 700, fontSize: '0.975rem', color: 'text.primary', mb: 1.25 }}>{f.title}</Typography>
+                  <Typography sx={{ fontSize: '0.85rem', color: 'text.secondary', lineHeight: 1.75 }}>{f.desc}</Typography>
                   <Box sx={{ mt: 2.5 }}><ArrowUpRight size={15} color="rgba(244,63,110,0.3)" /></Box>
                 </Box>
               );
@@ -604,7 +609,7 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           PRICING
       ══════════════════════════════════════ */}
-      <Box id="pricing" sx={{ py: { xs: 10, md: 10 }, bgcolor: '#fff' }}>
+      <Box id="pricing" sx={{ py: { xs: 10, md: 10 }, bgcolor: 'background.paper' }}>
         <Container maxWidth="lg">
           <Box sx={{ mb: 9 }}>
             <Typography sx={{ ...overline }}>Pricing</Typography>
@@ -615,7 +620,7 @@ const LandingPage = () => {
 
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
             {PRICING.map((plan, i) => (
-              <Box key={i} sx={{ flex: '1 1 240px', maxWidth: 340, position: 'relative', bgcolor: plan.highlight ? '#0d0d0d' : '#fafaf8', borderRadius: '20px', border: plan.highlight ? '1px solid #222' : '1px solid #ebebea', p: 4, transition: 'transform 0.25s', '&:hover': { transform: 'translateY(-4px)' } }}>
+              <Box key={i} sx={{ flex: '1 1 240px', maxWidth: 340, position: 'relative', bgcolor: (theme) => theme.palette.mode === 'dark' ? (plan.highlight ? '#2c2c2c' : '#1e1e1e') : (plan.highlight ? '#0d0d0d' : '#fafaf8'), borderRadius: '20px', border: (theme) => theme.palette.mode === 'dark' ? (plan.highlight ? '1px solid #444' : '1px solid #2c2c2c') : (plan.highlight ? '1px solid #222' : '1px solid #ebebea'), p: 4, transition: 'transform 0.25s', '&:hover': { transform: 'translateY(-4px)' } }}>
                 {plan.badge && (
                   <Box sx={{ position: 'absolute', top: 20, right: 20, bgcolor: '#f43f6e', color: '#fff', borderRadius: '100px', px: 1.5, py: 0.4, fontSize: '0.63rem', fontWeight: 700, boxShadow: '0 3px 10px rgba(244,63,110,0.3)' }}>{plan.badge}</Box>
                 )}
@@ -635,7 +640,7 @@ const LandingPage = () => {
                     </Box>
                   ))}
                 </Box>
-                <Button fullWidth onClick={() => navigate('/login')} sx={{ borderRadius: '10px', py: 1.3, fontWeight: 600, fontSize: '0.875rem', ...(plan.highlight ? { background: 'linear-gradient(135deg, #f43f6e, #ff6b8a)', color: '#fff', boxShadow: '0 4px 18px rgba(244,63,110,0.35)', '&:hover': { boxShadow: '0 8px 26px rgba(244,63,110,0.45)', transform: 'translateY(-1px)' } } : { bgcolor: '#0d0d0d', color: '#fff', '&:hover': { bgcolor: '#222' } }), transition: 'all 0.2s' }}>{plan.cta}</Button>
+                <Button fullWidth onClick={() => navigate('/login')} sx={{ borderRadius: '10px', py: 1.3, fontWeight: 600, fontSize: '0.875rem', ...(plan.highlight ? { background: 'linear-gradient(135deg, #f43f6e, #ff6b8a)', color: 'background.paper', boxShadow: '0 4px 18px rgba(244,63,110,0.35)', '&:hover': { boxShadow: '0 8px 26px rgba(244,63,110,0.45)', transform: 'translateY(-1px)' } } : { bgcolor: 'text.primary', color: 'background.paper', '&:hover': { bgcolor: '#222' } }), transition: 'all 0.2s' }}>{plan.cta}</Button>
               </Box>
             ))}
           </Box>
@@ -649,7 +654,7 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           TESTIMONIALS
       ══════════════════════════════════════ */}
-      <Box sx={{ py: { xs: 10, md: 16 }, bgcolor: '#fafaf8' }}>
+      <Box sx={{ py: { xs: 10, md: 16 }, bgcolor: 'background.default' }}>
         <Container maxWidth="lg">
           <Box sx={{ display: 'flex', gap: { xs: 4, md: 10 }, flexWrap: 'wrap', mb: 10, alignItems: 'flex-end' }}>
             <Box sx={{ flex: '0 0 auto' }}>
@@ -663,7 +668,7 @@ const LandingPage = () => {
 
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
             {TESTIMONIALS.map((t, i) => (
-              <Box key={i} sx={{ flex: '1 1 260px', maxWidth: 380, bgcolor: '#fff', borderRadius: '20px', border: '1px solid #ebebea', p: 4, transition: 'all 0.25s', '&:hover': { transform: 'translateY(-3px)', boxShadow: '0 12px 40px rgba(244,63,110,0.07)', borderColor: 'rgba(244,63,110,0.15)' } }}>
+              <Box key={i} sx={{ flex: '1 1 260px', maxWidth: 380, bgcolor: 'background.paper', borderRadius: '20px', border: '1px solid', borderColor: 'divider', p: 4, transition: 'all 0.25s', '&:hover': { transform: 'translateY(-3px)', boxShadow: '0 12px 40px rgba(244,63,110,0.07)', borderColor: 'rgba(244,63,110,0.15)' } }}>
                 <Typography sx={{ fontSize: '2.8rem', color: 'rgba(244,63,110,0.15)', fontFamily: 'Georgia, serif', lineHeight: 1, mb: 2, mt: -0.5 }}>"</Typography>
                 <Typography sx={{ fontSize: '0.925rem', color: '#555', lineHeight: 1.8, mb: 4 }}>{t.text}</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, pt: 3, borderTop: '1px solid #f3f3f1' }}>
@@ -671,7 +676,7 @@ const LandingPage = () => {
                     <img src={t.photo} alt={t.name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </Box>
                   <Box>
-                    <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: '#0d0d0d' }}>{t.name}</Typography>
+                    <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: 'text.primary' }}>{t.name}</Typography>
                     <Typography sx={{ fontSize: '0.75rem', color: '#c0c0b8' }}>{t.role}</Typography>
                   </Box>
                 </Box>
@@ -684,7 +689,7 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           FINAL CTA
       ══════════════════════════════════════ */}
-      <Box sx={{ py: { xs: 8, md: 12 }, px: 3, bgcolor: '#fff' }}>
+      <Box sx={{ py: { xs: 8, md: 12 }, px: 3, bgcolor: 'background.paper' }}>
         <Container maxWidth="md">
           <Box sx={{ borderRadius: '35px', overflow: 'hidden', position: 'relative', background: 'linear-gradient(140deg, #0d0d0d 0%, #1a0a10 50%, #200812 100%)', border: '1px solid #2a1018', p: { xs: 6, md: 10 } }}>
             <Box sx={{ position: 'absolute', top: '-20%', right: '-5%', width: 320, height: 320, borderRadius: '50%', background: 'radial-gradient(circle, rgba(0, 0, 0, 0.18) 0%, transparent 65%)', pointerEvents: 'none' }} />

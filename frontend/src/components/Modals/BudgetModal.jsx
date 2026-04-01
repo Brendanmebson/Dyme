@@ -100,7 +100,7 @@ const BudgetModal = ({ isOpen, onClose }) => {
       PaperProps={{
         sx: {
           borderRadius: '20px', boxShadow: '0 24px 64px rgba(16,24,40,0.18)',
-          border: '1px solid #e4e7ed', overflow: 'hidden'
+          border: '1px solid', borderColor: 'divider', overflow: 'hidden'
         },
       }}
     >
@@ -113,7 +113,7 @@ const BudgetModal = ({ isOpen, onClose }) => {
             {step === 1 ? 'Set a spending limit for a category' : `Select existing ${form.category} transactions to count towards this budget`}
           </Typography>
         </Box>
-        <IconButton onClick={handleClose} size="small" sx={{ borderRadius: '10px', '&:hover': { bgcolor: '#f8f9fb' } }}>
+        <IconButton onClick={handleClose} size="small" sx={{ borderRadius: '10px', '&:hover': { bgcolor: 'background.default' } }}>
           <X size={18} />
         </IconButton>
       </DialogTitle>
@@ -137,7 +137,7 @@ const BudgetModal = ({ isOpen, onClose }) => {
               value={form.limit}
               onChange={(e) => setForm({ ...form, limit: e.target.value })}
               required sx={{ mb: 2.5 }}
-              InputProps={{ startAdornment: <Typography sx={{ mr: 0.5, color: '#98a2b3' }}>{currency.symbol}</Typography> }}
+              InputProps={{ startAdornment: <Typography sx={{ mr: 0.5, color: 'text.secondary' }}>{currency.symbol}</Typography> }}
               helperText={`Total allowed spending in ${currency.code}`}
             />
 
@@ -147,14 +147,14 @@ const BudgetModal = ({ isOpen, onClose }) => {
                 value={form.start_date}
                 onChange={(e) => setForm({ ...form, start_date: e.target.value })}
                 required InputLabelProps={{ shrink: true }}
-                InputProps={{ startAdornment: <Calendar size={16} style={{ marginRight: 8, color: '#98a2b3' }} /> }}
+                InputProps={{ startAdornment: <Calendar size={16} style={{ marginRight: 8, color: 'text.secondary' }} /> }}
               />
               <TextField
                 fullWidth label="End Date" type="date"
                 value={form.end_date}
                 onChange={(e) => setForm({ ...form, end_date: e.target.value })}
                 required InputLabelProps={{ shrink: true }}
-                InputProps={{ startAdornment: <Calendar size={16} style={{ marginRight: 8, color: '#98a2b3' }} /> }}
+                InputProps={{ startAdornment: <Calendar size={16} style={{ marginRight: 8, color: 'text.secondary' }} /> }}
               />
             </Box>
 
@@ -183,14 +183,14 @@ const BudgetModal = ({ isOpen, onClose }) => {
                   Choose transactions to include in current spending:
                 </Typography>
                 <List sx={{ 
-                  maxHeight: 300, overflow: 'auto', bgcolor: '#f8f9fb', borderRadius: '12px', 
-                  border: '1px solid #e4e7ed', mb: 2 
+                  maxHeight: 300, overflow: 'auto', bgcolor: 'background.default', borderRadius: '12px', 
+                  border: '1px solid', borderColor: 'divider', mb: 2 
                 }}>
                   {historicalTransactions.map((tx) => (
                     <React.Fragment key={tx.id}>
                       <ListItem 
                         button onClick={() => toggleTx(tx.id)}
-                        sx={{ py: 1, px: 2, '&:hover': { bgcolor: '#fff' } }}
+                        sx={{ py: 1, px: 2, '&:hover': { bgcolor: 'background.paper' } }}
                       >
                         <Checkbox 
                           checked={form.selected_transaction_ids.includes(tx.id)} 
@@ -206,7 +206,7 @@ const BudgetModal = ({ isOpen, onClose }) => {
                           {formatCurrency(tx.amount)}
                         </Typography>
                       </ListItem>
-                      <Divider component="li" sx={{ borderColor: '#e4e7ed', opacity: 0.5 }} />
+                      <Divider component="li" sx={{ borderColor: 'divider', opacity: 0.5 }} />
                     </React.Fragment>
                   ))}
                 </List>
@@ -223,7 +223,7 @@ const BudgetModal = ({ isOpen, onClose }) => {
         {step === 1 ? (
           <>
             <Button onClick={handleClose} variant="outlined"
-              sx={{ flex: 1, borderRadius: '12px', py: 1.25, borderColor: '#e4e7ed', color: '#667085' }}>
+              sx={{ flex: 1, borderRadius: '12px', py: 1.25, borderColor: 'divider', color: 'text.secondary' }}>
               Cancel
             </Button>
             <Button 
@@ -241,7 +241,7 @@ const BudgetModal = ({ isOpen, onClose }) => {
           <>
             <Button 
               onClick={() => setStep(1)} variant="outlined" startIcon={<ChevronLeft size={16} />}
-              sx={{ flex: 1, borderRadius: '12px', py: 1.25, borderColor: '#e4e7ed', color: '#667085' }}>
+              sx={{ flex: 1, borderRadius: '12px', py: 1.25, borderColor: 'divider', color: 'text.secondary' }}>
               Back
             </Button>
             <Button onClick={handleSubmit} variant="contained"

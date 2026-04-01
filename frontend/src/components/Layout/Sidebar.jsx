@@ -30,8 +30,8 @@ const navigation = [
 ];
 
 const bottomNav = [
-  { name: 'Profile', href: '/dashboard/profile', icon: User, color: '#667085' },
-  { name: 'Settings', href: '/dashboard/settings', icon: Settings, color: '#667085' },
+  { name: 'Profile', href: '/dashboard/profile', icon: User, color: 'text.secondary' },
+  { name: 'Settings', href: '/dashboard/settings', icon: Settings, color: 'text.secondary' },
 ];
 
 
@@ -100,7 +100,7 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
 
         return isCollapsed ? (
           <Tooltip title={item.name} placement="right" key={item.name}
-            componentsProps={{ tooltip: { sx: { bgcolor: '#101828', fontSize: '0.8rem', borderRadius: '8px', px: 1.5 } } }}>
+            componentsProps={{ tooltip: { sx: { bgcolor: 'text.primary', fontSize: '0.8rem', borderRadius: '8px', px: 1.5 } } }}>
             <Box>{btn}</Box>
           </Tooltip>
         ) : (
@@ -111,12 +111,12 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
   );
 
   const mobileStripContent = (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#fff', overflow: 'hidden', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: 'background.paper', overflow: 'hidden', alignItems: 'center' }}>
       <Box
         onClick={onMobileToggle}
         sx={{
           width: '100%', display: 'flex', justifyContent: 'center',
-          py: 2.5, borderBottom: '1px solid #f1f3f6',
+          py: 2.5, borderBottom: '1px solid', borderColor: 'divider',
           minHeight: '72px', alignItems: 'center', cursor: 'pointer',
           '&:hover': { bgcolor: '#fff1f3' },
           transition: 'background 0.2s ease',
@@ -129,16 +129,16 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
 
       <NavItems isCollapsed={true} onItemClick={undefined} items={navigation} />
       <Box sx={{ flex: 1 }} />
-      <Divider sx={{ borderColor: '#f1f3f6', width: '100%' }} />
+      <Divider sx={{ borderColor: 'divider', width: '100%' }} />
       <NavItems isCollapsed={true} onItemClick={undefined} items={bottomNav} />
     </Box>
   );
 
   const mobileDrawerContent = (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#fff', overflow: 'hidden' }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2.5, py: 2.5, borderBottom: '1px solid #f1f3f6', minHeight: '72px' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: 'background.paper', overflow: 'hidden' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2.5, py: 2.5, borderBottom: '1px solid', borderColor: 'divider', minHeight: '72px' }}>
         <Box component="img" src={logofull} alt="Dyme" sx={{ height: 28, width: 'auto' }} />
-        <IconButton onClick={onMobileToggle} size="small" sx={{ borderRadius: '8px', p: 0.75, color: '#98a2b3', '&:hover': { bgcolor: '#fff1f3', color: '#f43f6e' } }}>
+        <IconButton onClick={onMobileToggle} size="small" sx={{ borderRadius: '8px', p: 0.75, color: 'text.secondary', '&:hover': { bgcolor: '#fff1f3', color: '#f43f6e' } }}>
           <ChevronLeft size={16} />
         </IconButton>
       </Box>
@@ -151,8 +151,8 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
   );
 
   const desktopContent = (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#fff', overflow: 'hidden' }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'space-between', px: collapsed ? 1 : 2.5, py: 2.5, borderBottom: '1px solid #f1f3f6', minHeight: '72px' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: 'background.paper', overflow: 'hidden' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'space-between', px: collapsed ? 1 : 2.5, py: 2.5, borderBottom: '1px solid', borderColor: 'divider', minHeight: '72px' }}>
         {!collapsed && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, animation: `${slideIn} 0.2s ease` }}>
             <Box component="img" src={logofull} alt="Dyme" sx={{ height: 28, width: 'auto' }} />
@@ -169,14 +169,14 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
 
       <Box sx={{ flex: 1 }} />
 
-      <Divider sx={{ borderColor: '#f1f3f6', mx: collapsed ? 1 : 0, mb: 0.5 }} />
+      <Divider sx={{ borderColor: 'divider', mx: collapsed ? 1 : 0, mb: 0.5 }} />
       <NavItems isCollapsed={collapsed} onItemClick={undefined} items={bottomNav} />
     </Box>
   );
 
   return (
     <>
-      <Drawer variant="permanent" sx={{ display: { xs: 'block', md: 'none' }, width: MOBILE_WIDTH, flexShrink: 0, '& .MuiDrawer-paper': { width: MOBILE_WIDTH, boxSizing: 'border-box', borderRight: '1px solid #e4e7ed', bgcolor: '#fff', overflowX: 'hidden' } }}>
+      <Drawer variant="permanent" sx={{ display: { xs: 'block', md: 'none' }, width: MOBILE_WIDTH, flexShrink: 0, '& .MuiDrawer-paper': { width: MOBILE_WIDTH, boxSizing: 'border-box', borderRight: '1px solid', borderColor: 'divider', bgcolor: 'background.paper', overflowX: 'hidden' } }}>
         {mobileStripContent}
       </Drawer>
 
@@ -186,7 +186,7 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
         onClose={onMobileToggle}
         ModalProps={{ keepMounted: true }}
         slotProps={{ backdrop: { sx: { backdropFilter: 'blur(4px)', bgcolor: 'rgba(16, 24, 40, 0.4)' } } }}
-        sx={{ display: { xs: 'block', md: 'none' }, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box', borderRight: '1px solid #e4e7ed', bgcolor: '#fff', boxShadow: '20px 0 50px rgba(0,0,0,0.1)' } }}>
+        sx={{ display: { xs: 'block', md: 'none' }, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box', borderRight: '1px solid', borderColor: 'divider', bgcolor: 'background.paper', boxShadow: '20px 0 50px rgba(0,0,0,0.1)' } }}>
         {mobileDrawerContent}
       </Drawer>
 
@@ -201,8 +201,8 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
           '& .MuiDrawer-paper': {
             width: desktopWidth,
             boxSizing: 'border-box',
-            borderRight: '1px solid #e4e7ed',
-            bgcolor: '#fff',
+            borderRight: '1px solid', borderColor: 'divider',
+            bgcolor: 'background.paper',
             transition: 'width 0.2s ease',
             overflowX: 'hidden',
             boxShadow: !collapsed ? '4px 0 24px rgba(0,0,0,0.08)' : 'none',

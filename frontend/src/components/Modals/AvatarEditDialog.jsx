@@ -168,7 +168,7 @@ const AvatarEditDialog = ({ open, onClose, onSave, currentAvatar }) => {
           fontFamily='"Plus Jakarta Sans", sans-serif'>
           Edit Profile Picture
         </Typography>
-        <IconButton onClick={onClose} size="small" sx={{ color: '#98a2b3' }}>
+        <IconButton onClick={onClose} size="small" sx={{ color: 'text.secondary' }}>
           <X size={18} />
         </IconButton>
       </DialogTitle>
@@ -208,7 +208,7 @@ const AvatarEditDialog = ({ open, onClose, onSave, currentAvatar }) => {
           onClick={() => fileRef.current?.click()}
           size="small"
           sx={{
-            borderRadius: '10px', borderColor: '#e4e7ed', color: '#667085',
+            borderRadius: '10px', borderColor: 'divider', color: 'text.secondary',
             fontWeight: 600, textTransform: 'none', mb: 2.5,
             '&:hover': { borderColor: '#f43f6e', color: '#f43f6e', bgcolor: '#fff1f3' },
           }}
@@ -254,9 +254,9 @@ const AvatarEditDialog = ({ open, onClose, onSave, currentAvatar }) => {
                 onClick={() => setRotation((r) => (r + 90) % 360)}
                 size="small"
                 sx={{
-                  color: '#667085', fontWeight: 600, textTransform: 'none',
+                  color: 'text.secondary', fontWeight: 600, textTransform: 'none',
                   borderRadius: '8px',
-                  '&:hover': { bgcolor: '#f8f9fb' },
+                  '&:hover': { bgcolor: 'background.default' },
                 }}
               >
                 Rotate 90°
@@ -274,9 +274,9 @@ const AvatarEditDialog = ({ open, onClose, onSave, currentAvatar }) => {
         <Button
           onClick={onClose}
           sx={{
-            borderRadius: '10px', color: '#667085', fontWeight: 600,
+            borderRadius: '10px', color: 'text.secondary', fontWeight: 600,
             textTransform: 'none', px: 2.5,
-            '&:hover': { bgcolor: '#f8f9fb' },
+            '&:hover': { bgcolor: 'background.default' },
           }}
         >
           Cancel

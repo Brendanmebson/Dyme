@@ -14,7 +14,7 @@ import {
 const InsightCard = ({ label, value, sub, icon: Icon, iconColor, iconBg }) => (
   <Card sx={{
     borderRadius: { xs: '12px', md: '16px' },
-    border: '1px solid #e4e7ed', boxShadow: 'none', height: '100%',
+    border: '1px solid', borderColor: 'divider', boxShadow: 'none', height: '100%',
     transition: 'all 0.25s ease',
     '&:hover': { transform: 'translateY(-2px)', boxShadow: '0 8px 32px rgba(16,24,40,0.08)' },
   }}>
@@ -90,7 +90,7 @@ const Analytics = () => {
             '& .MuiToggleButton-root': {
               borderRadius: '10px !important', border: '1px solid #e4e7ed !important',
               px: { xs: 1.5, md: 2.5 }, py: 0.75,
-              fontWeight: 600, fontSize: { xs: '0.72rem', md: '0.8rem' }, color: '#667085',
+              fontWeight: 600, fontSize: { xs: '0.72rem', md: '0.8rem' }, color: 'text.secondary',
               '&.Mui-selected': { bgcolor: '#fff1f3', color: '#f43f6e', border: '1px solid #fecdd6 !important' },
               '&:first-of-type': { mr: 0.5 },
             },
@@ -136,7 +136,7 @@ const Analytics = () => {
       </Box>
 
       {/* ─── Detailed Insights ─────────────────── */}
-      <Card sx={{ borderRadius: { xs: '12px', md: '16px' }, border: '1px solid #e4e7ed', boxShadow: 'none' }}>
+      <Card sx={{ borderRadius: { xs: '12px', md: '16px' }, border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
         <Box sx={{
           px: { xs: 2, md: 3 }, pt: { xs: 2, md: 3 }, pb: 2,
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 1,
@@ -147,13 +147,13 @@ const Analytics = () => {
             Detailed Insights
           </Typography>
           <Chip label={`${months}-month view`} size="small"
-            sx={{ bgcolor: '#f8f9fb', color: '#667085', fontWeight: 600, borderRadius: '8px', border: '1px solid #e4e7ed' }} />
+            sx={{ bgcolor: 'background.default', color: 'text.secondary', fontWeight: 600, borderRadius: '8px', border: '1px solid', borderColor: 'divider' }} />
         </Box>
-        <Divider sx={{ borderColor: '#f1f3f6' }} />
+        <Divider sx={{ borderColor: 'divider' }} />
         <CardContent sx={{ p: 0 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             {/* Spending by category */}
-            <Box sx={{ borderBottom: '1px solid #f1f3f6', p: { xs: 2, md: 3 } }}>
+            <Box sx={{ borderBottom: '1px solid', borderColor: 'divider', p: { xs: 2, md: 3 } }}>
               <Box>
                 <Typography variant="subtitle2" fontWeight={700} color="#344054" sx={{ mb: 2 }}>
                   Spending Patterns

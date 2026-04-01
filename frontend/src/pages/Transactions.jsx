@@ -85,7 +85,7 @@ const Transactions = () => {
       </Box>
 
       {/* ─── Filter bar ─────────────────────── */}
-      <Card sx={{ mb: 3, borderRadius: { xs: '12px', md: '16px' }, border: '1px solid #e4e7ed', boxShadow: 'none' }}>
+      <Card sx={{ mb: 3, borderRadius: { xs: '12px', md: '16px' }, border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
         <CardContent sx={{ py: { xs: 2, md: 2.5 }, px: { xs: 2, md: 3 } }}>
           <Grid container spacing={{ xs: 1.5, md: 2 }} alignItems="center">
             <Grid item xs={12} md={5}>
@@ -126,7 +126,7 @@ const Transactions = () => {
       {isMobile ? (
         <Box>
           {paginated.length === 0 ? (
-            <Box sx={{ textAlign: 'center', py: 8, color: '#98a2b3' }}>
+            <Box sx={{ textAlign: 'center', py: 8, color: 'text.secondary' }}>
               <Typography fontSize="2rem" mb={1}>💸</Typography>
               <Typography variant="body2" fontWeight={500}>No transactions found</Typography>
               <Typography variant="caption">Try adjusting your filters</Typography>
@@ -137,7 +137,7 @@ const Transactions = () => {
               const catColor = CATEGORY_COLORS[t.category] || '#98a2b3';
               return (
                 <Card key={t.id} sx={{
-                  mb: 1.5, borderRadius: '12px', border: '1px solid #e4e7ed',
+                  mb: 1.5, borderRadius: '12px', border: '1px solid', borderColor: 'divider',
                   boxShadow: 'none',
                   '&:hover': { bgcolor: '#fafbfc' },
                 }}>
@@ -195,14 +195,14 @@ const Transactions = () => {
         </Box>
       ) : (
         /* ─── Desktop: table ──────────────────── */
-        <Paper elevation={0} sx={{ borderRadius: '16px', border: '1px solid #e4e7ed', overflow: 'hidden' }}>
+        <Paper elevation={0} sx={{ borderRadius: '16px', border: '1px solid', borderColor: 'divider', overflow: 'hidden' }}>
           <Table>
             <TableHead>
-              <TableRow sx={{ bgcolor: '#f8f9fb', '& th': { borderBottom: '1px solid #e4e7ed', py: 2 } }}>
+              <TableRow sx={{ bgcolor: 'background.default', '& th': { borderBottom: '1px solid', borderColor: 'divider', py: 2 } }}>
                 {['Date', 'Description', 'Category', 'Type', 'Amount', ''].map((h, i) => (
                   <TableCell key={i}
                     align={h === 'Amount' ? 'right' : h === '' ? 'center' : 'left'}
-                    sx={{ color: '#667085', fontWeight: 600, fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                    sx={{ color: 'text.secondary', fontWeight: 600, fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                     {h}
                   </TableCell>
                 ))}
@@ -211,7 +211,7 @@ const Transactions = () => {
             <TableBody>
               {paginated.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} sx={{ textAlign: 'center', py: 8, color: '#98a2b3' }}>
+                  <TableCell colSpan={6} sx={{ textAlign: 'center', py: 8, color: 'text.secondary' }}>
                     <Typography fontSize="2rem" mb={1}>💸</Typography>
                     <Typography variant="body2" fontWeight={500}>No transactions found</Typography>
                     <Typography variant="caption">Try adjusting your filters</Typography>

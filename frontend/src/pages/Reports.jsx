@@ -97,7 +97,7 @@ const Reports = () => {
             icon={<Calendar size={11} />}
             label={`${format(start, 'MMM d')} – ${format(end, 'MMM d, yyyy')}`}
             size="small"
-            sx={{ bgcolor: '#f8f9fb', color: '#667085', fontWeight: 500, border: '1px solid #e4e7ed', borderRadius: '8px', fontSize: '0.72rem' }}
+            sx={{ bgcolor: 'background.default', color: 'text.secondary', fontWeight: 500, border: '1px solid', borderColor: 'divider', borderRadius: '8px', fontSize: '0.72rem' }}
           />
         </Box>
         <Button
@@ -117,7 +117,7 @@ const Reports = () => {
       </Box>
 
       {/* ─── Filters ────────────────────────────── */}
-      <Card sx={{ mb: { xs: 3, md: 4 }, borderRadius: { xs: '12px', md: '16px' }, border: '1px solid #e4e7ed', boxShadow: 'none' }}>
+      <Card sx={{ mb: { xs: 3, md: 4 }, borderRadius: { xs: '12px', md: '16px' }, border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
         <CardContent sx={{ py: { xs: 2, md: 2.5 }, px: { xs: 2, md: 3 } }}>
           <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' }, gap: { xs: 2, md: 2 }, alignItems: 'center' }}>
             <Box>
@@ -160,7 +160,7 @@ const Reports = () => {
         ].map((s) => (
           <Box key={s.label}>
             <Card sx={{
-              borderRadius: { xs: '12px', md: '16px' }, border: '1px solid #e4e7ed', boxShadow: 'none',
+              borderRadius: { xs: '12px', md: '16px' }, border: '1px solid', borderColor: 'divider', boxShadow: 'none',
               transition: 'all 0.25s ease', '&:hover': { transform: 'translateY(-2px)', boxShadow: '0 8px 24px rgba(16,24,40,0.08)' },
             }}>
               <CardContent sx={{ p: { xs: '14px !important', md: '24px !important' } }}>
@@ -193,7 +193,7 @@ const Reports = () => {
 
       {/* ─── Category breakdown ─────────────────── */}
       {categoryBreakdown.length > 0 && (
-        <Card sx={{ mb: { xs: 3, md: 4 }, borderRadius: { xs: '12px', md: '16px' }, border: '1px solid #e4e7ed', boxShadow: 'none' }}>
+        <Card sx={{ mb: { xs: 3, md: 4 }, borderRadius: { xs: '12px', md: '16px' }, border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
           <Box sx={{ px: { xs: 2, md: 3 }, pt: { xs: 2, md: 3 }, pb: 2 }}>
             <Typography variant="h6" fontWeight={700} color="#101828"
               fontFamily='"Plus Jakarta Sans", sans-serif'
@@ -201,7 +201,7 @@ const Reports = () => {
               Expense Breakdown by Category
             </Typography>
           </Box>
-          <Divider sx={{ borderColor: '#f1f3f6' }} />
+          <Divider sx={{ borderColor: 'divider' }} />
           <CardContent sx={{ px: { xs: 2, md: 3 }, pt: { xs: 2, md: 3 } }}>
             {categoryBreakdown.map((item, i) => {
               const pct   = totalExpenses > 0 ? (item.total / totalExpenses) * 100 : 0;
@@ -242,8 +242,8 @@ const Reports = () => {
       )}
 
       {/* ─── Transactions: mobile cards / desktop table ─── */}
-      <Paper elevation={0} sx={{ borderRadius: { xs: '12px', md: '16px' }, border: '1px solid #e4e7ed', overflow: 'hidden' }}>
-        <Box sx={{ px: { xs: 2, md: 3 }, py: { xs: 2, md: 2.5 }, borderBottom: '1px solid #f1f3f6' }}>
+      <Paper elevation={0} sx={{ borderRadius: { xs: '12px', md: '16px' }, border: '1px solid', borderColor: 'divider', overflow: 'hidden' }}>
+        <Box sx={{ px: { xs: 2, md: 3 }, py: { xs: 2, md: 2.5 }, borderBottom: '1px solid', borderColor: 'divider' }}>
           <Typography variant="h6" fontWeight={700} color="#101828"
             fontFamily='"Plus Jakarta Sans", sans-serif'
             sx={{ fontSize: { xs: '0.95rem', md: '1.25rem' } }}>
@@ -255,7 +255,7 @@ const Reports = () => {
           /* ─── Mobile card list ─── */
           <Box sx={{ p: 2 }}>
             {filtered.length === 0 ? (
-              <Box sx={{ textAlign: 'center', py: 6, color: '#98a2b3' }}>
+              <Box sx={{ textAlign: 'center', py: 6, color: 'text.secondary' }}>
                 <Typography fontSize="1.8rem" mb={1}>📋</Typography>
                 <Typography variant="body2" fontWeight={500}>No transactions in this period</Typography>
               </Box>
@@ -307,11 +307,11 @@ const Reports = () => {
           <TableContainer>
             <Table size="small">
               <TableHead>
-                <TableRow sx={{ bgcolor: '#f8f9fb', '& th': { borderBottom: '1px solid #e4e7ed', py: 1.75 } }}>
+                <TableRow sx={{ bgcolor: 'background.default', '& th': { borderBottom: '1px solid', borderColor: 'divider', py: 1.75 } }}>
                   {['Date', 'Description', 'Category', 'Type', 'Amount'].map((h) => (
                     <TableCell key={h}
                       align={h === 'Amount' ? 'right' : 'left'}
-                      sx={{ color: '#667085', fontWeight: 600, fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                      sx={{ color: 'text.secondary', fontWeight: 600, fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                       {h}
                     </TableCell>
                   ))}
@@ -320,7 +320,7 @@ const Reports = () => {
               <TableBody>
                 {filtered.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} sx={{ textAlign: 'center', py: 8, color: '#98a2b3' }}>
+                    <TableCell colSpan={5} sx={{ textAlign: 'center', py: 8, color: 'text.secondary' }}>
                       <Typography fontSize="1.8rem" mb={1}>📋</Typography>
                       <Typography variant="body2" fontWeight={500}>No transactions in this period</Typography>
                     </TableCell>

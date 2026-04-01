@@ -56,7 +56,7 @@ const TransactionModal = ({ isOpen, onClose }) => {
       PaperProps={{
         sx: {
           borderRadius: '20px', boxShadow: '0 24px 64px rgba(16,24,40,0.18)',
-          border: '1px solid #e4e7ed', overflow: 'hidden',
+          border: '1px solid', borderColor: 'divider', overflow: 'hidden',
         },
       }}
     >
@@ -69,7 +69,7 @@ const TransactionModal = ({ isOpen, onClose }) => {
           <Typography variant="caption" color="#98a2b3">Fill in the details below</Typography>
         </Box>
         <IconButton onClick={onClose} size="small"
-          sx={{ borderRadius: '10px', '&:hover': { bgcolor: '#f8f9fb' } }}>
+          sx={{ borderRadius: '10px', '&:hover': { bgcolor: 'background.default' } }}>
           <X size={18} />
         </IconButton>
       </DialogTitle>
@@ -96,7 +96,7 @@ const TransactionModal = ({ isOpen, onClose }) => {
                   sx={{
                     flex: 1, py: 1.5, borderRadius: '12px !important',
                     border: '1px solid #e4e7ed !important',
-                    gap: 1, fontWeight: 600, color: '#667085',
+                    gap: 1, fontWeight: 600, color: 'text.secondary',
                     '&.Mui-selected': {
                       bgcolor: form.type === value ? `${color}12` : 'transparent',
                       color,
@@ -117,7 +117,7 @@ const TransactionModal = ({ isOpen, onClose }) => {
             value={form.amount}
             onChange={(e) => setForm({ ...form, amount: e.target.value })}
             required sx={{ mb: 2.5 }}
-            InputProps={{ startAdornment: <Typography sx={{ mr: 0.5, color: '#98a2b3' }}>{currency.symbol}</Typography> }}
+            InputProps={{ startAdornment: <Typography sx={{ mr: 0.5, color: 'text.secondary' }}>{currency.symbol}</Typography> }}
           />
 
           {/* Category */}
@@ -142,7 +142,7 @@ const TransactionModal = ({ isOpen, onClose }) => {
             InputLabelProps={{ shrink: true }}
             InputProps={{
               startAdornment: (
-                <Box sx={{ mr: 1, color: '#98a2b3', display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ mr: 1, color: 'text.secondary', display: 'flex', alignItems: 'center' }}>
                   <Calendar size={18} />
                 </Box>
               ),
@@ -162,7 +162,7 @@ const TransactionModal = ({ isOpen, onClose }) => {
 
       <DialogActions sx={{ px: 3, pb: 3, pt: 1, gap: 1 }}>
         <Button onClick={onClose} variant="outlined"
-          sx={{ flex: 1, borderRadius: '12px', py: 1.25, borderColor: '#e4e7ed', color: '#667085', '&:hover': { borderColor: '#cbd1db', bgcolor: '#f8f9fb' } }}>
+          sx={{ flex: 1, borderRadius: '12px', py: 1.25, borderColor: 'divider', color: 'text.secondary', '&:hover': { borderColor: '#cbd1db', bgcolor: 'background.default' } }}>
           Cancel
         </Button>
         <Button type="submit" form="tx-form" variant="contained"

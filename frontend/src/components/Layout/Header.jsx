@@ -51,7 +51,7 @@ const Header = ({
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(228,231,237,0.9)',
-        height: '73px', color: '#101828',
+        height: '73px', color: 'text.primary',
         zIndex: (theme) => theme.zIndex.drawer - 1,
         width: {
           xs: `calc(100% - ${mobileWidth}px)`,
@@ -72,18 +72,18 @@ const Header = ({
             onClick={onMobileToggle}
             sx={{
               display: { xs: 'flex', md: 'none' },
-              bgcolor: '#fff',
-              border: '1px solid #e4e7ed',
+              bgcolor: 'background.paper',
+              border: '1px solid', borderColor: 'divider',
               borderRadius: '10px',
               p: 1,
-              '&:hover': { bgcolor: '#f8f9fb' }
+              '&:hover': { bgcolor: 'background.default' }
             }}
           >
             <MenuIcon size={20} color="#101828" />
           </IconButton>
           
           <Typography variant="caption" sx={{
-            color: '#98a2b3', fontWeight: 500,
+            color: 'text.secondary', fontWeight: 500,
             display: { xs: 'none', sm: 'block' },
           }}>
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
@@ -127,7 +127,7 @@ const Header = ({
               sx: {
                 mt: 1.5, borderRadius: '16px', minWidth: 210,
                 boxShadow: '0 16px 48px rgba(16,24,40,0.15)',
-                border: '1px solid #e4e7ed',
+                border: '1px solid', borderColor: 'divider',
               },
             }}
           >
@@ -135,7 +135,7 @@ const Header = ({
               <Typography variant="body2" fontWeight={600} color="#344054" noWrap>{displayName}</Typography>
               <Typography variant="caption" color="#98a2b3" noWrap>{user?.email}</Typography>
             </Box>
-            <Divider sx={{ mx: 1, borderColor: '#f1f3f6' }} />
+            <Divider sx={{ mx: 1, borderColor: 'divider' }} />
             <MenuItem
               onClick={() => { setAnchorEl(null); navigate('/dashboard/profile'); }}
               sx={{ gap: 1.5, borderRadius: '8px', mx: 1, my: 0.5 }}
@@ -150,7 +150,7 @@ const Header = ({
               <Settings size={16} color="#667085" />
               <Typography variant="body2" fontWeight={500}>Settings</Typography>
             </MenuItem>
-            <Divider sx={{ mx: 1, my: 0.5, borderColor: '#f1f3f6' }} />
+            <Divider sx={{ mx: 1, my: 0.5, borderColor: 'divider' }} />
             <MenuItem
               onClick={handleLogout}
               sx={{ gap: 1.5, borderRadius: '8px', mx: 1, mb: 1, color: '#f43f6e', '&:hover': { bgcolor: '#fff1f3' } }}

@@ -19,7 +19,7 @@ const StatsCard = ({
       sx={{
         borderRadius: { xs: '12px', md: '16px' },
         p: 0,
-        border: '1px solid #e4e7ed',
+        border: '1px solid', borderColor: 'divider',
         boxShadow: '0 1px 3px rgba(16,24,40,0.06), 0 4px 16px rgba(16,24,40,0.04)',
         transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)',
         cursor: 'default',
