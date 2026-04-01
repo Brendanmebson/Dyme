@@ -67,7 +67,7 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
               position: 'relative',
               justifyContent: isCollapsed ? 'center' : 'flex-start',
               bgcolor: isActive ? `${item.color}12` : 'transparent',
-              color: isActive ? item.color : '#667085',
+              color: isActive ? item.color : 'text.secondary',
               border: isActive ? `1px solid ${item.color}25` : '1px solid transparent',
               transition: 'all 0.2s cubic-bezier(0.4,0,0.2,1)',
               '&:hover': {
@@ -118,7 +118,7 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
           width: '100%', display: 'flex', justifyContent: 'center',
           py: 2.5, borderBottom: '1px solid', borderColor: 'divider',
           minHeight: '72px', alignItems: 'center', cursor: 'pointer',
-          '&:hover': { bgcolor: '#fff1f3' },
+          '&:hover': { bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.1)' : '#fff1f3' },
           transition: 'background 0.2s ease',
         }}
       >
@@ -138,7 +138,7 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: 'background.paper', overflow: 'hidden' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2.5, py: 2.5, borderBottom: '1px solid', borderColor: 'divider', minHeight: '72px' }}>
         <Box component="img" src={logofull} alt="Dyme" sx={{ height: 28, width: 'auto' }} />
-        <IconButton onClick={onMobileToggle} size="small" sx={{ borderRadius: '8px', p: 0.75, color: 'text.secondary', '&:hover': { bgcolor: '#fff1f3', color: '#f43f6e' } }}>
+        <IconButton onClick={onMobileToggle} size="small" sx={{ borderRadius: '8px', p: 0.75, color: 'text.secondary', '&:hover': { bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.1)' : '#fff1f3', color: '#f43f6e' } }}>
           <ChevronLeft size={16} />
         </IconButton>
       </Box>
@@ -185,7 +185,7 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
         open={mobileOpen}
         onClose={onMobileToggle}
         ModalProps={{ keepMounted: true }}
-        slotProps={{ backdrop: { sx: { backdropFilter: 'blur(4px)', bgcolor: 'rgba(16, 24, 40, 0.4)' } } }}
+        slotProps={{ backdrop: { sx: { backdropFilter: 'blur(4px)', bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(16, 24, 40, 0.4)' } } }}
         sx={{ display: { xs: 'block', md: 'none' }, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box', borderRight: '1px solid', borderColor: 'divider', bgcolor: 'background.paper', boxShadow: '20px 0 50px rgba(0,0,0,0.1)' } }}>
         {mobileDrawerContent}
       </Drawer>

@@ -1,7 +1,7 @@
 // src/pages/Dashboard.jsx
 import React from 'react';
 import { useFinance } from '../context/FinanceContext';
-import { useAuth }    from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { useCurrency } from '../context/CurrencyContext';
 import StatsCard from '../components/Dashboard/StatsCard';
 import RecentTransactions from '../components/Dashboard/RecentTransactions';
@@ -40,12 +40,12 @@ const Dashboard = () => {
     );
   }
 
-  const monthlyData  = getMonthlyData?.() || { income: 0, expenses: 0, transactions: [] };
+  const monthlyData = getMonthlyData?.() || { income: 0, expenses: 0, transactions: [] };
   const spendingData = getSpendingByCategory?.() || [];
-  const chartData    = buildMonthlyChartData(getMonthlyData);
+  const chartData = buildMonthlyChartData(getMonthlyData);
   const totalBalance = monthlyData.income - monthlyData.expenses;
 
-  const fullName  = user?.full_name ?? user?.user_metadata?.full_name ?? '';
+  const fullName = user?.full_name ?? user?.user_metadata?.full_name ?? '';
   const firstName = fullName.split(' ')[0] || 'there';
 
   const stats = [
@@ -87,7 +87,7 @@ const Dashboard = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 0.5, flexWrap: 'wrap' }}>
             <Typography variant="h4" fontWeight={800} color="text.primary"
               fontFamily='"Plus Jakarta Sans", sans-serif'
-              sx={{ letterSpacing: '-0.02em', fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
+              sx={{ letterSpacing: '-0.02em', fontSize: { xs: '1.2rem', md: '2.125rem' } }}>
               {getGreeting()}, {firstName} 👋
             </Typography>
             {/* Currency badge */}

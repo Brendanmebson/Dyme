@@ -29,11 +29,11 @@ const Section = ({ title, subtitle, icon: Icon, iconColor = '#f43f6e', children,
         <Icon size={18} color={iconColor} />
       </Box>
       <Box>
-        <Typography variant="h6" fontWeight={700} color="#101828"
+        <Typography variant="h6" fontWeight={700} color="text.primary"
           fontFamily='"Plus Jakarta Sans", sans-serif' sx={{ lineHeight: 1.2 }}>
           {title}
         </Typography>
-        {subtitle && <Typography variant="caption" color="#98a2b3">{subtitle}</Typography>}
+        {subtitle && <Typography variant="caption" color="text.secondary">{subtitle}</Typography>}
       </Box>
     </Box>
     <Divider sx={{ borderColor: 'divider', mb: 3 }} />
@@ -48,8 +48,8 @@ const ToggleRow = ({ label, description, checked, onChange }) => (
     '&:last-child': { borderBottom: 'none', pb: 0 },
   }}>
     <Box>
-      <Typography variant="body2" fontWeight={600} color="#344054">{label}</Typography>
-      {description && <Typography variant="caption" color="#98a2b3">{description}</Typography>}
+      <Typography variant="body2" fontWeight={600} color="text.primary">{label}</Typography>
+      {description && <Typography variant="caption" color="text.secondary">{description}</Typography>}
     </Box>
     <Switch
       checked={checked} onChange={(e) => onChange(e.target.checked)}
@@ -94,19 +94,19 @@ const Settings = () => {
     <Box sx={{ pt: { xs: 3, md: 4 }, maxWidth: 720 }}>
       {/* Header */}
       <Box sx={{ mb: 4, animation: `${fadeUp} 0.3s ease` }}>
-        <Typography variant="h4" fontWeight={800} color="#101828"
+        <Typography variant="h4" fontWeight={800} color="text.primary"
           fontFamily='"Plus Jakarta Sans", sans-serif'
           sx={{ letterSpacing: '-0.02em', mb: 0.5 }}>
           Settings
         </Typography>
-        <Typography variant="body2" color="#667085">
+        <Typography variant="body2" color="text.secondary">
           Customize your Dyme experience.
         </Typography>
       </Box>
 
       {/* Currency */}
       <Section title="Currency & Region" subtitle="Control how money is displayed" icon={Globe} iconColor="#3b82f6" delay={50}>
-        <Typography variant="body2" color="#667085" sx={{ mb: 2 }}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
           Select your preferred currency. This affects all amounts shown across the dashboard.
         </Typography>
 
@@ -118,20 +118,21 @@ const Settings = () => {
               sx={{
                 display: 'flex', alignItems: 'center', gap: 1,
                 px: 2, py: 1.25, borderRadius: '12px', cursor: 'pointer',
-                border: selectedCurrency === c.code ? '2px solid #f43f6e' : '2px solid #e4e7ed',
-                bgcolor: selectedCurrency === c.code ? '#fff1f3' : '#fafafa',
+                border: '2px solid',
+                borderColor: selectedCurrency === c.code ? '#f43f6e' : 'divider',
+                bgcolor: selectedCurrency === c.code ? ((theme) => theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.1)' : '#fff1f3') : 'background.default',
                 transition: 'all 0.2s ease',
-                '&:hover': { borderColor: '#fda4b5', bgcolor: '#fff1f3' },
+                '&:hover': { borderColor: '#fda4b5', bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.15)' : '#fff1f3' },
                 minWidth: 110,
               }}
             >
               <Typography sx={{ fontSize: '1.3rem' }}>{c.flag}</Typography>
               <Box>
                 <Typography variant="body2" fontWeight={700}
-                  color={selectedCurrency === c.code ? '#f43f6e' : '#344054'}>
+                  color={selectedCurrency === c.code ? '#f43f6e' : 'text.primary'}>
                   {c.code}
                 </Typography>
-                <Typography variant="caption" color="#98a2b3" sx={{ display: 'block', lineHeight: 1 }}>
+                <Typography variant="caption" color="text.secondary" sx={{ display: 'block', lineHeight: 1 }}>
                   {c.symbol} · {c.name.split(' ')[0]}
                 </Typography>
               </Box>
@@ -237,20 +238,20 @@ const Settings = () => {
             p: 2, borderRadius: '12px', bgcolor: 'background.default', border: '1px solid', borderColor: 'divider',
           }}>
             <Box>
-              <Typography variant="body2" fontWeight={600} color="#344054">Two-Factor Authentication</Typography>
-              <Typography variant="caption" color="#98a2b3">Add an extra layer of security</Typography>
+              <Typography variant="body2" fontWeight={600} color="text.primary">Two-Factor Authentication</Typography>
+              <Typography variant="caption" color="text.secondary">Add an extra layer of security</Typography>
             </Box>
-            <Chip label="Not Set Up" size="small" sx={{ bgcolor: '#fee2e2', color: '#ef4444', fontWeight: 600, fontSize: '0.72rem' }} />
+            <Chip label="Not Set Up" size="small" sx={{ bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(239,68,68,0.1)' : '#fee2e2', color: (theme) => theme.palette.mode === 'dark' ? '#f87171' : '#ef4444', fontWeight: 600, fontSize: '0.72rem' }} />
           </Box>
           <Box sx={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             p: 2, borderRadius: '12px', bgcolor: 'background.default', border: '1px solid', borderColor: 'divider',
           }}>
             <Box>
-              <Typography variant="body2" fontWeight={600} color="#344054">Active Sessions</Typography>
-              <Typography variant="caption" color="#98a2b3">1 active session on this device</Typography>
+              <Typography variant="body2" fontWeight={600} color="text.primary">Active Sessions</Typography>
+              <Typography variant="caption" color="text.secondary">1 active session on this device</Typography>
             </Box>
-            <Chip label="1 Active" size="small" sx={{ bgcolor: '#d1fae5', color: '#10b981', fontWeight: 600, fontSize: '0.72rem' }} />
+            <Chip label="1 Active" size="small" sx={{ bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(16,185,129,0.1)' : '#d1fae5', color: (theme) => theme.palette.mode === 'dark' ? '#34d399' : '#10b981', fontWeight: 600, fontSize: '0.72rem' }} />
           </Box>
         </Box>
       </Section>

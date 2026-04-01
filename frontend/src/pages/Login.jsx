@@ -210,7 +210,7 @@ const Login = () => {
         <Box sx={{ position: 'relative', zIndex: 1, textAlign: 'center', color: '#fff' }}>
           <Box sx={{ mb: 1, mx: 'auto' }}>
             <Box component="img" src={logofull} alt="Dyme"
-              sx={{ height: { xs: 80, md: 84 }, width: 'auto', filter: 'brightness(0) invert(1)' }} />
+              sx={{ height: { xs: 55, md: 84 }, width: 'auto', filter: 'brightness(0) invert(1)' }} />
           </Box>
           <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.75)', fontWeight: 400, mb: { xs: 2.5, md: 4 }, maxWidth: 340, mx: 'auto', fontSize: { xs: '0.9rem', md: '1.25rem' } }}>
             The smarter way to track your money, built for real life.
@@ -229,7 +229,7 @@ const Login = () => {
       {/* ─── Right form panel ─── */}
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', p: { xs: 3, md: 6 }, bgcolor: 'background.paper', minHeight: '100vh' }}>
         <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 4, animation: `${slideUp} 0.4s ease` }}>
-          <Box component="img" src={mode === 'dark' ? logofullWhite : logofull} alt="Dyme" sx={{ height: 42, width: 'auto' }} />
+          <Box component="img" src={mode === 'dark' ? logofullWhite : logofull} alt="Dyme" sx={{ height: 60, width: 'auto' }} />
         </Box>
 
         <Box sx={{ width: '100%', maxWidth: 420, animation: `${slideUp} 0.4s ease` }}>
@@ -255,31 +255,29 @@ const Login = () => {
             <Tab icon={<UserPlus size={15} />} iconPosition="start" label="Create account" />
           </Tabs>
 
-          {tab === 0 ? (
-            <>
-              <Typography variant="h4" fontWeight={800} color="text.primary"
-                fontFamily='"Plus Jakarta Sans", sans-serif'
-                sx={{ letterSpacing: '-0.02em', mb: 0.5, fontSize: { xs: '1.6rem', md: '2.125rem' } }}>
-                Welcome back
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 3, fontSize: { xs: '0.875rem', md: '1rem' } }}>
-                Sign in to your account to continue.
-              </Typography>
-              <LoginForm onSuccess={onSuccess} />
-            </>
-          ) : (
-            <>
-              <Typography variant="h4" fontWeight={800} color="text.primary"
-                fontFamily='"Plus Jakarta Sans", sans-serif'
-                sx={{ letterSpacing: '-0.02em', mb: 0.5, fontSize: { xs: '1.6rem', md: '2.125rem' } }}>
-                Create your account
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 3, fontSize: { xs: '0.875rem', md: '1rem' } }}>
-                Start tracking your finances for free.
-              </Typography>
-              <RegisterForm onSuccess={onSuccess} />
-            </>
-          )}
+          <Box sx={{ display: tab === 0 ? 'block' : 'none' }}>
+            <Typography variant="h4" fontWeight={800} color="text.primary"
+              fontFamily='"Plus Jakarta Sans", sans-serif'
+              sx={{ letterSpacing: '-0.02em', mb: 0.5, fontSize: { xs: '1.6rem', md: '2.125rem' } }}>
+              Welcome back
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 3, fontSize: { xs: '0.875rem', md: '1rem' } }}>
+              Sign in to your account to continue.
+            </Typography>
+            <LoginForm onSuccess={onSuccess} />
+          </Box>
+
+          <Box sx={{ display: tab === 1 ? 'block' : 'none' }}>
+            <Typography variant="h4" fontWeight={800} color="text.primary"
+              fontFamily='"Plus Jakarta Sans", sans-serif'
+              sx={{ letterSpacing: '-0.02em', mb: 0.5, fontSize: { xs: '1.6rem', md: '2.125rem' } }}>
+              Create your account
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 3, fontSize: { xs: '0.875rem', md: '1rem' } }}>
+              Start tracking your finances for free.
+            </Typography>
+            <RegisterForm onSuccess={onSuccess} />
+          </Box>
 
           <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mt: 3 }}>
             By continuing, you agree to our Terms of Service.

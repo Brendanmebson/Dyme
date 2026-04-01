@@ -59,12 +59,12 @@ const Transactions = () => {
         mb: { xs: 3, md: 4 }, flexWrap: 'wrap', gap: 2,
       }}>
         <Box>
-          <Typography variant="h4" fontWeight={800} color="#101828"
+          <Typography variant="h4" fontWeight={800} color="text.primary"
             fontFamily='"Plus Jakarta Sans", sans-serif'
             sx={{ letterSpacing: '-0.02em', mb: 0.5, fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
             Transactions
           </Typography>
-          <Typography variant="body2" color="#667085" sx={{ fontSize: { xs: '0.8rem', md: '0.875rem' } }}>
+          <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.8rem', md: '0.875rem' } }}>
             {filtered.length} transactions found
           </Typography>
         </Box>
@@ -139,22 +139,22 @@ const Transactions = () => {
                 <Card key={t.id} sx={{
                   mb: 1.5, borderRadius: '12px', border: '1px solid', borderColor: 'divider',
                   boxShadow: 'none',
-                  '&:hover': { bgcolor: '#fafbfc' },
+                  '&:hover': { bgcolor: 'action.hover' },
                 }}>
                   <CardContent sx={{ p: '14px !important' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                       {/* Icon */}
                       <Avatar sx={{
                         width: 36, height: 36, borderRadius: '10px', flexShrink: 0,
-                        bgcolor: isIncome ? '#d1fae5' : '#fff1f3',
-                        color:   isIncome ? '#10b981' : '#f43f6e',
+                        bgcolor: (theme) => isIncome ? (theme.palette.mode === 'dark' ? 'rgba(16,185,129,0.15)' : '#d1fae5') : (theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.15)' : '#fff1f3'),
+                        color: (theme) => isIncome ? (theme.palette.mode === 'dark' ? '#34d399' : '#10b981') : (theme.palette.mode === 'dark' ? '#fb7185' : '#f43f6e'),
                       }}>
                         {isIncome ? <ArrowUpRight size={16} /> : <ArrowDownRight size={16} />}
                       </Avatar>
 
                       {/* Details */}
                       <Box sx={{ flex: 1, minWidth: 0 }}>
-                        <Typography variant="body2" fontWeight={600} color="#101828" noWrap sx={{ fontSize: '0.82rem' }}>
+                        <Typography variant="body2" fontWeight={600} color="text.primary" noWrap sx={{ fontSize: '0.82rem' }}>
                           {t.description}
                         </Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mt: 0.25, flexWrap: 'wrap' }}>
@@ -163,7 +163,7 @@ const Transactions = () => {
                             bgcolor: `${catColor}18`, color: catColor,
                             border: `1px solid ${catColor}30`, borderRadius: '5px',
                           }} />
-                          <Typography variant="caption" color="#98a2b3" sx={{ fontSize: '0.65rem' }}>
+                          <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.65rem' }}>
                             {format(new Date(t.date), 'MMM d, yyyy')}
                           </Typography>
                         </Box>
@@ -180,7 +180,7 @@ const Transactions = () => {
                           onClick={() => deleteTransaction(t.id)}
                           sx={{
                             color: '#cbd1db', borderRadius: '6px', p: 0.25, mt: 0.25,
-                            '&:hover': { color: '#ef4444', bgcolor: '#fee2e2' },
+                            '&:hover': { color: '#ef4444', bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(239,68,68,0.15)' : '#fee2e2' },
                             transition: 'all 0.2s ease',
                           }}>
                           <Trash2 size={13} />
@@ -221,21 +221,21 @@ const Transactions = () => {
                 const tc = TYPE_COLORS[t.type];
                 return (
                   <TableRow key={t.id} sx={{
-                    '& td': { borderBottom: '1px solid #f8f9fb', py: 1.75 },
-                    '&:hover': { bgcolor: '#fafbfc' },
+                    '& td': { borderBottom: '1px solid', borderColor: 'divider', py: 1.75 },
+                    '&:hover': { bgcolor: 'action.hover' },
                     '&:last-child td': { borderBottom: 'none' },
                     transition: 'background 0.15s ease',
                   }}>
                     <TableCell>
-                      <Typography variant="body2" color="#344054" fontWeight={500}>
+                      <Typography variant="body2" color="text.primary" fontWeight={500}>
                         {format(new Date(t.date), 'MMM d, yyyy')}
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" fontWeight={600} color="#101828">{t.description}</Typography>
+                      <Typography variant="body2" fontWeight={600} color="text.primary">{t.description}</Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" color="#667085">{t.category}</Typography>
+                      <Typography variant="body2" color="text.secondary">{t.category}</Typography>
                     </TableCell>
                     <TableCell>
                       <Chip
@@ -255,7 +255,7 @@ const Transactions = () => {
                         onClick={() => deleteTransaction(t.id)}
                         sx={{
                           color: '#cbd1db', borderRadius: '8px',
-                          '&:hover': { color: '#ef4444', bgcolor: '#fee2e2' },
+                          '&:hover': { color: '#ef4444', bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(239,68,68,0.15)' : '#fee2e2' },
                           transition: 'all 0.2s ease',
                         }}>
                         <Trash2 size={16} />
@@ -268,8 +268,8 @@ const Transactions = () => {
           </Table>
 
           {totalPages > 1 && (
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 3, py: 2, borderTop: '1px solid #f1f3f6' }}>
-              <Typography variant="caption" color="#98a2b3">
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 3, py: 2, borderTop: '1px solid', borderColor: 'divider' }}>
+              <Typography variant="caption" color="text.secondary">
                 {start + 1}–{Math.min(start + itemsPerPage, filtered.length)} of {filtered.length}
               </Typography>
               <Pagination

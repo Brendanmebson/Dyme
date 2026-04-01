@@ -47,7 +47,7 @@ const Header = ({
     <AppBar
       position="fixed" elevation={0}
       sx={{
-        background: 'rgba(255,255,255,0.85)',
+        background: (theme) => theme.palette.mode === 'dark' ? 'rgba(18,18,18,0.85)' : 'rgba(255,255,255,0.85)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(228,231,237,0.9)',
@@ -79,7 +79,7 @@ const Header = ({
               '&:hover': { bgcolor: 'background.default' }
             }}
           >
-            <MenuIcon size={20} color="#101828" />
+            <MenuIcon size={20} />
           </IconButton>
           
           <Typography variant="caption" sx={{
@@ -100,7 +100,7 @@ const Header = ({
             sx={{
               display: 'flex', alignItems: 'center', gap: 1.5, cursor: 'pointer',
               borderRadius: '12px', px: 1.5, py: 0.75,
-              '&:hover': { bgcolor: '#fff1f3' },
+              '&:hover': { bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.1)' : '#fff1f3' },
               transition: 'all 0.2s ease',
             }}
           >
@@ -115,10 +115,10 @@ const Header = ({
               {initials}
             </Avatar>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              <Typography variant="body2" fontWeight={600} color="#344054" lineHeight={1.2}>{displayName}</Typography>
-              <Typography variant="caption" color="#98a2b3">{user?.email}</Typography>
+              <Typography variant="body2" fontWeight={600} color="text.primary" lineHeight={1.2}>{displayName}</Typography>
+              <Typography variant="caption" color="text.secondary">{user?.email}</Typography>
             </Box>
-            <ChevronDown size={16} color="#98a2b3" />
+            <Box color="text.secondary" display="flex"><ChevronDown size={16} color="currentColor" /></Box>
           </Box>
 
           <Menu
@@ -132,28 +132,28 @@ const Header = ({
             }}
           >
             <Box sx={{ px: 2, py: 1.5 }}>
-              <Typography variant="body2" fontWeight={600} color="#344054" noWrap>{displayName}</Typography>
-              <Typography variant="caption" color="#98a2b3" noWrap>{user?.email}</Typography>
+              <Typography variant="body2" fontWeight={600} color="text.primary" noWrap>{displayName}</Typography>
+              <Typography variant="caption" color="text.secondary" noWrap>{user?.email}</Typography>
             </Box>
             <Divider sx={{ mx: 1, borderColor: 'divider' }} />
             <MenuItem
               onClick={() => { setAnchorEl(null); navigate('/dashboard/profile'); }}
               sx={{ gap: 1.5, borderRadius: '8px', mx: 1, my: 0.5 }}
             >
-              <User size={16} color="#667085" />
+              <Box color="text.secondary" display="flex"><User size={16} color="currentColor" /></Box>
               <Typography variant="body2" fontWeight={500}>Profile</Typography>
             </MenuItem>
             <MenuItem
               onClick={() => { setAnchorEl(null); navigate('/dashboard/settings'); }}
               sx={{ gap: 1.5, borderRadius: '8px', mx: 1, mb: 0.5 }}
             >
-              <Settings size={16} color="#667085" />
+              <Box color="text.secondary" display="flex"><Settings size={16} color="currentColor" /></Box>
               <Typography variant="body2" fontWeight={500}>Settings</Typography>
             </MenuItem>
             <Divider sx={{ mx: 1, my: 0.5, borderColor: 'divider' }} />
             <MenuItem
               onClick={handleLogout}
-              sx={{ gap: 1.5, borderRadius: '8px', mx: 1, mb: 1, color: '#f43f6e', '&:hover': { bgcolor: '#fff1f3' } }}
+              sx={{ gap: 1.5, borderRadius: '8px', mx: 1, mb: 1, color: '#f43f6e', '&:hover': { bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.1)' : '#fff1f3' } }}
             >
               <LogOut size={16} />
               <Typography variant="body2" fontWeight={500} color="inherit">Logout</Typography>

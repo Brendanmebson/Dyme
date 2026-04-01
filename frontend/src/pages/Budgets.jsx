@@ -45,12 +45,12 @@ const Budgets = () => {
         mb: { xs: 3, md: 4 }, flexWrap: 'wrap', gap: 2,
       }}>
         <Box>
-          <Typography variant="h4" fontWeight={800} color="#101828"
+          <Typography variant="h4" fontWeight={800} color="text.primary"
             fontFamily='"Plus Jakarta Sans", sans-serif'
             sx={{ letterSpacing: '-0.02em', mb: 0.5, fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
             Budgets
           </Typography>
-          <Typography variant="body2" color="#667085" sx={{ fontSize: { xs: '0.8rem', md: '0.875rem' } }}>
+          <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.8rem', md: '0.875rem' } }}>
             {budgets.length} active budget{budgets.length !== 1 ? 's' : ''}
           </Typography>
         </Box>
@@ -76,22 +76,22 @@ const Budgets = () => {
           <CardContent sx={{ p: { xs: '16px !important', md: '24px !important' } }}>
             <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '4fr 5fr 3fr' }, gap: { xs: 2, md: 3 }, alignItems: 'center' }}>
               <Box>
-                <Typography variant="caption" color="#98a2b3" fontWeight={600}
+                <Typography variant="caption" color="text.secondary" fontWeight={600}
                   sx={{ textTransform: 'uppercase', letterSpacing: '0.06em', fontSize: '0.7rem' }}>
                   Overall Spending
                 </Typography>
-                <Typography variant="h5" fontWeight={800} color="#101828"
+                <Typography variant="h5" fontWeight={800} color="text.primary"
                   fontFamily='"Plus Jakarta Sans", sans-serif'
                   sx={{ mt: 0.5, fontSize: { xs: '1.1rem', md: '1.5rem' } }}>
                   {formatCurrency(totalSpent)}
-                  <Typography component="span" variant="body2" color="#98a2b3" fontWeight={400}>
+                  <Typography component="span" variant="body2" color="text.secondary" fontWeight={400}>
                     {' '} / {formatCurrency(totalBudgeted)}
                   </Typography>
                 </Typography>
               </Box>
               <Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.75 }}>
-                  <Typography variant="caption" color="#667085" fontWeight={500}>{overallPct.toFixed(1)}% used</Typography>
+                  <Typography variant="caption" color="text.secondary" fontWeight={500}>{overallPct.toFixed(1)}% used</Typography>
                   <Typography variant="caption" color={totalLeft >= 0 ? '#10b981' : '#ef4444'} fontWeight={600}>
                     {formatCurrency(Math.abs(totalLeft))} {totalLeft >= 0 ? 'left' : 'over'}
                   </Typography>
@@ -99,7 +99,7 @@ const Budgets = () => {
                 <LinearProgress
                   variant="determinate" value={overallPct}
                   sx={{
-                    height: 8, borderRadius: '8px', bgcolor: '#f1f3f6',
+                    height: 8, borderRadius: '8px', bgcolor: (theme) => theme.palette.mode === 'dark' ? '#333' : '#f1f3f6',
                     '& .MuiLinearProgress-bar': {
                       bgcolor: overallPct >= 100 ? '#ef4444' : overallPct >= 80 ? '#f59e0b' : '#10b981',
                       borderRadius: '8px',
@@ -144,7 +144,7 @@ const Budgets = () => {
                 onMouseLeave={() => setHoveredId(null)}
                 sx={{
                   borderRadius: { xs: '12px', md: '16px' },
-                  border: `1px solid ${status === 'exceeded' ? '#fecaca' : '#e4e7ed'}`,
+                  border: (theme) => '1px solid ' + (status === 'exceeded' ? (theme.palette.mode === 'dark' ? '#7f1d1d' : '#fecaca') : theme.palette.divider),
                   boxShadow: status === 'exceeded'
                     ? '0 4px 16px rgba(239,68,68,0.12)'
                     : '0 1px 3px rgba(16,24,40,0.06)',
@@ -159,13 +159,13 @@ const Budgets = () => {
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
                       <Box sx={{
                         width: { xs: 34, md: 40 }, height: { xs: 34, md: 40 },
-                        borderRadius: '10px', bgcolor: '#fff1f3',
+                        borderRadius: '10px', bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.15)' : '#fff1f3',
                         display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                       }}>
                         <Target size={18} color="#f43f6e" />
                       </Box>
                       <Box>
-                        <Typography variant="subtitle1" fontWeight={700} color="#101828"
+                        <Typography variant="subtitle1" fontWeight={700} color="text.primary"
                           sx={{ fontSize: { xs: '0.85rem', md: '1rem' } }}>
                           {budget.category}
                         </Typography>
@@ -174,7 +174,7 @@ const Budgets = () => {
                         {budget.end_date && (
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.5 }}>
                             <Calendar size={10} color="#98a2b3" />
-                            <Typography variant="caption" color="#98a2b3" sx={{ fontSize: '0.65rem' }}>
+                            <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.65rem' }}>
                               {format(new Date(budget.start_date), 'MMM d')} - {format(new Date(budget.end_date), 'MMM d')}
                             </Typography>
                           </Box>
@@ -187,7 +187,7 @@ const Budgets = () => {
                         onClick={() => deleteBudget(budget.id)}
                         sx={{
                           color: '#cbd1db', borderRadius: '8px',
-                          '&:hover': { color: '#ef4444', bgcolor: '#fee2e2' },
+                          '&:hover': { color: '#ef4444', bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(239,68,68,0.15)' : '#fee2e2' },
                           transition: 'all 0.2s ease',
                           mb: 0.5,
                         }}
@@ -206,12 +206,12 @@ const Budgets = () => {
 
                   {/* Big remaining amount */}
                   <Box sx={{ mb: 2 }}>
-                    <Typography variant="caption" color="#98a2b3" fontWeight={600}
+                    <Typography variant="caption" color="text.secondary" fontWeight={600}
                       sx={{ textTransform: 'uppercase', letterSpacing: '0.06em', fontSize: '0.62rem' }}>
                       Remaining
                     </Typography>
                     <Typography variant="h4" fontWeight={800}
-                      color={budget.limit - budget.spent < 0 ? '#ef4444' : '#101828'}
+                      color={budget.limit - budget.spent < 0 ? '#ef4444' : 'text.primary'}
                       fontFamily='"Plus Jakarta Sans", sans-serif'
                       sx={{ letterSpacing: '-0.02em', lineHeight: 1.1, mt: 0.25, fontSize: { xs: '1.4rem', md: '2.125rem' } }}>
                       {formatCurrency(Math.max(0, budget.limit - budget.spent))}
@@ -221,7 +221,7 @@ const Budgets = () => {
                   {/* Progress */}
                   <Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.75 }}>
-                      <Typography variant="caption" color="#667085" fontWeight={500} sx={{ fontSize: { xs: '0.68rem', md: '0.75rem' } }}>
+                      <Typography variant="caption" color="text.secondary" fontWeight={500} sx={{ fontSize: { xs: '0.68rem', md: '0.75rem' } }}>
                         {formatCurrency(budget.spent)} spent
                       </Typography>
                       <Typography variant="caption" fontWeight={700} color={cfg.color} sx={{ fontSize: { xs: '0.68rem', md: '0.75rem' } }}>
@@ -231,11 +231,11 @@ const Budgets = () => {
                     <LinearProgress
                       variant="determinate" value={pct}
                       sx={{
-                        height: 8, borderRadius: '8px', bgcolor: '#f1f3f6',
+                        height: 8, borderRadius: '8px', bgcolor: (theme) => theme.palette.mode === 'dark' ? '#333' : '#f1f3f6',
                         '& .MuiLinearProgress-bar': { bgcolor: cfg.color, borderRadius: '8px' },
                       }}
                     />
-                    <Typography variant="caption" color="#98a2b3" sx={{ mt: 0.5, display: 'block', fontSize: { xs: '0.65rem', md: '0.75rem' } }}>
+                    <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: 'block', fontSize: { xs: '0.65rem', md: '0.75rem' } }}>
                       of {formatCurrency(budget.limit)} budget
                     </Typography>
                   </Box>
@@ -250,10 +250,10 @@ const Budgets = () => {
       {budgets.length === 0 && (
         <Box sx={{ textAlign: 'center', py: { xs: 6, md: 10 } }}>
           <Box sx={{ fontSize: '3rem', mb: 2 }}>🎯</Box>
-          <Typography variant="h5" fontWeight={700} color="#344054" mb={1} sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' } }}>
+          <Typography variant="h5" fontWeight={700} color="text.primary" mb={1} sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' } }}>
             No budgets yet
           </Typography>
-          <Typography variant="body2" color="#98a2b3" mb={3} sx={{ px: 2 }}>
+          <Typography variant="body2" color="text.secondary" mb={3} sx={{ px: 2 }}>
             Set spending limits per category to stay on track.
           </Typography>
           <Button

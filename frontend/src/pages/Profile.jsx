@@ -19,11 +19,11 @@ const Section = ({ title, subtitle, children, delay = 0 }) => (
     mb: 3,
   }}>
     <Box sx={{ mb: 3 }}>
-      <Typography variant="h6" fontWeight={700} color="#101828"
+      <Typography variant="h6" fontWeight={700} color="text.primary"
         fontFamily='"Plus Jakarta Sans", sans-serif' sx={{ mb: 0.5 }}>
         {title}
       </Typography>
-      {subtitle && <Typography variant="body2" color="#667085">{subtitle}</Typography>}
+      {subtitle && <Typography variant="body2" color="text.secondary">{subtitle}</Typography>}
     </Box>
     <Divider sx={{ borderColor: 'divider', mb: 3 }} />
     {children}
@@ -121,12 +121,12 @@ const Profile = () => {
     <Box sx={{ pt: { xs: 3, md: 4 }, maxWidth: 720 }}>
       {/* Page header */}
       <Box sx={{ mb: 4, animation: `${fadeUp} 0.3s ease` }}>
-        <Typography variant="h4" fontWeight={800} color="#101828"
+        <Typography variant="h4" fontWeight={800} color="text.primary"
           fontFamily='"Plus Jakarta Sans", sans-serif'
           sx={{ letterSpacing: '-0.02em', mb: 0.5 }}>
           My Profile
         </Typography>
-        <Typography variant="body2" color="#667085">
+        <Typography variant="body2" color="text.secondary">
           Manage your personal information and security settings.
         </Typography>
       </Box>
@@ -164,15 +164,15 @@ const Profile = () => {
             </Tooltip>
           </Box>
           <Box>
-            <Typography variant="body1" fontWeight={600} color="#344054">{fullName || 'Your Name'}</Typography>
-            <Typography variant="body2" color="#98a2b3" sx={{ mb: 1.5 }}>{displayEmail}</Typography>
+            <Typography variant="body1" fontWeight={600} color="text.primary">{fullName || 'Your Name'}</Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>{displayEmail}</Typography>
             <Button
               variant="outlined" size="small" startIcon={<Pencil size={13} />}
               onClick={() => setAvatarDialogOpen(true)}
               sx={{
                 borderRadius: '8px', borderColor: 'divider', color: 'text.secondary',
                 fontSize: '0.78rem', fontWeight: 600, textTransform: 'none',
-                '&:hover': { borderColor: '#f43f6e', color: '#f43f6e', bgcolor: '#fff1f3' },
+                '&:hover': { borderColor: '#f43f6e', color: '#f43f6e', bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.15)' : '#fff1f3' },
               }}
             >
               Upload Photo
