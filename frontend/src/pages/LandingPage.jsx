@@ -13,6 +13,8 @@ import logofull from '../assets/Dyme logo full.png';
 import logofullWhite from '../assets/Dyme logo full(white).png';
 import logo from '../assets/Dyme logo.png';
 import FooterBackground from '../components/Landing/FooterBackground';
+import LandingNavbar from '../components/Landing/LandingNavbar';
+import LandingFooter from '../components/Landing/LandingFooter';
 
 // ─── Keyframes ───────────────────────────────────────────
 const floatA = keyframes`
@@ -183,175 +185,12 @@ const overline = {
 // ─── Component ───────────────────────────────────────────
 const LandingPage = () => {
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isDark = theme.palette.mode === 'dark';
-  const currentLogoFull = isDark ? logofullWhite : logofull;
-
-  // ─── Logo Component ───
-  const DymeLogo = ({ height = 50, priority = "auto" }) => (
-    <Box
-      component="img"
-      src={currentLogoFull}
-      alt="Dyme"
-      fetchpriority={priority}
-      sx={{ height, width: 'auto', display: 'block' }}
-    />
-  );
-  
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const top = el.getBoundingClientRect().top + window.scrollY - 80;
-    window.scrollTo({ top, behavior: 'smooth' });
-  };
-
-  const NAV_LINKS = [
-    { label: 'Features', id: 'features' },
-    { label: 'Pricing', id: 'pricing' },
-    { label: 'Why Us', id: 'why-us' },
-  ];
-
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', fn, { passive: true });
-    return () => window.removeEventListener('scroll', fn);
-  }, []);
+  // Removed inlined nav logic (handled in LandingNavbar)
 
   return (
     <Box sx={{ bgcolor: 'background.default', overflowX: 'hidden', fontFamily: '"DM Sans", "Plus Jakarta Sans", sans-serif' }}>
 
-      {/* ══════════════════════════════════════
-          NAV
-      ══════════════════════════════════════ */}
-      <Box
-        component="nav"
-        sx={{
-          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200,
-          px: { xs: 3, md: 6 }, py: 1.5,
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          transition: 'all 0.3s',
-          bgcolor: scrolled ? (theme) => theme.palette.mode === 'dark' ? 'rgba(18, 18, 18, 0.88)' : 'rgba(250,250,248,0.88)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(24px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(0,0,0,0.06)' : 'none',
-        }}
-      >
-        <Box onClick={() => navigate('/landing')} sx={{ cursor: 'pointer' }}>
-          <DymeLogo height={50} priority="high" />
-        </Box>
-
-        <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 4, alignItems: 'center' }}>
-          {NAV_LINKS.map(({ label, id }) => (
-            <Typography
-              key={label}
-              onClick={() => scrollTo(id)}
-              sx={{ fontSize: '0.875rem', fontWeight: 500, color: 'text.secondary', cursor: 'pointer', transition: 'color 0.2s', '&:hover': { color: 'text.primary' } }}
-            >
-              {label}
-            </Typography>
-          ))}
-        </Box>
-
-        <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1.5, alignItems: 'center' }}>
-          <ThemeToggle />
-          <Button onClick={() => navigate('/login')} sx={{ color: 'text.secondary', fontWeight: 600, fontSize: '0.875rem', px: 2, borderRadius: '8px' }}>Login</Button>
-          <Button onClick={() => navigate('/login')} sx={{ bgcolor: 'text.primary', color: 'background.paper', fontWeight: 600, fontSize: '0.875rem', px: 2.5, py: 0.85, borderRadius: '9px', '&:hover': { bgcolor: '#1a1a1a', transform: 'translateY(-1px)', boxShadow: '0 6px 20px rgba(0,0,0,0.15)' }, transition: 'all 0.2s' }}>Join free</Button>
-        </Box>
-
-        {/* Mobile Nav Icon */}
-        <Box
-          onClick={() => setMobileMenuOpen(true)}
-          sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', cursor: 'pointer', p: 1, transition: 'transform 0.3s ease, opacity 0.3s', transform: mobileMenuOpen ? 'rotate(90deg)' : 'rotate(0deg)', opacity: mobileMenuOpen ? 0 : 1, pointerEvents: mobileMenuOpen ? 'none' : 'auto', color: 'text.primary' }}
-        >
-          <Menu size={24} color="currentColor" />
-        </Box>
-      </Box>
-
-      {/* Mobile Menu Backdrop */}
-      <Box
-        onClick={() => setMobileMenuOpen(false)}
-        sx={{
-          position: 'fixed', inset: 0, zIndex: 9998,
-          bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(18, 18, 18, 0.5)' : 'rgba(250,250,248,0.5)',
-          backdropFilter: mobileMenuOpen ? 'blur(12px)' : 'none',
-          WebkitBackdropFilter: mobileMenuOpen ? 'blur(12px)' : 'none',
-          opacity: mobileMenuOpen ? 1 : 0,
-          pointerEvents: mobileMenuOpen ? 'auto' : 'none',
-          transition: 'opacity 0.4s ease, backdrop-filter 0.4s ease',
-          display: { xs: 'block', md: 'none' }
-        }}
-      />
-
-      {/* Mobile Menu Drawer */}
-      <Box
-        sx={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(18, 18, 18, 0.85)' : 'rgba(250,250,248,0.85)',
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          zIndex: 9999,
-          display: 'flex',
-          flexDirection: 'column',
-          px: 3,
-          pt: 1.5,
-          pb: 4,
-          borderBottomLeftRadius: '24px',
-          borderBottomRightRadius: '24px',
-          transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(-100%)',
-          transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-          boxShadow: mobileMenuOpen ? '0 10px 40px rgba(0,0,0,0.1)' : 'none',
-        }}
-      >
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 5 }}>
-          <Box onClick={() => setMobileMenuOpen(false)} sx={{ cursor: 'pointer' }}>
-            <DymeLogo height={50} priority="high" />
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <ThemeToggle />
-            <Box onClick={() => setMobileMenuOpen(false)} sx={{ cursor: 'pointer', p: 1, transform: mobileMenuOpen ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.4s ease 0.1s', color: 'text.primary' }}>
-              <X size={28} color="currentColor" />
-            </Box>
-          </Box>
-        </Box>
-
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, flex: 1, px: 1, mb: 4 }}>
-          {['About', 'Features', 'FAQs'].map((label) => (
-            <Typography
-              key={label}
-              onClick={() => {
-                setMobileMenuOpen(false);
-                const id = label.toLowerCase();
-                scrollTo(id);
-              }}
-              sx={{ fontSize: '1.8rem', fontWeight: 700, color: 'text.primary', cursor: 'pointer', letterSpacing: '-0.02em', '&:hover': { color: '#f43f6e' } }}
-            >
-              {label}
-            </Typography>
-          ))}
-        </Box>
-
-        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', width: '100%', mt: 'auto' }}>
-          <Button
-            fullWidth
-            onClick={() => { setMobileMenuOpen(false); navigate('/login'); }}
-            sx={{ color: 'text.primary', border: '1.5px solid', borderColor: 'divider', fontWeight: 700, fontSize: '0.95rem', py: 1.5, borderRadius: '12px' }}
-          >
-            Login
-          </Button>
-          <Button
-            fullWidth
-            onClick={() => { setMobileMenuOpen(false); navigate('/login'); }}
-            sx={{ bgcolor: 'text.primary', color: 'background.paper', fontWeight: 700, fontSize: '0.95rem', py: 1.5, borderRadius: '12px', '&:hover': { bgcolor: '#1a1a1a' } }}
-          >
-            Sign up
-          </Button>
-        </Box>
-      </Box>
+      <LandingNavbar />
 
       {/* ══════════════════════════════════════
           HERO
@@ -389,9 +228,6 @@ const LandingPage = () => {
               <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 5, animation: `${fadeSlideRight} 0.55s ease 0.26s both` }}>
                 <Button onClick={() => navigate('/login')} sx={{ bgcolor: 'text.primary', color: 'background.paper', fontWeight: 700, fontSize: '0.95rem', px: 3.5, py: 1.4, borderRadius: '12px', display: 'flex', alignItems: 'center', gap: 1, boxShadow: '0 4px 20px rgba(0,0,0,0.18)', '&:hover': { bgcolor: '#1f1f1f', transform: 'translateY(-2px)', boxShadow: '0 10px 30px rgba(0,0,0,0.22)' }, transition: 'all 0.22s' }}>
                   Create Account <ArrowRight size={16} />
-                </Button>
-                <Button onClick={() => navigate('/login')} sx={{ color: 'text.primary', fontWeight: 600, fontSize: '0.95rem', px: 3.5, py: 1.4, borderRadius: '12px', border: '1.5px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', gap: 1, '&:hover': { borderColor: '#f43f6e', color: '#f43f6e', bgcolor: 'rgba(244,63,110,0.04)' }, transition: 'all 0.2s' }}>
-                  Contact Sales <ArrowUpRight size={15} />
                 </Button>
               </Box>
 
@@ -728,79 +564,7 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           FOOTER
       ══════════════════════════════════════ */}
-      <Box
-        component="footer"
-        sx={{
-          bgcolor: '#0a0a0f',
-          pt: 12, pb: 6,
-          px: { xs: 3, md: 8 },
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Background SVG */}
-        <FooterBackground />
-
-        {/* Footer Content */}
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-          <Box sx={{ display: 'flex', gap: { xs: 6, md: 14 }, flexWrap: 'wrap', pb: 8, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-
-            {/* Brand */}
-            <Box sx={{ flex: '0 0 auto', maxWidth: 260 }}>
-              <Box sx={{ width: 52, height: 52, borderRadius: '14px', background: 'linear-gradient(135deg,rgba(244,63,110,0.18),rgba(244,63,110,0.06))', border: '1px solid rgba(244,63,110,0.22)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', p: 0.75, mb: 2.5 }}>
-                <Box component="img" src={logo} alt="Dyme" loading="lazy" sx={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-              </Box>
-              <Typography sx={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff', mb: 1, fontFamily: '"Plus Jakarta Sans", sans-serif', letterSpacing: '-0.01em' }}>
-                Dyme
-              </Typography>
-              <Typography sx={{ fontSize: '0.84rem', color: 'rgba(255,255,255,0.32)', lineHeight: 1.85, mb: 4 }}>
-                Your money, finally clear. Track spending, set budgets, and build better habits — all in one place.
-              </Typography>
-              <Box sx={{ display: 'flex', gap: 1.25 }}>
-                {[{ label: '𝕏', title: 'X' }, { label: 'in', title: 'LinkedIn' }, { label: 'ig', title: 'Instagram' }].map(({ label, title }) => (
-                  <Box key={label} title={title} sx={{ width: 34, height: 34, borderRadius: '9px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '0.72rem', color: 'rgba(255,255,255,0.38)', fontWeight: 700, transition: 'all 0.2s ease', '&:hover': { borderColor: '#f43f6e', color: '#f43f6e', bgcolor: 'rgba(244,63,110,0.1)', transform: 'translateY(-2px)', boxShadow: '0 4px 16px rgba(244,63,110,0.2)' } }}>
-                    {label}
-                  </Box>
-                ))}
-              </Box>
-            </Box>
-
-            {/* Link columns */}
-            {[
-              { heading: 'Product', links: ['Features', 'Pricing', 'Changelog', 'Roadmap'] },
-              { heading: 'Company', links: ['Why Us', 'Blog', 'Careers', 'Press'] },
-              { heading: 'Legal', links: ['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'Security'] },
-            ].map(({ heading, links }) => (
-              <Box key={heading} sx={{ flex: '1 1 120px' }}>
-                <Typography sx={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.22)', mb: 3 }}>
-                  {heading}
-                </Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  {links.map((link) => (
-                    <Typography key={link} sx={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.38)', cursor: 'pointer', fontWeight: 400, transition: 'all 0.2s ease', width: 'fit-content', '&:hover': { color: '#fff', transform: 'translateX(3px)' } }}>
-                      {link}
-                    </Typography>
-                  ))}
-                </Box>
-              </Box>
-            ))}
-          </Box>
-
-          {/* Bottom bar */}
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2, pt: 5 }}>
-            <Typography sx={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.18)' }}>
-              © 2026 Dyme Inc. All rights reserved.
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 3 }}>
-              {['Privacy', 'Terms', 'Cookies'].map((item) => (
-                <Typography key={item} sx={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.22)', cursor: 'pointer', transition: 'color 0.2s', '&:hover': { color: 'rgba(255,255,255,0.6)' } }}>
-                  {item}
-                </Typography>
-              ))}
-            </Box>
-          </Box>
-        </Container>
-      </Box>
+      <LandingFooter />
 
     </Box>
   );

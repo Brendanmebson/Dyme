@@ -163,7 +163,7 @@ const Login = () => {
   const { mode } = useAppTheme();
   const [tab, setTab] = useState(0);
 
-  const onLoginSuccess    = () => navigate('/dashboard');
+  const onLoginSuccess = () => navigate('/dashboard');
   const onRegisterSuccess = () => navigate('/onboarding');
 
   return (
@@ -230,7 +230,7 @@ const Login = () => {
       {/* ─── Right form panel ─── */}
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', p: { xs: 3, md: 6 }, bgcolor: 'background.paper', minHeight: '100vh' }}>
         <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 4, animation: `${slideUp} 0.4s ease` }}>
-          <Box component="img" src={mode === 'dark' ? logofullWhite : logofull} alt="Dyme" sx={{ height: 60, width: 'auto' }} />
+          <Box component="img" src={mode === 'dark' ? logofullWhite : logofull} alt="Dyme" sx={{ height: 80, width: 'auto' }} />
         </Box>
 
         <Box sx={{ width: '100%', maxWidth: 420, animation: `${slideUp} 0.4s ease` }}>

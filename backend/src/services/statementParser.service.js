@@ -20,12 +20,33 @@ export const parseStatement = async (fileBuffer, fileName, userId, currency = 'U
         trim: true,
         relax_column_count: true,
       });
-    } else if (lowerName.endsWith('.xlsx') || lowerName.endsWith('.xls')) {
+    } else if (lowerName.endsWith('.xlsx') || lowerName.endsWith('.xls') || lowerName.endsWith('.xslx')) {
       // Handle Excel
-      const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
+      const workbook = XLSX.read(fileBuffer, { type: 'buffer', cellDates: true });
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
-      records = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+      
+      // Convert to array of arrays first to find the header row
+      const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
+      
+      // Heuristic: Find the header row (scan first 20 rows)
+      const headerKeywords = ['date', 'description', 'amount', 'narrative', 'memo', 'transaction'];
+      let headerRowIndex = 0;
+      for (let i = 0; i < Math.min(rows.length, 20); i++) {
+        const row = rows[i];
+        const rowString = row.join(' ').toLowerCase();
+        const matches = headerKeywords.filter(k => rowString.includes(k)).length;
+        if (matches >= 2) { // At least two keywords found
+          headerRowIndex = i;
+          break;
+        }
+      }
+
+      // Convert to JSON using the found header row
+      records = XLSX.utils.sheet_to_json(worksheet, { 
+        range: headerRowIndex,
+        defval: '' 
+      });
     } else {
       throw new Error('Unsupported file format. Please use .csv, .xlsx, or .xls');
     }
@@ -34,9 +55,9 @@ export const parseStatement = async (fileBuffer, fileName, userId, currency = 'U
 
     // Map common header variations
     const headerMaps = {
-      date: ['date', 'transaction date', 'value date', 'booking date', 'pstng date'],
-      desc: ['description', 'memo', 'narrative', 'transaction details', 'remarks', 'payee'],
-      amount: ['amount', 'transaction amount', 'value', 'withdrawal', 'deposit', 'credit', 'debit'],
+      date: ['date', 'transaction date', 'value date', 'booking date', 'pstng date', 'tran date', 'val date'],
+      desc: ['description', 'memo', 'narrative', 'transaction details', 'remarks', 'payee', 'particulars'],
+      amount: ['amount', 'transaction amount', 'value', 'withdrawal', 'deposit', 'credit', 'debit', 'balance'],
       type: ['type', 'transaction type', 'cr/dr', 'credit/debit', 'direction'],
     };
 
@@ -59,21 +80,31 @@ export const parseStatement = async (fileBuffer, fileName, userId, currency = 'U
       const rawType = String(row[typeKey] || '').toLowerCase();
       const rawDesc = String(row[descKey] || '').toLowerCase();
       
+      // Heuristic 1: Explicit type column
       if (rawType.includes('credit') || rawType.includes('cr') || rawType.includes('in') || rawType.includes('deposit')) {
         type = 'income';
-      } else if (parseFloat(rawAmount.replace(/,/g, '')) > 0) {
-        if (amountKey?.toLowerCase().includes('value') || amountKey?.toLowerCase().includes('amount')) {
-           type = parseFloat(rawAmount.replace(/,/g, '')) > 0 ? 'income' : 'expense';
+      } 
+      // Heuristic 2: Positive value in an "Amount" column often means income if it's not a debit column
+      else if (parseFloat(rawAmount.replace(/,/g, '')) > 0) {
+        if (!amountKey?.toLowerCase().includes('debit') && !amountKey?.toLowerCase().includes('withdrawal')) {
+           type = 'income';
         }
       }
 
       // Date normalization
       let dateValue = row[dateKey];
       let date = new Date().toISOString().split('T')[0];
+      
       if (dateValue) {
-        const parsedDate = new Date(dateValue);
-        if (!isNaN(parsedDate)) {
-          date = parsedDate.toISOString().split('T')[0];
+        // If SheetJS parsed it as a Date object (cellDates: true)
+        if (dateValue instanceof Date) {
+          date = dateValue.toISOString().split('T')[0];
+        } else {
+          // Fallback parsing for strings
+          const parsedDate = new Date(dateValue);
+          if (!isNaN(parsedDate)) {
+            date = parsedDate.toISOString().split('T')[0];
+          }
         }
       }
 
@@ -88,7 +119,7 @@ export const parseStatement = async (fileBuffer, fileName, userId, currency = 'U
         source: 'statement_import',
         external_id: `stmt_${userId}_${uuidv4()}`,
       };
-    }).filter(tx => tx.amount > 0);
+    }).filter(tx => tx.amount > 0 && tx.description !== 'Imported Transaction');
   } catch (err) {
     console.error('Statement Parser Error:', err);
     throw new Error('Could not parse file. Ensure it has Date, Description, and Amount columns.');

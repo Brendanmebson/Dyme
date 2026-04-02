@@ -21,6 +21,9 @@ const Analytics    = lazy(() => import('./pages/Analytics'));
 const Reports      = lazy(() => import('./pages/Reports'));
 const Profile      = lazy(() => import('./pages/Profile'));
 const Settings     = lazy(() => import('./pages/Settings'));
+const About        = lazy(() => import('./pages/About'));
+const Features     = lazy(() => import('./pages/Features'));
+const FAQs         = lazy(() => import('./pages/FAQs'));
 
 // const theme = createTheme(muiTheme); // Removed static theme
 
@@ -65,6 +68,9 @@ function App() {
                 <Routes>
                   {/* Public */}
                   <Route path="/"           element={<LandingPage />} />
+                  <Route path="/about"      element={<About />} />
+                  <Route path="/features"   element={<Features />} />
+                  <Route path="/faqs"       element={<FAQs />} />
                   <Route path="/login"      element={<Login />} />
 
                   {/* Post-signup onboarding (protected) */}

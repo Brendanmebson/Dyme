@@ -8,7 +8,7 @@ import RecentTransactions from '../components/Dashboard/RecentTransactions';
 import SpendingChart from '../components/Charts/SpendingChart';
 import MonthlyChart from '../components/Charts/MonthlyChart';
 import { DollarSign, TrendingUp, TrendingDown, Wallet, ArrowUpRight, Upload, X, Zap } from 'lucide-react';
-import { Box, Typography, Button, CircularProgress } from '@mui/material';
+import { Box, Typography, Button, CircularProgress, Skeleton, Grid } from '@mui/material';
 import { subMonths, format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import { bankingService } from '../services/banking.service';
@@ -55,7 +55,7 @@ const Dashboard = () => {
   const handleFileUpload = async (file) => {
     if (!file) return;
     const lowerName = file.name.toLowerCase();
-    if (!lowerName.endsWith('.csv') && !lowerName.endsWith('.xlsx') && !lowerName.endsWith('.xls')) {
+    if (!lowerName.endsWith('.csv') && !lowerName.endsWith('.xlsx') && !lowerName.endsWith('.xls') && !lowerName.endsWith('.xslx')) {
       alert('Please upload a valid CSV or Excel bank statement.');
       return;
     }
@@ -85,8 +85,31 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-        <CircularProgress sx={{ color: '#f43f6e' }} />
+      <Box sx={{ pt: { xs: 3, md: 4 } }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4 }}>
+          <Box>
+            <Skeleton variant="text" width={220} height={40} sx={{ mb: 1, borderRadius: '8px' }} />
+            <Skeleton variant="text" width={150} height={20} sx={{ borderRadius: '4px' }} />
+          </Box>
+          <Skeleton variant="rectangular" width={140} height={42} sx={{ borderRadius: '12px' }} />
+        </Box>
+
+        <Grid container spacing={3} sx={{ mb: 4 }}>
+          {[1, 2, 3, 4].map((i) => (
+            <Grid item xs={6} lg={3} key={i}>
+              <Skeleton variant="rectangular" height={130} sx={{ borderRadius: '16px' }} />
+            </Grid>
+          ))}
+        </Grid>
+
+        <Grid container spacing={3}>
+          <Grid item xs={12} lg={7}>
+            <Skeleton variant="rectangular" height={360} sx={{ borderRadius: '24px' }} />
+          </Grid>
+          <Grid item xs={12} lg={5}>
+            <Skeleton variant="rectangular" height={360} sx={{ borderRadius: '24px' }} />
+          </Grid>
+        </Grid>
       </Box>
     );
   }
