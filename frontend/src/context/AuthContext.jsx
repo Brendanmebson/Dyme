@@ -91,13 +91,6 @@ export const AuthProvider = ({ children }) => {
     }
   }, [setLocalAvatar]);
 
-  if (loading) {
-    return (
-      <Box sx={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <CircularProgress sx={{ color: '#f43f6e' }} />
-      </Box>
-    );
-  }
 
   return (
     <AuthContext.Provider value={{ user, loading, error, register, login, logout, updateProfile, localAvatar, setLocalAvatar }}>
