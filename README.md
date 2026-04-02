@@ -20,25 +20,31 @@ A bird's-eye view of your financial health. Includes real-time balance tracking,
 
 ### 💸 Multi-Currency Support
 Independent currency tracking for every transaction. Switch your global view between **USD, EUR, GBP, and NGN** with live exchange rates.
-- **🌸 Independent Tracking**: Save transactions in their original currency.
-- **🌸 Global Conversion**: Dynamically view all reports in your preferred currency instantly.
+- **🌸 Independent Tracking**: Save transactions in their original currency (e.g., 1 Naira = 1 Naira).
+- **🌸 Global Conversion**: Dynamically view all reports and budgets in your preferred currency instantly.
+
+### 🏦 Universal Banking (Free Sync)
+A smart statement parser that eliminates the need for expensive banking APIs.
+- **🌸 Smart Import**: Drag-and-drop CSV or XLSX files from any bank.
+- **🌸 Heuristic Matching**: Automatically detects headers and maps them to the Dyme engine.
+- **🌸 Private & Free**: No third-party API keys or subscriptions required.
 
 ### 📊 Advanced Analytics & Reports
 Visualize your spending habits with interactive charts and detailed breakdowns.
-- **💓 Spending by Category**: identify where your money goes.
+- **💓 Spending by Category**: Identify where your money goes.
 - **💓 Monthly Trends**: Track your net worth over time.
 - **💓 Exportable Reports**: Generate and download CSV reports for your records.
 > ![Reports Preview](./assets/reports.png)
 
 ### 🎯 Budget Management
 Set monthly limits for specific categories and track your progress with smart progress bars.
-- **✨ Automatic Calculation**: Budgets update instantly as you add transactions.
+- **✨ Historical Inclusion**: Optionally include existing transactions when creating a new budget.
 - **✨ Visual Alerts**: See when you're nearing or exceeding your limits.
 
 ### 👤 Profile & Security
-- **🎨 Avatar Editor**: Upload and crop your profile picture with a built-in canvas editor.
-- **🔐 Secure Auth**: Handled via Supabase with JWT-based sessions.
-- **🌙 Dark Mode Ready**: Premium design system built with custom MUI tokens.
+- **🎨 Persistence Engine**: Robust profile picture management with intelligent local caching for 100% reliability.
+- **🔐 Zero-Wait Landing**: Optimized "Fast Auth" logic that allows public pages to render instantly.
+- **🌙 Dark Mode Ready**: Premium platform-wide design system that respects your theme choice everywhere.
 
 ---
 

@@ -65,3 +65,25 @@ export const getBankStatus = async (req, res) => {
     return res.status(500).json({ error: 'Failed to get bank status' });
   }
 };
+
+/**
+ * DISCONNECT BANK
+ * Reset connection status in profile
+ */
+export const disconnectBank = async (req, res) => {
+  try {
+    const { error } = await supabase
+      .from('profiles')
+      .update({ 
+        bank_connected: false,
+        bank_provider: null,
+        bank_name: null 
+      })
+      .eq('id', req.user.id);
+
+    if (error) throw error;
+    return res.json({ success: true, message: 'Bank disconnected successfully.' });
+  } catch (err) {
+    return res.status(500).json({ error: 'Failed to disconnect bank' });
+  }
+};

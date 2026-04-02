@@ -66,9 +66,9 @@ const Profile = () => {
   React.useEffect(() => {
     if (user) {
       setName(user.full_name ?? user.user_metadata?.full_name ?? '');
-      setAvatar(user.avatar_url || null);
+      setAvatar(localAvatar || user.avatar_url || null);
     }
-  }, [user]);
+  }, [user, localAvatar]);
 
   const initials = fullName
     ? fullName.split(' ').filter(Boolean).map((n) => n[0]).join('').toUpperCase().slice(0, 2)

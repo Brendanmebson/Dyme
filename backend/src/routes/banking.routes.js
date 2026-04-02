@@ -19,4 +19,7 @@ router.get('/status', getBankStatus);
 // ── Universal Statement Upload (CSV, XLSX, XLS) ───────────────────
 router.post('/upload-csv', upload.single('statement'), uploadStatement);
 
+// ── Disconnect ────────────────────────────────────────────────────
+router.delete('/disconnect', disconnectBank);
+
 export default router;

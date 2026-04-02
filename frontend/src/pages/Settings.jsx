@@ -1,16 +1,20 @@
-// src/pages/Settings.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Box, Typography, Divider, Paper, Switch, FormControlLabel,
-  Button, Alert, Select, MenuItem, FormControl, InputLabel,
-  Chip,
+  Box, Typography, Divider, Paper, Switch,
+  Button, Alert, CircularProgress,
 } from '@mui/material';
 import {
-  Globe, Bell, Shield, Palette, Check, CreditCard,
+  Globe, Shield, Palette, Check, CreditCard, Zap, User
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Avatar } from '@mui/material';
 import { keyframes } from '@mui/material/styles';
 import { useCurrency, CURRENCIES } from '../context/CurrencyContext';
 import { useAppTheme } from '../context/ThemeContext';
+import { useFinance } from '../context/FinanceContext';
+import { useAuth } from '../context/AuthContext';
+import { bankingService } from '../services/banking.service';
+import api from '../services/api';
 
 const fadeUp = keyframes`from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}`;
 
@@ -62,32 +66,53 @@ const ToggleRow = ({ label, description, checked, onChange }) => (
 );
 
 const Settings = () => {
+  const navigate = useNavigate();
+  const { user, localAvatar } = useAuth();
   const { currency, setCurrency } = useCurrency();
+  const { refreshData } = useFinance();
   const { mode, toggleTheme } = useAppTheme();
+  
   const [saved, setSaved] = useState(false);
-
-  // Notifications
-  const [notifs, setNotifs] = useState({
-    transactions: true,
-    budgetAlerts: true,
-    weeklyReport: false,
-    monthlyReport: true,
-    lowBalance:    true,
-  });
-
-  // Preferences
-  const [prefs, setPrefs] = useState({
-    compactMode:    false,
-    animations:     true,
-    autoCategories: true,
-  });
-
   const [selectedCurrency, setSelectedCurrency] = useState(currency.code);
+  const [refreshing, setRefreshing] = useState(false);
+  const [bankStatus, setBankStatus] = useState({ connected: false, provider: null, name: '' });
+  const [disconnecting, setDisconnecting] = useState(false);
 
-  const handleSave = () => {
+  useEffect(() => {
+    bankingService.getStatus()
+      .then(setBankStatus)
+      .catch(() => setBankStatus({ connected: false }));
+  }, []);
+
+  const handleSaveCurrency = () => {
     setCurrency(selectedCurrency);
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
+  };
+
+  const handleManualRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await refreshData();
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
+  const handleDisconnectBank = async () => {
+    if (!window.confirm('Are you sure you want to disconnect your bank import? This will not delete your data.')) return;
+    setDisconnecting(true);
+    try {
+      await api.delete('/banking/disconnect'); 
+      setBankStatus({ connected: false });
+      await refreshData();
+    } catch (err) {
+      console.error('Failed to disconnect bank:', err);
+    } finally {
+      setDisconnecting(false);
+    }
   };
 
   return (
@@ -100,12 +125,48 @@ const Settings = () => {
           Settings
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Customize your Dyme experience.
+          Manage your account preferences and functional connections.
         </Typography>
       </Box>
 
+      {/* Profile Summary */}
+      <Section title="Profile Overview" subtitle="Quick view of your account" icon={User} iconColor="#f43f6e" delay={50}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 1 }}>
+          <Avatar
+            src={localAvatar || user?.avatar_url || user?.user_metadata?.avatar_url || undefined}
+            sx={{
+              width: 64, height: 64, borderRadius: '20px',
+              border: '4px solid', borderColor: 'background.paper',
+              boxShadow: '0 8px 16px rgba(0,0,0,0.1)',
+              background: 'linear-gradient(135deg, #f43f6e, #fb7292)',
+              fontSize: '1.5rem', fontWeight: 800
+            }}
+          >
+            {user?.full_name?.charAt(0) || user?.email?.charAt(0).toUpperCase()}
+          </Avatar>
+          <Box sx={{ flex: 1 }}>
+            <Typography variant="h6" fontWeight={700} sx={{ lineHeight: 1.2 }}>
+              {user?.full_name || 'Dyme User'}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
+              {user?.email}
+            </Typography>
+            <Button
+              size="small" variant="outlined"
+              onClick={() => navigate('/dashboard/profile')}
+              sx={{
+                borderRadius: '10px', textTransform: 'none', fontWeight: 600,
+                borderColor: 'divider', color: 'text.primary', px: 2
+              }}
+            >
+              Edit Profile Info
+            </Button>
+          </Box>
+        </Box>
+      </Section>
+
       {/* Currency */}
-      <Section title="Currency & Region" subtitle="Control how money is displayed" icon={Globe} iconColor="#3b82f6" delay={50}>
+      <Section title="Currency & Region" subtitle="Control how money is displayed" icon={Globe} iconColor="#3b82f6" delay={100}>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
           Select your preferred currency. This affects all amounts shown across the dashboard.
         </Typography>
@@ -143,23 +204,13 @@ const Settings = () => {
           ))}
         </Box>
 
-        {saved && (
-          <Alert severity="success" sx={{ mb: 2, borderRadius: '10px' }}>
-            Currency updated to {CURRENCIES[selectedCurrency]?.name}!
-          </Alert>
-        )}
-
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button
-            variant="contained" onClick={handleSave}
+            variant="contained" onClick={handleSaveCurrency}
             startIcon={saved ? <Check size={16} /> : <Globe size={16} />}
             sx={{
-              background: saved
-                ? 'linear-gradient(135deg, #10b981, #34d399)'
-                : 'linear-gradient(135deg, #f43f6e, #fb7292)',
+              background: saved ? '#10b981' : 'linear-gradient(135deg, #f43f6e, #fb7292)',
               borderRadius: '12px', px: 3, py: 1.25, fontWeight: 600, textTransform: 'none',
-              boxShadow: '0 4px 16px rgba(244,63,110,0.2)',
-              '&:hover': { transform: 'translateY(-1px)' },
               transition: 'all 0.3s ease',
             }}
           >
@@ -168,91 +219,62 @@ const Settings = () => {
         </Box>
       </Section>
 
-      {/* Notifications */}
-      <Section title="Notifications" subtitle="Choose what you want to be notified about" icon={Bell} iconColor="#f59e0b" delay={150}>
-        <ToggleRow
-          label="Transaction Alerts"
-          description="Get notified for every new transaction"
-          checked={notifs.transactions}
-          onChange={(v) => setNotifs((p) => ({ ...p, transactions: v }))}
-        />
-        <ToggleRow
-          label="Budget Alerts"
-          description="Warn me when I'm close to a budget limit"
-          checked={notifs.budgetAlerts}
-          onChange={(v) => setNotifs((p) => ({ ...p, budgetAlerts: v }))}
-        />
-        <ToggleRow
-          label="Low Balance Warning"
-          description="Alert me when balance drops below threshold"
-          checked={notifs.lowBalance}
-          onChange={(v) => setNotifs((p) => ({ ...p, lowBalance: v }))}
-        />
-        <ToggleRow
-          label="Weekly Summary"
-          description="Receive a weekly spending report"
-          checked={notifs.weeklyReport}
-          onChange={(v) => setNotifs((p) => ({ ...p, weeklyReport: v }))}
-        />
-        <ToggleRow
-          label="Monthly Report"
-          description="Full monthly financial overview"
-          checked={notifs.monthlyReport}
-          onChange={(v) => setNotifs((p) => ({ ...p, monthlyReport: v }))}
-        />
+      {/* Bank Connection */}
+      <Section title="Bank Connection" subtitle="Status of your automatic or manual imports" icon={CreditCard} iconColor="#10b981" delay={200}>
+        <Box sx={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          p: 2, borderRadius: '16px', bgcolor: 'background.default',
+          border: '1px solid', borderColor: 'divider'
+        }}>
+          <Box>
+            <Typography variant="body2" fontWeight={700}>
+              {bankStatus.connected ? (bankStatus.bank_name || 'Manual Import') : 'No Bank Connected'}
+            </Typography>
+            <Typography variant="caption" color="text.secondary">
+              {bankStatus.connected 
+                ? `Successfully synced via ${bankStatus.provider === 'manual_import' ? 'statement data' : 'bank account'}.`
+                : 'Import a CSV or Excel statement to see your data here.'}
+            </Typography>
+          </Box>
+          {bankStatus.connected && (
+            <Button
+              size="small" color="error" variant="text"
+              disabled={disconnecting}
+              onClick={handleDisconnectBank}
+              sx={{ fontWeight: 700, textTransform: 'none', borderRadius: '8px' }}
+            >
+              {disconnecting ? 'Disconnecting...' : 'Disconnect'}
+            </Button>
+          )}
+        </Box>
       </Section>
 
-      {/* Preferences */}
-      <Section title="Preferences" subtitle="Personalise how Dyme looks and behaves" icon={Palette} iconColor="#7c3aed" delay={250}>
+      {/* Appearance */}
+      <Section title="Appearance" subtitle="Personalise how Dyme looks" icon={Palette} iconColor="#7c3aed" delay={300}>
         <ToggleRow
           label="Dark Mode"
-          description="Switch to a dark appearance"
+          description="Switch between light and dark themes"
           checked={mode === 'dark'}
           onChange={toggleTheme}
         />
-        <ToggleRow
-          label="Compact Mode"
-          description="Show more data with less spacing"
-          checked={prefs.compactMode}
-          onChange={(v) => setPrefs((p) => ({ ...p, compactMode: v }))}
-        />
-        <ToggleRow
-          label="Animations"
-          description="Enable smooth transitions and animations"
-          checked={prefs.animations}
-          onChange={(v) => setPrefs((p) => ({ ...p, animations: v }))}
-        />
-        <ToggleRow
-          label="Auto-categorise Transactions"
-          description="Automatically suggest categories for new transactions"
-          checked={prefs.autoCategories}
-          onChange={(v) => setPrefs((p) => ({ ...p, autoCategories: v }))}
-        />
       </Section>
 
-      {/* Security */}
-      <Section title="Security" subtitle="Manage your account security" icon={Shield} iconColor="#10b981" delay={350}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-          <Box sx={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            p: 2, borderRadius: '12px', bgcolor: 'background.default', border: '1px solid', borderColor: 'divider',
-          }}>
-            <Box>
-              <Typography variant="body2" fontWeight={600} color="text.primary">Two-Factor Authentication</Typography>
-              <Typography variant="caption" color="text.secondary">Add an extra layer of security</Typography>
-            </Box>
-            <Chip label="Not Set Up" size="small" sx={{ bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(239,68,68,0.1)' : '#fee2e2', color: (theme) => theme.palette.mode === 'dark' ? '#f87171' : '#ef4444', fontWeight: 600, fontSize: '0.72rem' }} />
+      {/* Data Management */}
+      <Section title="Data & Privacy" subtitle="Manage your account data" icon={Shield} iconColor="#f43f6e" delay={400}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', py: 1 }}>
+          <Box>
+            <Typography variant="body2" fontWeight={600}>Refresh Application Data</Typography>
+            <Typography variant="caption" color="text.secondary">Force a manual sync of all transactions and budgets.</Typography>
           </Box>
-          <Box sx={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            p: 2, borderRadius: '12px', bgcolor: 'background.default', border: '1px solid', borderColor: 'divider',
-          }}>
-            <Box>
-              <Typography variant="body2" fontWeight={600} color="text.primary">Active Sessions</Typography>
-              <Typography variant="caption" color="text.secondary">1 active session on this device</Typography>
-            </Box>
-            <Chip label="1 Active" size="small" sx={{ bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(16,185,129,0.1)' : '#d1fae5', color: (theme) => theme.palette.mode === 'dark' ? '#34d399' : '#10b981', fontWeight: 600, fontSize: '0.72rem' }} />
-          </Box>
+          <Button
+            size="small" variant="outlined"
+            onClick={handleManualRefresh}
+            disabled={refreshing}
+            startIcon={refreshing ? <CircularProgress size={14} color="inherit" /> : <Zap size={14} />}
+            sx={{ borderRadius: '10px', textTransform: 'none', fontWeight: 600, borderColor: 'divider', color: refreshing ? 'text.secondary' : 'text.primary' }}
+          >
+            {refreshing ? 'Refreshing...' : 'Refresh Now'}
+          </Button>
         </Box>
       </Section>
     </Box>
