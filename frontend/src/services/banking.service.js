@@ -30,9 +30,10 @@ export const bankingService = {
   },
 
   // ── Manual CSV Upload (Nigerian/African Banks) ─────────────────
-  uploadCSV: async (file) => {
+  uploadCSV: async (file, currency = 'USD') => {
     const formData = new FormData();
     formData.append('statement', file);
+    formData.append('currency', currency);
     const { data } = await api.post(`${BASE}/upload-csv`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });

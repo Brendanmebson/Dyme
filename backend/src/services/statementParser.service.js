@@ -1,23 +1,38 @@
-// src/services/csvParser.service.js
+// src/services/statementParser.service.js
 import { parse } from 'csv-parse/sync';
+import * as XLSX from 'xlsx';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
- * Universal CSV Parser for Bank Statements.
+ * Universal Statement Parser (CSV, XLSX, XLS).
  * Automatically detects headers for Date, Description, and Amount.
  */
-export const parseCSVStatement = async (csvContent, userId) => {
+export const parseStatement = async (fileBuffer, fileName, userId, currency = 'USD') => {
   try {
-    const records = parse(csvContent, {
-      columns: true,
-      skip_empty_lines: true,
-      trim: true,
-      relax_column_count: true,
-    });
+    let records = [];
+    const lowerName = fileName.toLowerCase();
+
+    if (lowerName.endsWith('.csv')) {
+      // Handle CSV
+      records = parse(fileBuffer.toString(), {
+        columns: true,
+        skip_empty_lines: true,
+        trim: true,
+        relax_column_count: true,
+      });
+    } else if (lowerName.endsWith('.xlsx') || lowerName.endsWith('.xls')) {
+      // Handle Excel
+      const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      records = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+    } else {
+      throw new Error('Unsupported file format. Please use .csv, .xlsx, or .xls');
+    }
 
     if (records.length === 0) return [];
 
-    // Map common header variations to our internal fields
+    // Map common header variations
     const headerMaps = {
       date: ['date', 'transaction date', 'value date', 'booking date', 'pstng date'],
       desc: ['description', 'memo', 'narrative', 'transaction details', 'remarks', 'payee'],
@@ -27,8 +42,6 @@ export const parseCSVStatement = async (csvContent, userId) => {
 
     return records.map((row) => {
       const keys = Object.keys(row);
-
-      // Find the best matching key for each field
       const findKey = (searchTerms) => 
         keys.find(k => searchTerms.some(term => k.toLowerCase().includes(term)));
 
@@ -37,28 +50,24 @@ export const parseCSVStatement = async (csvContent, userId) => {
       const amountKey = findKey(headerMaps.amount);
       const typeKey = findKey(headerMaps.type);
 
-      // Handle Amount (remove commas, handle negative signs)
-      let rawAmount = row[amountKey] || '0';
+      // Handle Amount
+      let rawAmount = String(row[amountKey] || '0');
       let amount = Math.abs(parseFloat(rawAmount.replace(/[^0-9.-]/g, '')) || 0);
 
-      // Handle Type (Income vs Expense)
+      // Income vs Expense heuristics
       let type = 'expense';
-      const rawType = (row[typeKey] || '').toLowerCase();
-      const rawDescResource = (row[descKey] || '').toLowerCase();
+      const rawType = String(row[typeKey] || '').toLowerCase();
+      const rawDesc = String(row[descKey] || '').toLowerCase();
       
-      // Heuristic 1: If explicit 'credit' or 'inflow' in type column
       if (rawType.includes('credit') || rawType.includes('cr') || rawType.includes('in') || rawType.includes('deposit')) {
         type = 'income';
-      } 
-      // Heuristic 2: If the amount is positive and there is a separate debit column (rare in single-column CSVs)
-      else if (parseFloat(rawAmount.replace(/,/g, '')) > 0 && !rawType.includes('debit')) {
-        // If it's a single "Value" column, positive is usually income
-        if (amountKey.toLowerCase() === 'value' || amountKey.toLowerCase() === 'amount') {
+      } else if (parseFloat(rawAmount.replace(/,/g, '')) > 0) {
+        if (amountKey?.toLowerCase().includes('value') || amountKey?.toLowerCase().includes('amount')) {
            type = parseFloat(rawAmount.replace(/,/g, '')) > 0 ? 'income' : 'expense';
         }
       }
 
-      // Handle Date formats (attempt to standardize to YYYY-MM-DD)
+      // Date normalization
       let dateValue = row[dateKey];
       let date = new Date().toISOString().split('T')[0];
       if (dateValue) {
@@ -70,17 +79,18 @@ export const parseCSVStatement = async (csvContent, userId) => {
 
       return {
         user_id: userId,
-        description: row[descKey] || 'Bank Transaction',
+        description: row[descKey] || 'Imported Transaction',
         amount,
         type,
+        currency,
         category: 'Other',
         date,
-        source: 'manual_csv',
-        external_id: `csv_${userId}_${uuidv4()}`,
+        source: 'statement_import',
+        external_id: `stmt_${userId}_${uuidv4()}`,
       };
-    }).filter(tx => tx.amount > 0); // Filter out zero-amount rows
+    }).filter(tx => tx.amount > 0);
   } catch (err) {
-    console.error('CSV Parsing Error:', err);
-    throw new Error('Could not parse CSV file. Ensure it has Date, Description, and Amount columns.');
+    console.error('Statement Parser Error:', err);
+    throw new Error('Could not parse file. Ensure it has Date, Description, and Amount columns.');
   }
 };

@@ -13,8 +13,9 @@ import {
   InputLabel, Typography, ToggleButton, ToggleButtonGroup,
   IconButton,
 } from '@mui/material';
-import { X, TrendingUp, TrendingDown, Calendar } from 'lucide-react';
+import { X, TrendingUp, TrendingDown, Calendar, Upload, Zap } from 'lucide-react';
 import { useCurrency } from '../../context/CurrencyContext';
+import { bankingService } from '../../services/banking.service';
 import { format } from 'date-fns';
 
 const DEFAULT_FORM = () => ({
@@ -26,9 +27,33 @@ const DEFAULT_FORM = () => ({
 });
 
 const TransactionModal = ({ isOpen, onClose }) => {
-  const { addTransaction, categories } = useFinance();
+  const { addTransaction, categories, refreshData } = useFinance();
   const { currency, rates } = useCurrency();
   const [form, setForm] = useState(DEFAULT_FORM());
+  const [uploading, setUploading] = useState(false);
+
+  const handleImport = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const lowerName = file.name.toLowerCase();
+    if (!lowerName.endsWith('.csv') && !lowerName.endsWith('.xlsx') && !lowerName.endsWith('.xls')) {
+      alert('Please upload a valid CSV or Excel statement.');
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const res = await bankingService.uploadCSV(file, currency.code);
+      alert(res.message || `Imported ${res.count} transactions.`);
+      await refreshData();
+      onClose();
+    } catch (err) {
+      alert(err.message || 'Failed to import statement.');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -63,15 +88,39 @@ const TransactionModal = ({ isOpen, onClose }) => {
       {/* Header */}
       <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 3, pt: 3, pb: 2 }}>
         <Box>
-          <Typography variant="h6" fontWeight={700} color="#101828" fontFamily='"Plus Jakarta Sans", sans-serif'>
+          <Typography variant="h6" fontWeight={800} color="text.primary" fontFamily='"Plus Jakarta Sans", sans-serif'
+            sx={{ letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: 1 }}>
             Add Transaction
           </Typography>
-          <Typography variant="caption" color="#98a2b3">Fill in the details below</Typography>
+          <Typography variant="caption" color="text.secondary">Enter manually or import a statement</Typography>
         </Box>
-        <IconButton onClick={onClose} size="small"
-          sx={{ borderRadius: '10px', '&:hover': { bgcolor: 'background.default' } }}>
-          <X size={18} />
-        </IconButton>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <input
+            type="file" accept=".csv, .xlsx, .xls" id="modal-stmt-upload"
+            style={{ display: 'none' }}
+            onChange={handleImport}
+          />
+          <label htmlFor="modal-stmt-upload">
+            <Button
+              component="span"
+              size="small"
+              disabled={uploading}
+              startIcon={uploading ? <CircularProgress size={14} /> : <Zap size={14} />}
+              sx={{
+                borderRadius: '10px', textTransform: 'none', fontWeight: 700, fontSize: '0.75rem',
+                color: '#f43f6e', bgcolor: 'rgba(244,63,110,0.06)',
+                '&:hover': { bgcolor: 'rgba(244,63,110,0.12)' },
+                px: 1.5, py: 0.75,
+              }}
+            >
+              {uploading ? 'Importing...' : 'Import Statement'}
+            </Button>
+          </label>
+          <IconButton onClick={onClose} size="small"
+            sx={{ borderRadius: '10px', '&:hover': { bgcolor: 'background.default' } }}>
+            <X size={18} />
+          </IconButton>
+        </Box>
       </DialogTitle>
 
       <DialogContent sx={{ px: 3, pt: 0 }}>

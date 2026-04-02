@@ -1,17 +1,19 @@
 // src/controllers/banking.controller.js
 import { supabase } from '../lib/supabase.js';
-import { parseCSVStatement } from '../services/csvParser.service.js';
+import { parseStatement } from '../services/statementParser.service.js';
 
 /**
- * MANUAL CSV UPLOAD (Universal Free Sync)
+ * MANUAL STATEMENT UPLOAD (Universal Free Sync)
  * This is the primary way for individuals to sync their bank data for free.
+ * Supports CSV, XLSX, and XLS.
  */
-export const uploadCSVStatement = async (req, res) => {
+export const uploadStatement = async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
-    console.log(`Parsing CSV for user ${req.user.id}...`);
-    const transactions = await parseCSVStatement(req.file.buffer.toString(), req.user.id);
+    const { currency = 'USD' } = req.body;
+    console.log(`Parsing statement for user ${req.user.id} (${currency}): ${req.file.originalname}...`);
+    const transactions = await parseStatement(req.file.buffer, req.file.originalname, req.user.id, currency);
 
     if (transactions.length > 0) {
       console.log(`Upserting ${transactions.length} transactions...`);
@@ -22,13 +24,13 @@ export const uploadCSVStatement = async (req, res) => {
       if (error) throw error;
     }
 
-    // Update profile to show a bank is "connected" via CSV
+    // Update profile to show a bank is "connected" via manual import
     await supabase
       .from('profiles')
       .update({ 
         bank_connected: true, 
-        bank_provider: 'manual_csv',
-        bank_name: 'CSV Import'
+        bank_provider: 'manual_import',
+        bank_name: 'Statement Import'
       })
       .eq('id', req.user.id);
 
@@ -38,8 +40,8 @@ export const uploadCSVStatement = async (req, res) => {
       message: `Successfully imported ${transactions.length} transactions.`
     });
   } catch (err) {
-    console.error('CSV upload error:', err.message);
-    return res.status(500).json({ error: err.message || 'Failed to parse or save CSV statement' });
+    console.error('Statement upload error:', err.message);
+    return res.status(500).json({ error: err.message || 'Failed to parse or save statement' });
   }
 };
 

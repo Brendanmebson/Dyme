@@ -212,7 +212,7 @@ const CSVUploadButton = ({ onSuccess }) => {
       const res = await bankingService.uploadCSV(file);
       onSuccess(`Imported ${res.count} transactions`);
     } catch (err) {
-      alert(err.message || 'Failed to parse bank statement. Ensure it is a valid CSV.');
+      alert(err.message || 'Failed to parse bank statement. Ensure it is a valid CSV or Excel file.');
     } finally {
       setUploading(false);
     }
@@ -221,7 +221,7 @@ const CSVUploadButton = ({ onSuccess }) => {
   return (
     <Box>
       <input
-        type="file" accept=".csv" id="csv-upload"
+        type="file" accept=".csv, .xlsx, .xls" id="csv-upload"
         style={{ display: 'none' }}
         onChange={handleFileChange}
       />
@@ -240,14 +240,14 @@ const CSVUploadButton = ({ onSuccess }) => {
             textTransform: 'none',
           }}
         >
-          {uploading ? 'Parsing Statement...' : 'Import Bank Statement (CSV)'}
+          {uploading ? 'Parsing Statement...' : 'Import Bank Statement (CSV / Excel)'}
         </Button>
       </label>
       
       <Box sx={{ mt: 2.5, p: 2, borderRadius: '12px', bgcolor: 'rgba(0,0,0,0.03)', display: 'flex', gap: 1.5, alignItems: 'center' }}>
         <HelpCircle size={16} color="#666" />
         <Typography fontSize="0.75rem" color="text.secondary">
-          <b>How to:</b> Open your bank app, download your "Statement" as a CSV file, and select it here. Works for 100% of banks.
+          <b>How to:</b> Open your bank app, download your "Statement" as a CSV or Excel file, and select it here. Works for 100% of banks.
         </Typography>
       </Box>
     </Box>

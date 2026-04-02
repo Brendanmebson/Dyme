@@ -7,8 +7,10 @@ import {
   CreditCard, Check, ArrowUpRight, Menu, X, Building2, Link2,
 } from 'lucide-react';
 import { keyframes } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import ThemeToggle from '../components/ThemeToggle';
 import logofull from '../assets/Dyme logo full.png';
+import logofullWhite from '../assets/Dyme logo full(white).png';
 import logo from '../assets/Dyme logo.png';
 import FooterBackground from '../components/Landing/FooterBackground';
 
@@ -178,20 +180,24 @@ const overline = {
   display: 'block',
 };
 
-// ─── Logo Component ───────────────────────────────────────
-const DymeLogo = ({ height = 50, priority = "auto" }) => (
-  <Box
-    component="img"
-    src={logofull}
-    alt="Dyme"
-    fetchpriority={priority}
-    sx={{ height, width: 'auto', display: 'block' }}
-  />
-);
-
 // ─── Component ───────────────────────────────────────────
 const LandingPage = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
+  const currentLogoFull = isDark ? logofullWhite : logofull;
+
+  // ─── Logo Component ───
+  const DymeLogo = ({ height = 50, priority = "auto" }) => (
+    <Box
+      component="img"
+      src={currentLogoFull}
+      alt="Dyme"
+      fetchpriority={priority}
+      sx={{ height, width: 'auto', display: 'block' }}
+    />
+  );
+  
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 

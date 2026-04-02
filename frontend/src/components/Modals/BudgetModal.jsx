@@ -203,7 +203,7 @@ const BudgetModal = ({ isOpen, onClose }) => {
                           secondaryTypographyProps={{ fontSize: '0.75rem' }}
                         />
                         <Typography fontWeight={700} color="#101828" variant="body2">
-                          {formatCurrency(tx.amount)}
+                          {formatCurrency(tx.amount, tx.currency)}
                         </Typography>
                       </ListItem>
                       <Divider component="li" sx={{ borderColor: 'divider', opacity: 0.5 }} />

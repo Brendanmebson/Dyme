@@ -53,14 +53,16 @@ const Dashboard = () => {
   }, []);
 
   const handleFileUpload = async (file) => {
-    if (!file || !file.name.endsWith('.csv')) {
-      alert('Please upload a valid CSV bank statement.');
+    if (!file) return;
+    const lowerName = file.name.toLowerCase();
+    if (!lowerName.endsWith('.csv') && !lowerName.endsWith('.xlsx') && !lowerName.endsWith('.xls')) {
+      alert('Please upload a valid CSV or Excel bank statement.');
       return;
     }
 
     setUploading(true);
     try {
-      const res = await bankingService.uploadCSV(file);
+      const res = await bankingService.uploadCSV(file, currency.code);
       alert(res.message || `Imported ${res.count} transactions.`);
       await refreshData(); // Triggers FinanceContext to reload all transactions
       setBankStatus({ connected: true, bank_name: 'CSV Import' });
@@ -208,7 +210,7 @@ const Dashboard = () => {
 
           <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
             <input
-              type="file" accept=".csv" id="dash-csv-upload"
+              type="file" accept=".csv, .xlsx, .xls" id="dash-csv-upload"
               style={{ display: 'none' }}
               onChange={(e) => handleFileUpload(e.target.files[0])}
             />
@@ -220,7 +222,7 @@ const Dashboard = () => {
                 startIcon={<Zap size={14} />}
                 sx={{ borderRadius: '10px', fontWeight: 800, px: 2.5, py: 1, background: 'linear-gradient(135deg, #f43f6e, #ff6b8a)', boxShadow: '0 4px 12px rgba(244,63,110,0.3)', textTransform: 'none' }}
               >
-                Select File
+                Import Statement
               </Button>
             </label>
             <Button
