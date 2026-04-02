@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Typography, Container, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import { ChevronDown as ChevronDownIcon } from 'lucide-material'; // Wait, I used lucide-react before
 import { ChevronDown as ChevronDownIconLucide } from 'lucide-react';
 import LandingNavbar from '../components/Landing/LandingNavbar';
 import LandingFooter from '../components/Landing/LandingFooter';
