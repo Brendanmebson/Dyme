@@ -21,6 +21,7 @@ import { format } from 'date-fns';
 const DEFAULT_FORM = () => ({
   type: 'expense',
   amount: '',
+  fee: '',
   category: '',
   description: '',
   date: format(new Date(), 'yyyy-MM-dd'),
@@ -57,24 +58,48 @@ const TransactionModal = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const finalCategory = form.type === 'transfer' ? 'Transfer' : form.category;
     if (!form.amount || !finalCategory || !form.description) return;
     
-    // Store the raw amount in the user's current currency — no conversion
-    // Convert YYYY-MM-DD to ISO string for the backend
-    const isoDate = new Date(form.date).toISOString();
+    setUploading(true);
+    try {
+      const isoDate = new Date(form.date).toISOString();
 
-    addTransaction({
-      ...form,
-      category: finalCategory,
-      amount: parseFloat(form.amount),
-      currency: currency.code,
-      date: isoDate,
-    });
-    setForm(DEFAULT_FORM());
-    onClose();
+      // Submit primary transaction
+      await addTransaction({
+        type: form.type,
+        amount: parseFloat(form.amount),
+        category: finalCategory,
+        description: form.description,
+        currency: currency.code,
+        date: isoDate,
+        source: form.source,
+        destination: form.destination,
+      });
+
+      // If transfer and fee > 0, submit secondary expense
+      if (form.type === 'transfer' && form.fee && parseFloat(form.fee) > 0) {
+        await addTransaction({
+          type: 'expense',
+          amount: parseFloat(form.fee),
+          category: 'Bank Fees',
+          description: `${form.description} (Fee)`,
+          currency: currency.code,
+          date: isoDate,
+          source: form.source,
+          destination: 'account', 
+        });
+      }
+
+      setForm(DEFAULT_FORM());
+      onClose();
+    } catch (err) {
+      alert(err.message || 'Failed to add transaction.');
+    } finally {
+      setUploading(false);
+    }
   };
 
   const incomeCategories = ['Salary', 'Freelance', 'Investment', 'Gift', 'Other Income'];
@@ -138,7 +163,16 @@ const TransactionModal = ({ isOpen, onClose }) => {
             </Typography>
             <ToggleButtonGroup
               value={form.type} exclusive
-              onChange={(_, v) => v && setForm({ ...form, type: v, category: '' })}
+              onChange={(_, v) => {
+                if (v) {
+                  let { source, destination } = form;
+                  if (v === 'transfer' && source === destination) {
+                    source = 'account';
+                    destination = 'cash';
+                  }
+                  setForm({ ...form, type: v, category: '', source, destination });
+                }
+              }}
               sx={{ width: '100%' }}
             >
               {[
@@ -217,6 +251,18 @@ const TransactionModal = ({ isOpen, onClose }) => {
             InputProps={{ startAdornment: <Typography sx={{ mr: 0.5, color: 'text.secondary' }}>{currency.symbol}</Typography> }}
           />
 
+          {/* Optional Transfer Fee */}
+          {form.type === 'transfer' && (
+            <TextField
+              fullWidth label="Transfer Fee (Optional)" type="number" inputProps={{ step: '0.01', min: '0' }}
+              value={form.fee}
+              onChange={(e) => setForm({ ...form, fee: e.target.value })}
+              sx={{ mb: 2.5 }}
+              InputProps={{ startAdornment: <Typography sx={{ mr: 0.5, color: 'text.secondary' }}>{currency.symbol}</Typography> }}
+              helperText="This fee will be recorded as a separate expense deducted from the source."
+            />
+          )}
+
           {/* Category */}
           {form.type !== 'transfer' && (
             <FormControl fullWidth sx={{ mb: 2.5 }} required>
@@ -264,14 +310,14 @@ const TransactionModal = ({ isOpen, onClose }) => {
           sx={{ flex: 1, borderRadius: '12px', py: 1.25, borderColor: 'divider', color: 'text.secondary', '&:hover': { borderColor: '#cbd1db', bgcolor: 'background.default' } }}>
           Cancel
         </Button>
-        <Button type="submit" form="tx-form" variant="contained"
+        <Button type="submit" form="tx-form" variant="contained" disabled={uploading}
           sx={{
             flex: 1, borderRadius: '12px', py: 1.25,
             background: 'linear-gradient(135deg, #f43f6e, #fb7292)',
             boxShadow: '0 4px 16px rgba(244,63,110,0.25)',
             '&:hover': { boxShadow: '0 8px 24px rgba(244,63,110,0.35)' },
           }}>
-          Add Transaction
+          {uploading ? <CircularProgress size={20} sx={{ color: '#fff' }} /> : 'Add Transaction'}
         </Button>
       </DialogActions>
     </Dialog>
