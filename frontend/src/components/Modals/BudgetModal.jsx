@@ -62,15 +62,11 @@ const BudgetModal = ({ isOpen, onClose }) => {
     if (e) e.preventDefault();
     if (!form.category || !form.limit) return;
     
-    // Convert input limit (in current currency) to BASE_CURRENCY (USD)
-    let limitInUSD = parseFloat(form.limit);
-    if (rates[currency.code] && rates[currency.code] !== 0) {
-      limitInUSD = limitInUSD / rates[currency.code];
-    }
+    let limitRaw = parseFloat(form.limit);
 
     addBudget({ 
       ...form, 
-      limit: limitInUSD,
+      limit: limitRaw,
       start_date: new Date(form.start_date).toISOString(),
       end_date: new Date(form.end_date).toISOString(),
     });

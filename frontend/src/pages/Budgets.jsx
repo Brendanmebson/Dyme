@@ -27,7 +27,7 @@ const getBudgetStatus = ({ spent, limit, end_date }) => {
 
 const Budgets = () => {
   const { budgets, deleteBudget } = useFinance();
-  const { format: formatCurrency } = useCurrency();
+  const { formatAmount, currency } = useCurrency();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hoveredId, setHoveredId]     = useState(null);
 
@@ -83,9 +83,9 @@ const Budgets = () => {
                 <Typography variant="h5" fontWeight={800} color="text.primary"
                   fontFamily='"Plus Jakarta Sans", sans-serif'
                   sx={{ mt: 0.5, fontSize: { xs: '1.1rem', md: '1.5rem' } }}>
-                  {formatCurrency(totalSpent)}
+                  {formatAmount(totalSpent, currency.code)}
                   <Typography component="span" variant="body2" color="text.secondary" fontWeight={400}>
-                    {' '} / {formatCurrency(totalBudgeted)}
+                    {' '} / {formatAmount(totalBudgeted, currency.code)}
                   </Typography>
                 </Typography>
               </Box>
@@ -93,7 +93,7 @@ const Budgets = () => {
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.75 }}>
                   <Typography variant="caption" color="text.secondary" fontWeight={500}>{overallPct.toFixed(1)}% used</Typography>
                   <Typography variant="caption" color={totalLeft >= 0 ? '#10b981' : '#ef4444'} fontWeight={600}>
-                    {formatCurrency(Math.abs(totalLeft))} {totalLeft >= 0 ? 'left' : 'over'}
+                    {formatAmount(Math.abs(totalLeft), currency.code)} {totalLeft >= 0 ? 'left' : 'over'}
                   </Typography>
                 </Box>
                 <LinearProgress
@@ -214,7 +214,7 @@ const Budgets = () => {
                       color={budget.limit - budget.spent < 0 ? '#ef4444' : 'text.primary'}
                       fontFamily='"Plus Jakarta Sans", sans-serif'
                       sx={{ letterSpacing: '-0.02em', lineHeight: 1.1, mt: 0.25, fontSize: { xs: '1.4rem', md: '2.125rem' } }}>
-                      {formatCurrency(Math.max(0, budget.limit - budget.spent))}
+                      {formatAmount(Math.max(0, budget.limit - budget.spent), currency.code)}
                     </Typography>
                   </Box>
 
@@ -222,7 +222,7 @@ const Budgets = () => {
                   <Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.75 }}>
                       <Typography variant="caption" color="text.secondary" fontWeight={500} sx={{ fontSize: { xs: '0.68rem', md: '0.75rem' } }}>
-                        {formatCurrency(budget.spent)} spent
+                        {formatAmount(budget.spent, currency.code)} spent
                       </Typography>
                       <Typography variant="caption" fontWeight={700} color={cfg.color} sx={{ fontSize: { xs: '0.68rem', md: '0.75rem' } }}>
                         {pct.toFixed(0)}%
@@ -236,7 +236,7 @@ const Budgets = () => {
                       }}
                     />
                     <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: 'block', fontSize: { xs: '0.65rem', md: '0.75rem' } }}>
-                      of {formatCurrency(budget.limit)} budget
+                      of {formatAmount(budget.limit, currency.code)} budget
                     </Typography>
                   </Box>
                 </CardContent>

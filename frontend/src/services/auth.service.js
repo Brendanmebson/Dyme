@@ -12,10 +12,7 @@ export const authService = {
     });
 
     localStorage.setItem('accessToken', data.session.access_token);
-
-    // Fetch the profile row so full_name is always at the top level
-    const { data: meData } = await api.get(`${AUTH_BASE}/me`);
-    return meData.user;
+    return data.user;
   },
 
   login: async ({ email, password }) => {
@@ -25,10 +22,7 @@ export const authService = {
     });
 
     localStorage.setItem('accessToken', data.session.access_token);
-
-    // Fetch the profile row so full_name is always at the top level
-    const { data: meData } = await api.get(`${AUTH_BASE}/me`);
-    return meData.user;
+    return data.user;
   },
 
   logout: async () => {

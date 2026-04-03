@@ -1,5 +1,5 @@
 // src/pages/Login.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useAppTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
@@ -165,6 +165,12 @@ const Login = () => {
 
   const onLoginSuccess = () => navigate('/dashboard');
   const onRegisterSuccess = () => navigate('/onboarding');
+
+  // Pre-fetch the dashboard module so there's no Suspense loading spinner delay
+  // when navigating after a successful login.
+  useEffect(() => {
+    import('./Dashboard');
+  }, []);
 
   return (
     <Box sx={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, bgcolor: 'background.default' }}>

@@ -177,12 +177,13 @@ export const FinanceProvider = ({ children }) => {
       const spent = transactions
         .filter((t) => t.type === 'expense' && t.category === b.category)
         .reduce((sum, t) => {
-          const amountInUSD = (Number(t.amount) / (rates[t.currency || 'USD'] || 1));
-          return sum + amountInUSD;
+          const amountInUSD = getConvertedAmount(t.amount, t.currency);
+          const amountInDisplayCurr = amountInUSD * (rates[currency.code] || 1);
+          return sum + amountInDisplayCurr;
         }, 0);
       return { ...b, spent };
     });
-  }, [budgets, transactions, rates]);
+  }, [budgets, transactions, rates, currency, getConvertedAmount]);
 
   const value = {
     transactions,

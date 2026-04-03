@@ -52,7 +52,7 @@ export const register = async (req, res) => {
     }
 
     return res.status(201).json({
-      user,
+      user: { id: user.id, full_name: body.full_name, email: body.email },
       session: data.session,
     });
 
@@ -86,8 +86,14 @@ export const login = async (req, res) => {
       return res.status(401).json({ error: 'No user returned' });
     }
 
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', data.user.id)
+      .single();
+
     return res.json({
-      user: data.user,
+      user: profile ? { ...profile, email: data.user.email } : data.user,
       session: data.session,
     });
 
