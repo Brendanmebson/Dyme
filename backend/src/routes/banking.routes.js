@@ -5,6 +5,7 @@ import { requireAuth } from '../middleware/auth.js';
 import {
   uploadStatement,
   getBankStatus,
+  disconnectBank,
 } from '../controllers/banking.controller.js';
 
 const router = Router();
