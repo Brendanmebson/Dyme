@@ -147,6 +147,30 @@ export const FinanceProvider = ({ children }) => {
       .sort((a, b) => b.amount - a.amount);
   }, [transactions, rates]);
 
+  const getBalances = useCallback(() => {
+    let account = 0;
+    let cash = 0;
+
+    transactions.forEach((t) => {
+      const amt = getConvertedAmount(t.amount, t.currency);
+      if (t.type === 'income') {
+        if (t.destination === 'cash') cash += amt;
+        else account += amt;
+      } else if (t.type === 'expense') {
+        if (t.source === 'cash') cash -= amt;
+        else account -= amt;
+      } else if (t.type === 'transfer') {
+        if (t.source === 'account' && t.destination === 'cash') {
+          account -= amt; cash += amt;
+        } else if (t.source === 'cash' && t.destination === 'account') {
+          cash -= amt; account += amt;
+        }
+      }
+    });
+
+    return { account, cash, total: account + cash };
+  }, [transactions, getConvertedAmount]);
+
   // ── Enriched Budgets (Live calculate 'spent' from transactions) ──
   const enrichedBudgets = React.useMemo(() => {
     return budgets.map((b) => {
@@ -173,6 +197,7 @@ export const FinanceProvider = ({ children }) => {
     deleteBudget,
     getMonthlyData,
     getSpendingByCategory,
+    getBalances,
     getConvertedAmount,
     refreshData,
   };

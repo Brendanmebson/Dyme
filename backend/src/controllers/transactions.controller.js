@@ -3,20 +3,22 @@ import { z } from 'zod';
 import { supabase } from '../lib/supabase.js';
 
 const TransactionSchema = z.object({
-  type:        z.enum(['income', 'expense']),
+  type:        z.enum(['income', 'expense', 'transfer']),
   amount:      z.number().positive('Amount must be positive'),
   category:    z.string().min(1),
   description: z.string().min(1),
   currency:    z.string().min(1).default('USD'),
   date:        z.string().datetime().default(() => new Date().toISOString()),
   notes:       z.string().optional(),
+  source:      z.enum(['account', 'cash']).default('account'),
+  destination: z.enum(['account', 'cash']).default('account'),
 });
 
 // Zod schema for query params
 const GetTransactionsQuerySchema = z.object({
   page:     z.coerce.number().int().positive().default(1),
   limit:    z.coerce.number().int().min(1).max(1000).default(50),
-  type:     z.enum(['income', 'expense']).optional(),
+  type:     z.enum(['income', 'expense', 'transfer']).optional(),
   category: z.string().min(1).optional(),
   search:   z.string().max(100).optional(),
   from:     z.string().datetime().optional(),
@@ -163,8 +165,10 @@ export const getCategorySummary = async (req, res) => {
   const byCategory = {};
   data.forEach(({ category, amount, type }) => {
     if (!byCategory[category]) byCategory[category] = { category, income: 0, expense: 0, total: 0 };
-    byCategory[category][type] += Number(amount);
-    byCategory[category].total += type === 'income' ? Number(amount) : -Number(amount);
+    if (type !== 'transfer') {
+      byCategory[category][type] += Number(amount);
+      byCategory[category].total += type === 'income' ? Number(amount) : -Number(amount);
+    }
   });
 
   const result = Object.values(byCategory)
@@ -198,7 +202,7 @@ export const getBalance = async (req, res) => {
     const amt = Number(amount);
     if (type === 'income') {
       totalIncome += amt;
-    } else {
+    } else if (type === 'expense') {
       totalExpense += amt;
     }
   });
@@ -215,7 +219,7 @@ export const getBalance = async (req, res) => {
   monthData.forEach(({ amount, type }) => {
     const amt = Number(amount);
     if (type === 'income') monthIncome += amt;
-    else monthExpense += amt;
+    else if (type === 'expense') monthExpense += amt;
   });
 
   return res.json({

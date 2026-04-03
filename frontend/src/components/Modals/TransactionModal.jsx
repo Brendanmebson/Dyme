@@ -13,7 +13,7 @@ import {
   InputLabel, Typography, ToggleButton, ToggleButtonGroup,
   IconButton,
 } from '@mui/material';
-import { X, TrendingUp, TrendingDown, Calendar, Upload, Zap } from 'lucide-react';
+import { X, TrendingUp, TrendingDown, Calendar, Upload, Zap, ArrowRightLeft } from 'lucide-react';
 import { useCurrency } from '../../context/CurrencyContext';
 import { bankingService } from '../../services/banking.service';
 import { format } from 'date-fns';
@@ -24,6 +24,8 @@ const DEFAULT_FORM = () => ({
   category: '',
   description: '',
   date: format(new Date(), 'yyyy-MM-dd'),
+  source: 'account',
+  destination: 'account',
 });
 
 const TransactionModal = ({ isOpen, onClose }) => {
@@ -57,7 +59,8 @@ const TransactionModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!form.amount || !form.category || !form.description) return;
+    const finalCategory = form.type === 'transfer' ? 'Transfer' : form.category;
+    if (!form.amount || !finalCategory || !form.description) return;
     
     // Store the raw amount in the user's current currency — no conversion
     // Convert YYYY-MM-DD to ISO string for the backend
@@ -65,6 +68,7 @@ const TransactionModal = ({ isOpen, onClose }) => {
 
     addTransaction({
       ...form,
+      category: finalCategory,
       amount: parseFloat(form.amount),
       currency: currency.code,
       date: isoDate,
@@ -140,6 +144,7 @@ const TransactionModal = ({ isOpen, onClose }) => {
               {[
                 { value: 'expense', label: 'Expense', icon: TrendingDown, color: '#ef4444' },
                 { value: 'income',  label: 'Income',  icon: TrendingUp,   color: '#10b981' },
+                { value: 'transfer', label: 'Transfer', icon: ArrowRightLeft, color: '#f59e0b' },
               ].map(({ value, label, icon: Icon, color }) => (
                 <ToggleButton key={value} value={value}
                   sx={{
@@ -160,6 +165,49 @@ const TransactionModal = ({ isOpen, onClose }) => {
             </ToggleButtonGroup>
           </Box>
 
+          {/* Source / Destination Selectors based on Type */}
+          {form.type === 'expense' && (
+            <FormControl fullWidth sx={{ mb: 2.5 }}>
+              <InputLabel>Source</InputLabel>
+              <Select
+                value={form.source} label="Source"
+                onChange={(e) => setForm({ ...form, source: e.target.value })}
+              >
+                <MenuItem value="account">Account</MenuItem>
+                <MenuItem value="cash">Cash</MenuItem>
+              </Select>
+            </FormControl>
+          )}
+
+          {form.type === 'income' && (
+            <FormControl fullWidth sx={{ mb: 2.5 }}>
+              <InputLabel>Destination</InputLabel>
+              <Select
+                value={form.destination} label="Destination"
+                onChange={(e) => setForm({ ...form, destination: e.target.value })}
+              >
+                <MenuItem value="account">Account</MenuItem>
+                <MenuItem value="cash">Cash</MenuItem>
+              </Select>
+            </FormControl>
+          )}
+
+          {form.type === 'transfer' && (
+            <FormControl fullWidth sx={{ mb: 2.5 }}>
+              <InputLabel>Direction</InputLabel>
+              <Select
+                value={`${form.source}-${form.destination}`} label="Direction"
+                onChange={(e) => {
+                  const [src, dest] = e.target.value.split('-');
+                  setForm({ ...form, source: src, destination: dest });
+                }}
+              >
+                <MenuItem value="account-cash">Account → Cash</MenuItem>
+                <MenuItem value="cash-account">Cash → Account</MenuItem>
+              </Select>
+            </FormControl>
+          )}
+
           {/* Amount */}
           <TextField
             fullWidth label="Amount" type="number" inputProps={{ step: '0.01', min: '0' }}
@@ -170,17 +218,19 @@ const TransactionModal = ({ isOpen, onClose }) => {
           />
 
           {/* Category */}
-          <FormControl fullWidth sx={{ mb: 2.5 }} required>
-            <InputLabel>Category</InputLabel>
-            <Select
-              value={form.category} label="Category"
-              onChange={(e) => setForm({ ...form, category: e.target.value })}
-            >
-              {(form.type === 'expense' ? categories : incomeCategories).map((c) => (
-                <MenuItem key={c} value={c}>{c}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {form.type !== 'transfer' && (
+            <FormControl fullWidth sx={{ mb: 2.5 }} required>
+              <InputLabel>Category</InputLabel>
+              <Select
+                value={form.category} label="Category"
+                onChange={(e) => setForm({ ...form, category: e.target.value })}
+              >
+                {(form.type === 'expense' ? categories : incomeCategories).map((c) => (
+                  <MenuItem key={c} value={c}>{c}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
 
           {/* Date Picker */}
           <TextField

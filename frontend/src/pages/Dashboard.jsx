@@ -34,7 +34,8 @@ const Dashboard = () => {
   const { 
     transactions = [], 
     getMonthlyData, 
-    getSpendingByCategory, 
+    getSpendingByCategory,
+    getBalances,
     loading, 
     refreshData 
   } = useFinance();
@@ -95,8 +96,8 @@ const Dashboard = () => {
         </Box>
 
         <Grid container spacing={3} sx={{ mb: 4 }}>
-          {[1, 2, 3, 4].map((i) => (
-            <Grid item xs={6} lg={3} key={i}>
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <Grid item xs={6} md={4} key={i}>
               <Skeleton variant="rectangular" height={130} sx={{ borderRadius: '16px' }} />
             </Grid>
           ))}
@@ -117,7 +118,7 @@ const Dashboard = () => {
   const monthlyData = getMonthlyData?.() || { income: 0, expenses: 0, transactions: [] };
   const spendingData = getSpendingByCategory?.() || [];
   const chartData = buildMonthlyChartData(getMonthlyData);
-  const totalBalance = monthlyData.income - monthlyData.expenses;
+  const balances = getBalances?.() || { account: 0, cash: 0, total: 0 };
 
   const fullName = user?.full_name ?? user?.user_metadata?.full_name ?? '';
   const firstName = fullName.split(' ')[0] || 'there';
@@ -125,9 +126,21 @@ const Dashboard = () => {
   const stats = [
     {
       title: 'Total Balance',
-      value: formatCurrency(totalBalance),
+      value: formatCurrency(balances.total),
       change: null, icon: Wallet,
       iconBg: '#fff1f3', iconColor: '#f43f6e',
+    },
+    {
+      title: 'Account Balance',
+      value: formatCurrency(balances.account),
+      change: null, icon: Wallet,
+      iconBg: '#eff6ff', iconColor: '#3b82f6',
+    },
+    {
+      title: 'Cash Balance',
+      value: formatCurrency(balances.cash),
+      change: null, icon: DollarSign,
+      iconBg: '#fef3c7', iconColor: '#f59e0b',
     },
     {
       title: 'Monthly Income',
@@ -145,7 +158,7 @@ const Dashboard = () => {
       title: 'Transactions',
       value: monthlyData.transactions?.length || 0,
       change: null, icon: DollarSign,
-      iconBg: '#dbeafe', iconColor: '#3b82f6',
+      iconBg: '#e0e7ff', iconColor: '#6366f1',
     },
   ];
 
@@ -260,7 +273,7 @@ const Dashboard = () => {
       )}
 
       {/* Stats */}
-      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }, gap: { xs: 1.5, md: 3 }, mb: { xs: 3, md: 4 } }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 1.5, md: 3 }, mb: { xs: 3, md: 4 } }}>
         {stats.map((card, idx) => (
           <Box key={idx} sx={{ minWidth: 0 }}>
             <StatsCard {...card} />
