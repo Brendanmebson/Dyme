@@ -173,7 +173,7 @@ const TransactionModal = ({ isOpen, onClose }) => {
                   setForm({ ...form, type: v, category: '', source, destination });
                 }
               }}
-              sx={{ width: '100%' }}
+              sx={{ width: '100%', gap: 1 }}
             >
               {[
                 { value: 'expense', label: 'Expense', icon: TrendingDown, color: '#ef4444' },
@@ -190,7 +190,6 @@ const TransactionModal = ({ isOpen, onClose }) => {
                       color,
                       border: `1px solid ${color}40 !important`,
                     },
-                    '&:first-of-type': { mr: 1 },
                   }}
                 >
                   <Icon size={16} /> {label}
