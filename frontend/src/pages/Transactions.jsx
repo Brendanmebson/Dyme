@@ -26,10 +26,9 @@ const CATEGORY_COLORS = {
 };
 
 const Transactions = () => {
-  const theme    = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  const { transactions, deleteTransaction, categories } = useFinance();
+  const { displayTransactions, deleteTransaction, categories } = useFinance();
   const { format: formatCurrency } = useCurrency();
   const [isModalOpen, setIsModalOpen]       = useState(false);
   const [searchTerm, setSearchTerm]         = useState('');
@@ -38,7 +37,7 @@ const Transactions = () => {
   const [currentPage, setCurrentPage]       = useState(1);
   const itemsPerPage = 10;
 
-  const filtered = transactions.filter((t) => {
+  const filtered = displayTransactions.filter((t) => {
     const matchSearch   = t.description.toLowerCase().includes(searchTerm.toLowerCase())
       || t.category.toLowerCase().includes(searchTerm.toLowerCase());
     const matchType     = filterType     === 'all' || t.type     === filterType;
@@ -177,7 +176,7 @@ const Transactions = () => {
                           {isIncome ? '+' : '-'}{formatCurrency(t.amount, t.currency)}
                         </Typography>
                         <IconButton size="small"
-                          onClick={() => deleteTransaction(t.id)}
+                          onClick={() => deleteTransaction(t.realId)}
                           sx={{
                             color: '#cbd1db', borderRadius: '6px', p: 0.25, mt: 0.25,
                             '&:hover': { color: '#ef4444', bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(239,68,68,0.15)' : '#fee2e2' },
@@ -252,7 +251,7 @@ const Transactions = () => {
                     </TableCell>
                     <TableCell align="center">
                       <IconButton size="small"
-                        onClick={() => deleteTransaction(t.id)}
+                        onClick={() => deleteTransaction(t.realId)}
                         sx={{
                           color: '#cbd1db', borderRadius: '8px',
                           '&:hover': { color: '#ef4444', bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(239,68,68,0.15)' : '#fee2e2' },

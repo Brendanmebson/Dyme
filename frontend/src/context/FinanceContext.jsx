@@ -185,8 +185,33 @@ export const FinanceProvider = ({ children }) => {
     });
   }, [budgets, transactions, rates, currency, getConvertedAmount]);
 
+  // ── Display Transactions (Splits transfers into two visual rows) ──
+  const displayTransactions = React.useMemo(() => {
+    return transactions.flatMap((t) => {
+      if (t.type === 'transfer') {
+        const outLeg = {
+          ...t,
+          id: `${t.id}-out`,
+          type: 'expense',
+          description: `${t.description} (to ${t.destination})`,
+          realId: t.id,
+        };
+        const inLeg = {
+          ...t,
+          id: `${t.id}-in`,
+          type: 'income',
+          description: `${t.description} (from ${t.source})`,
+          realId: t.id,
+        };
+        return [outLeg, inLeg];
+      }
+      return [{ ...t, realId: t.id }];
+    });
+  }, [transactions]);
+
   const value = {
     transactions,
+    displayTransactions,
     budgets: enrichedBudgets,
     categories,
     loading,

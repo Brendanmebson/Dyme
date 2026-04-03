@@ -33,6 +33,7 @@ const Dashboard = () => {
   const { format: formatCurrency, currency } = useCurrency();
   const { 
     transactions = [], 
+    displayTransactions = [],
     getMonthlyData, 
     getSpendingByCategory,
     getBalances,
@@ -281,13 +282,12 @@ const Dashboard = () => {
         ))}
       </Box>
 
-      {/* Charts row */}
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '7fr 5fr' }, gap: { xs: 2, md: 3 }, mb: { xs: 2, md: 3 } }}>
         <Box sx={{ minWidth: 0 }}>
           <MonthlyChart data={chartData} />
         </Box>
         <Box sx={{ display: { xs: 'block', lg: 'none' }, minWidth: 0 }}>
-          <RecentTransactions transactions={transactions} compact />
+          <RecentTransactions transactions={displayTransactions} compact />
         </Box>
         <Box sx={{ minWidth: 0 }}>
           <SpendingChart data={spendingData} />
@@ -296,7 +296,7 @@ const Dashboard = () => {
 
       {/* Recent transactions (desktop) */}
       <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
-        <RecentTransactions transactions={transactions} />
+        <RecentTransactions transactions={displayTransactions} />
       </Box>
     </Box>
   );
