@@ -51,7 +51,13 @@ const Analytics = () => {
   const monthlyChartData = Array.from({ length: months }, (_, i) => {
     const date = subMonths(new Date(), months - 1 - i);
     const { income, expenses } = getMonthlyData(date);
-    return { month: format(date, 'MMM'), income, expenses, net: income - expenses };
+    const rate = useCurrency().rates[useCurrency().currency.code] || 1;
+    return { 
+      month: format(date, 'MMM'), 
+      income: income * rate, 
+      expenses: expenses * rate, 
+      net: (income - expenses) * rate 
+    };
   });
 
   const spendingData   = getSpendingByCategory();

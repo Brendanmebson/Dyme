@@ -94,8 +94,10 @@ const MonthlyChart = ({ data }) => {
                   tick={{ fontSize: isMobile ? 10 : 12, fill: theme.palette.text.secondary }}
                   axisLine={false} tickLine={false}
                   tickFormatter={(v) => {
-                    if (v >= 1000) return `${currency.symbol}${(v / 1000).toFixed(1)}k`;
-                    return `${currency.symbol}${v}`;
+                    const symbol = currency.symbol;
+                    if (v >= 1000000) return `${symbol}${(v / 1000000).toFixed(1)}M`;
+                    if (v >= 1000) return `${symbol}${(v / 1000).toFixed(0)}k`;
+                    return `${symbol}${v}`;
                   }}
                 />
               <Tooltip content={<CustomTooltip />} cursor={{ stroke: theme.palette.divider }} />
