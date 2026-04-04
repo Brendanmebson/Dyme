@@ -1,11 +1,11 @@
 // src/routes/notifications.routes.js
 import { Router } from 'express';
 import * as NotificationsController from '../controllers/notifications.controller.js';
-import { authenticate } from '../middleware/auth.js';
+import { requireAuth } from '../middleware/auth.js';
 
 const router = Router();
 
-router.use(authenticate);
+router.use(requireAuth);
 
 router.get('/', NotificationsController.getNotifications);
 router.post('/sync', NotificationsController.syncNotifications);
