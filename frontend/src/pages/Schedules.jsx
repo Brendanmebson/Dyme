@@ -96,7 +96,11 @@ const Schedules = () => {
       <Grid container spacing={3}>
         {schedules.length === 0 ? (
           <Grid item xs={12}>
-            <Box sx={{ textAlign: 'center', py: 10, bgcolor: 'background.paper', borderRadius: '20px', border: '1px dashed', borderColor: 'divider' }}>
+            <Box sx={{ 
+                textAlign: 'center', py: 10, bgcolor: 'background.paper', 
+                borderRadius: '20px', border: '1px dashed', borderColor: 'divider',
+                width: '100%'
+            }}>
               <TrendingUp size={48} color="#98a2b3" style={{ marginBottom: 16 }} />
               <Typography variant="h6" fontWeight={700} color="text.primary" gutterBottom>
                 No income schedules yet

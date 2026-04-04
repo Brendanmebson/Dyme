@@ -22,7 +22,7 @@ const PageWrapper = styled(Box)({
 
 const Layout = () => {
   const location = useLocation();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const desktopWidth = collapsed ? COLLAPSED_WIDTH : DRAWER_WIDTH;

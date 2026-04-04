@@ -5,9 +5,8 @@ import { useConfirm } from '../context/ConfirmContext';
 import SubscriptionModal from '../components/Modals/SubscriptionModal';
 import {
   Box, Typography, Button, Card, CardContent, Grid,
-  Avatar, Chip, Tooltip, LinearProgress
+  Avatar, Chip, IconButton, Tooltip, LinearProgress
 } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
 import {
   Plus, Clock, MoreVertical, Trash2, StopCircle,
   AlertTriangle, CheckCircle, ExternalLink

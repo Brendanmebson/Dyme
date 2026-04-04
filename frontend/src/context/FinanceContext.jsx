@@ -200,10 +200,16 @@ export const FinanceProvider = ({ children }) => {
       isWithinInterval(new Date(t.date), { start, end })
     );
     
-    const income   = monthlyTx.filter((t) => t.type === 'income').reduce((s, t) => s + getConvertedAmount(t.amount, t.currency), 0);
-    const expenses = monthlyTx.filter((t) => t.type === 'expense').reduce((s, t) => s + getConvertedAmount(t.amount, t.currency), 0);
+    const incomeUSD   = monthlyTx.filter((t) => t.type === 'income').reduce((s, t) => s + getConvertedAmount(t.amount, t.currency), 0);
+    const expensesUSD = monthlyTx.filter((t) => t.type === 'expense').reduce((s, t) => s + getConvertedAmount(t.amount, t.currency), 0);
 
-    return { income, expenses, transactions: monthlyTx };
+    // Convert to display currency
+    const rate = rates[currency.code] || 1;
+    return { 
+      income: incomeUSD * rate, 
+      expenses: expensesUSD * rate, 
+      transactions: monthlyTx 
+    };
   }, [transactions, getConvertedAmount]);
 
   const getSpendingByCategory = useCallback(() => {
@@ -212,7 +218,8 @@ export const FinanceProvider = ({ children }) => {
       .filter((t) => t.type === 'expense')
       .forEach((t) => {
         const amountInUSD = getConvertedAmount(t.amount, t.currency);
-        totals[t.category] = (totals[t.category] || 0) + amountInUSD;
+        const amountInDisplay = amountInUSD * (rates[currency.code] || 1);
+        totals[t.category] = (totals[t.category] || 0) + amountInDisplay;
       });
     return Object.entries(totals)
       .map(([category, amount]) => ({ category, amount }))

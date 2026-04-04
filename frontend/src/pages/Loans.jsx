@@ -85,9 +85,9 @@ const Loans = () => {
       </Box>
 
       {/* Summary Cards */}
-      <Grid container spacing={2} sx={{ mb: 4 }}>
+      <Grid container spacing={2} sx={{ mb: 4, width: '100%', ml: 0 }}>
         <Grid item xs={6}>
-          <Card sx={{ borderRadius: '20px', bgcolor: '#f0fdf4', border: '1px solid #d1fae5', boxShadow: 'none', height: '100%' }}>
+          <Card sx={{ borderRadius: '20px', bgcolor: '#f0fdf4', border: '1px solid #d1fae5', boxShadow: 'none', height: '100%', width: '100%' }}>
             <CardContent sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'flex-start', md: 'center' }, gap: { xs: 1, md: 2.5 }, p: { xs: 2, md: 3 } }}>
               <Box sx={{ width: { xs: 32, md: 44 }, height: { xs: 32, md: 44 }, borderRadius: '10px', bgcolor: '#10b981', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <ArrowUpRight size={18} />
@@ -104,7 +104,7 @@ const Loans = () => {
           </Card>
         </Grid>
         <Grid item xs={6}>
-          <Card sx={{ borderRadius: '20px', bgcolor: '#fef2f2', border: '1px solid #fecaca', boxShadow: 'none', height: '100%' }}>
+          <Card sx={{ borderRadius: '20px', bgcolor: '#fef2f2', border: '1px solid #fecaca', boxShadow: 'none', height: '100%', width: '100%' }}>
             <CardContent sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'flex-start', md: 'center' }, gap: { xs: 1, md: 2.5 }, p: { xs: 2, md: 3 } }}>
               <Box sx={{ width: { xs: 32, md: 44 }, height: { xs: 32, md: 44 }, borderRadius: '10px', bgcolor: '#ef4444', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <ArrowDownRight size={18} />
