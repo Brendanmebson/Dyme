@@ -2,7 +2,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   Home, CreditCard, Target, BarChart3, TrendingUp,
-  ChevronLeft, Sparkles, User, Settings, Clock,
+  ChevronLeft, Sparkles, User, Settings, Clock, HandCoins,
 } from 'lucide-react';
 import {
   Drawer, List, ListItemButton, ListItemIcon, ListItemText,
@@ -11,7 +11,7 @@ import {
 import { styled, keyframes } from '@mui/material/styles';
 import logofull from '../../assets/Dyme logo full.png';
 import logo from '../../assets/Dyme logo.png';
-import HandCoins from '@mui/icons-material/HandCoins';
+
 import { useAuth } from '../../context/AuthContext';
 import MenuIcon from '@mui/icons-material/Menu';
 
