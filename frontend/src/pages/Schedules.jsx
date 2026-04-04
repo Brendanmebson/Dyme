@@ -5,9 +5,10 @@ import { useConfirm } from '../context/ConfirmContext';
 import ScheduleModal from '../components/Modals/ScheduleModal';
 import { 
   Box, Typography, Button, Card, CardContent, Grid, 
-  Avatar, Chip, IconButton, Tooltip, LinearProgress,
+  Avatar, Chip, Tooltip, LinearProgress,
   List, ListItem, ListItemAvatar, ListItemText, ListItemSecondaryAction
 } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import { 
   Plus, Calendar, MoreVertical, Trash2, CheckCircle2,
   AlertCircle, TrendingUp, HandCoins, Clock, Timer

@@ -5,9 +5,10 @@ import { useConfirm } from '../context/ConfirmContext';
 import LoanModal from '../components/Modals/LoanModal';
 import { 
   Box, Typography, Button, Card, CardContent, Grid, 
-  Avatar, Chip, IconButton, Tooltip, LinearProgress,
+  Avatar, Chip, Tooltip, LinearProgress,
   Tab, Tabs, Paper, Divider
 } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import { 
   Plus, HandCoins, ArrowDownRight, ArrowUpRight, 
   Trash2, History, Calendar, Calculator, CheckCircle2

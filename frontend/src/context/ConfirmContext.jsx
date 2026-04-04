@@ -31,10 +31,15 @@ export const ConfirmProvider = ({ children }) => {
   };
 
   const handleConfirm = async () => {
-    if (state.onConfirm) {
-      await state.onConfirm();
+    try {
+      if (state.onConfirm) {
+        await state.onConfirm();
+      }
+    } catch (err) {
+      console.error('Action failed:', err);
+    } finally {
+      handleClose();
     }
-    handleClose();
   };
 
   return (
