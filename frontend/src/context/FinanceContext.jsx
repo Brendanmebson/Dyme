@@ -4,6 +4,9 @@ import { startOfMonth, endOfMonth, isWithinInterval, format, subMonths } from 'd
 import { transactionsService } from '../services/transactions.service.js';
 import { budgetsService }      from '../services/budgets.service.js';
 import { categoriesService }   from '../services/categories.service.js';
+import { subscriptionsService } from '../services/subscriptions.service.js';
+import { schedulesService }     from '../services/schedules.service.js';
+import { loansService }         from '../services/loans.service.js';
 import { useAuth }             from './AuthContext.jsx';
 import { useCurrency }         from './CurrencyContext.jsx';
 
@@ -21,6 +24,9 @@ export const FinanceProvider = ({ children }) => {
 
   const [transactions, setTransactions] = useState([]);
   const [budgets, setBudgets]           = useState([]);
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [schedules, setSchedules]       = useState([]);
+  const [loans, setLoans]               = useState([]);
   const [categories, setCategories]     = useState([]);
   const [loading, setLoading]           = useState(true);
   const [error, setError]               = useState(null);
@@ -38,14 +44,20 @@ export const FinanceProvider = ({ children }) => {
     const bootstrap = async () => {
       setLoading(true);
       try {
-        const [txData, budgetData, catData] = await Promise.all([
+        const [txData, budgetData, catData, subData, scheduleData, loanData] = await Promise.all([
           transactionsService.getAll({ limit: 500 }),
           budgetsService.getAll(),
           categoriesService.getAll(),
+          subscriptionsService.getAll(),
+          schedulesService.getAll(),
+          loansService.getAll(),
         ]);
         setTransactions(txData.transactions);
         setBudgets(budgetData);
         setCategories(catData);
+        setSubscriptions(subData || []);
+        setSchedules(scheduleData || []);
+        setLoans(loanData || []);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -59,14 +71,20 @@ export const FinanceProvider = ({ children }) => {
   const refreshData = useCallback(async () => {
     setLoading(true);
     try {
-      const [txData, budgetData, catData] = await Promise.all([
+      const [txData, budgetData, catData, subData, scheduleData, loanData] = await Promise.all([
         transactionsService.getAll({ limit: 500 }),
         budgetsService.getAll(),
         categoriesService.getAll(),
+        subscriptionsService.getAll(),
+        schedulesService.getAll(),
+        loansService.getAll(),
       ]);
       setTransactions(txData.transactions);
       setBudgets(budgetData);
       setCategories(catData);
+      setSubscriptions(subData || []);
+      setSchedules(scheduleData || []);
+      setLoans(loanData || []);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -107,6 +125,60 @@ export const FinanceProvider = ({ children }) => {
   const deleteBudget = useCallback(async (id) => {
     await budgetsService.delete(id);
     setBudgets((prev) => prev.filter((b) => b.id !== id));
+  }, []);
+
+  // ── Subscriptions ──────────────────────────────────────────
+  const addSubscription = useCallback(async (sub) => {
+    const created = await subscriptionsService.create(sub);
+    setSubscriptions((prev) => [...prev, created]);
+    return created;
+  }, []);
+
+  const updateSubscription = useCallback(async (id, updates) => {
+    const updated = await subscriptionsService.update(id, updates);
+    setSubscriptions((prev) => prev.map((s) => (s.id === id ? updated : s)));
+    return updated;
+  }, []);
+
+  const deleteSubscription = useCallback(async (id) => {
+    await subscriptionsService.delete(id);
+    setSubscriptions((prev) => prev.filter((s) => s.id !== id));
+  }, []);
+
+  // ── Schedules ──────────────────────────────────────────────
+  const addSchedule = useCallback(async (schedule) => {
+    const created = await schedulesService.create(schedule);
+    setSchedules((prev) => [...prev, created]);
+    return created;
+  }, []);
+
+  const updateSchedule = useCallback(async (id, updates) => {
+    const updated = await schedulesService.update(id, updates);
+    setSchedules((prev) => prev.map((s) => (s.id === id ? updated : s)));
+    return updated;
+  }, []);
+
+  const deleteSchedule = useCallback(async (id) => {
+    await schedulesService.delete(id);
+    setSchedules((prev) => prev.filter((s) => s.id !== id));
+  }, []);
+
+  // ── Loans ──────────────────────────────────────────────────
+  const addLoan = useCallback(async (loan) => {
+    const created = await loansService.create(loan);
+    setLoans((prev) => [...prev, created]);
+    return created;
+  }, []);
+
+  const updateLoan = useCallback(async (id, updates) => {
+    const updated = await loansService.update(id, updates);
+    setLoans((prev) => prev.map((l) => (l.id === id ? updated : l)));
+    return updated;
+  }, []);
+
+  const deleteLoan = useCallback(async (id) => {
+    await loansService.delete(id);
+    setLoans((prev) => prev.filter((l) => l.id !== id));
   }, []);
 
   // ── Analytics helpers (Always calculate in USD/Base) ────────
@@ -213,6 +285,9 @@ export const FinanceProvider = ({ children }) => {
     transactions,
     displayTransactions,
     budgets: enrichedBudgets,
+    subscriptions,
+    schedules,
+    loans,
     categories,
     loading,
     error,
@@ -221,6 +296,15 @@ export const FinanceProvider = ({ children }) => {
     addBudget,
     updateBudget,
     deleteBudget,
+    addSubscription,
+    updateSubscription,
+    deleteSubscription,
+    addSchedule,
+    updateSchedule,
+    deleteSchedule,
+    addLoan,
+    updateLoan,
+    deleteLoan,
     getMonthlyData,
     getSpendingByCategory,
     getBalances,

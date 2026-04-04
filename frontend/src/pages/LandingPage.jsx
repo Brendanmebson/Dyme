@@ -188,14 +188,14 @@ const LandingPage = () => {
   // Removed inlined nav logic (handled in LandingNavbar)
 
   return (
-    <Box sx={{ bgcolor: 'background.default', overflowX: 'hidden', fontFamily: '"DM Sans", "Plus Jakarta Sans", sans-serif' }}>
+    <Box component="main" sx={{ bgcolor: 'background.default', overflowX: 'hidden', fontFamily: '"DM Sans", "Plus Jakarta Sans", sans-serif' }}>
 
       <LandingNavbar />
 
       {/* ══════════════════════════════════════
           HERO
       ══════════════════════════════════════ */}
-      <Box sx={{ minHeight: '100vh', pt: '90px', pb: 12, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
+      <Box component="section" sx={{ minHeight: '100vh', pt: '90px', pb: 12, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
         <Box sx={{ position: 'absolute', inset: 0, zIndex: 0, background: (theme) => `radial-gradient(ellipse 70% 60% at 100% 20%, rgba(244,63,110,0.10) 0%, transparent 70%), radial-gradient(ellipse 60% 50% at 10% 80%, rgba(16,185,129,0.07) 0%, transparent 70%), ${theme.palette.mode === 'dark' ? '#121212' : '#fafaf8'}` }} />
         <Box sx={{ position: 'absolute', top: '-5%', right: '-8%', width: 600, height: 600, background: 'radial-gradient(circle, rgba(244,63,110,0.13) 0%, transparent 70%)', animation: `${blobDrift} 14s ease-in-out infinite`, pointerEvents: 'none', zIndex: 0 }} />
         <Box sx={{ position: 'absolute', bottom: '5%', left: '-5%', width: 400, height: 400, background: 'radial-gradient(circle, rgba(16,185,129,0.09) 0%, transparent 70%)', animation: `${blobDrift} 18s ease-in-out infinite 3s`, pointerEvents: 'none', zIndex: 0 }} />
@@ -327,7 +327,7 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           WHY US
       ══════════════════════════════════════ */}
-      <Box id="why-us" sx={{ py: { xs: 10, md: 10 }, bgcolor: 'background.paper' }}>
+      <Box component="section" id="why-us" sx={{ py: { xs: 10, md: 10 }, bgcolor: 'background.paper' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 9 }}>
             <Typography sx={{ ...overline }}>Why Us</Typography>
@@ -404,7 +404,7 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           FEATURES
       ══════════════════════════════════════ */}
-      <Box id="features" sx={{ py: { xs: 10, md: 10 }, bgcolor: 'background.default' }}>
+      <Box component="section" id="features" sx={{ py: { xs: 10, md: 10 }, bgcolor: 'background.default' }}>
         <Container maxWidth="lg">
           <Box sx={{ display: 'flex', gap: { xs: 4, md: 10 }, flexWrap: 'wrap', mb: 10, alignItems: 'flex-start' }}>
             <Box sx={{ flex: '0 0 auto', maxWidth: 480 }}>
@@ -459,7 +459,7 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           PRICING
       ══════════════════════════════════════ */}
-      <Box id="pricing" sx={{ py: { xs: 10, md: 10 }, bgcolor: 'background.paper' }}>
+      <Box component="section" id="pricing" sx={{ py: { xs: 10, md: 10 }, bgcolor: 'background.paper' }}>
         <Container maxWidth="lg">
           <Box sx={{ mb: 9 }}>
             <Typography sx={{ ...overline }}>Pricing</Typography>
@@ -504,7 +504,7 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           TESTIMONIALS
       ══════════════════════════════════════ */}
-      <Box sx={{ py: { xs: 10, md: 16 }, bgcolor: 'background.default' }}>
+      <Box component="section" sx={{ py: { xs: 10, md: 16 }, bgcolor: 'background.default' }}>
         <Container maxWidth="lg">
           <Box sx={{ display: 'flex', gap: { xs: 4, md: 10 }, flexWrap: 'wrap', mb: 10, alignItems: 'flex-end' }}>
             <Box sx={{ flex: '0 0 auto' }}>

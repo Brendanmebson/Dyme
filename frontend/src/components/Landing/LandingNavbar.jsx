@@ -81,7 +81,7 @@ const LandingNavbar = () => {
   );
 
   return (
-    <>
+    <header>
       <Box
         component="nav"
         sx={{
@@ -199,7 +199,7 @@ const LandingNavbar = () => {
           </Button>
         </Box>
       </Box>
-    </>
+    </header>
   );
 };
 

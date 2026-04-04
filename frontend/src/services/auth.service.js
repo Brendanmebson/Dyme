@@ -44,4 +44,9 @@ export const authService = {
     await api.post(`${AUTH_BASE}/change-password`, { new_password });
     localStorage.removeItem('accessToken');
   },
+
+  updateAvatar: async (base64Image) => {
+    const { data } = await api.post(`${AUTH_BASE}/avatar`, { image: base64Image });
+    return data.user;
+  },
 };

@@ -10,6 +10,7 @@ import MonthlyChart from '../components/Charts/MonthlyChart';
 import { DollarSign, TrendingUp, TrendingDown, Wallet, ArrowUpRight, Upload, X, Zap } from 'lucide-react';
 import { Box, Typography, Button, CircularProgress, Skeleton, Grid } from '@mui/material';
 import { subMonths, format } from 'date-fns';
+import { useNotifications } from '../context/NotificationContext';
 import { useNavigate } from 'react-router-dom';
 import { bankingService } from '../services/banking.service';
 
@@ -20,26 +21,36 @@ const getGreeting = () => {
   return 'Good evening';
 };
 
-const buildMonthlyChartData = (getMonthlyData) =>
+const buildMonthlyChartData = (getMonthlyData, rates, currencyCode) =>
   Array.from({ length: 6 }, (_, i) => {
     const date = subMonths(new Date(), 5 - i);
     const { income, expenses } = getMonthlyData(date);
-    return { month: format(date, 'MMM'), income, expenses };
+    const rate = rates[currencyCode] || 1;
+    return { 
+      month: format(date, 'MMM'), 
+      income: income * rate, 
+      expenses: expenses * rate 
+    };
   });
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { format: formatCurrency, currency } = useCurrency();
+  const { format: formatCurrency, currency, rates } = useCurrency();
   const { 
     transactions = [], 
     displayTransactions = [],
+    subscriptions = [],
+    schedules = [],
     getMonthlyData, 
     getSpendingByCategory,
     getBalances,
+    addTransaction,
+    updateSchedule,
     loading, 
     refreshData 
   } = useFinance();
+  const { syncNotifications } = useNotifications();
 
   const [uploading, setUploading] = useState(false);
   const [bankStatus, setBankStatus] = useState({ connected: false });
@@ -52,7 +63,10 @@ const Dashboard = () => {
     bankingService.getStatus()
       .then(setBankStatus)
       .catch(() => setBankStatus({ connected: false }));
-  }, []);
+    
+    // Sync notifications on mount
+    syncNotifications();
+  }, [syncNotifications]);
 
   const handleFileUpload = async (file) => {
     if (!file) return;
@@ -118,7 +132,7 @@ const Dashboard = () => {
 
   const monthlyData = getMonthlyData?.() || { income: 0, expenses: 0, transactions: [] };
   const spendingData = getSpendingByCategory?.() || [];
-  const chartData = buildMonthlyChartData(getMonthlyData);
+  const chartData = buildMonthlyChartData(getMonthlyData, rates, currency.code);
   const balances = getBalances?.() || { account: 0, cash: 0, total: 0 };
 
   const fullName = user?.full_name ?? user?.user_metadata?.full_name ?? '';
@@ -164,9 +178,9 @@ const Dashboard = () => {
   ];
 
   return (
-    <Box sx={{ pt: { xs: 3, md: 4 } }}>
+    <Box component="main" sx={{ pt: { xs: 3, md: 4 } }}>
       {/* Header */}
-      <Box sx={{
+      <Box component="header" sx={{
         display: 'flex', justifyContent: 'space-between',
         alignItems: { xs: 'flex-start', sm: 'center' },
         mb: { xs: 3, md: 4 }, flexWrap: 'wrap', gap: 2,
@@ -205,6 +219,8 @@ const Dashboard = () => {
           Add Transaction
         </Button>
       </Box>
+
+
 
       {/* Bank Link Banner (Drag & Drop Zone) */}
       {!bannerDismissed && bankStatus && !bankStatus.connected && (

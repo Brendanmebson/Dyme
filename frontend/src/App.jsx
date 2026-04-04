@@ -10,6 +10,8 @@ import Layout          from './components/Layout/Layout';
 import LandingPage      from './pages/LandingPage';
 import ScrollToTop      from './components/Common/ScrollToTop';
 import { AppThemeProvider } from './context/ThemeContext';
+import { ConfirmProvider } from './context/ConfirmContext';
+import { NotificationProvider } from './context/NotificationContext';
 
 // Lazy load other views
 const Login        = lazy(() => import('./pages/Login'));
@@ -24,6 +26,9 @@ const Settings     = lazy(() => import('./pages/Settings'));
 const About        = lazy(() => import('./pages/About'));
 const Features     = lazy(() => import('./pages/Features'));
 const FAQs         = lazy(() => import('./pages/FAQs'));
+const Subscriptions = lazy(() => import('./pages/Subscriptions'));
+const Schedules     = lazy(() => import('./pages/Schedules'));
+const Loans         = lazy(() => import('./pages/Loans'));
 
 // const theme = createTheme(muiTheme); // Removed static theme
 
@@ -62,44 +67,52 @@ function App() {
       <AuthProvider>
         <CurrencyProvider>
           <FinanceProvider>
-            <Router>
-              <ScrollToTop />
-              <Suspense fallback={<LoadingFallback />}>
-                <Routes>
-                  {/* Public */}
-                  <Route path="/"           element={<LandingPage />} />
-                  <Route path="/about"      element={<About />} />
-                  <Route path="/features"   element={<Features />} />
-                  <Route path="/faqs"       element={<FAQs />} />
-                  <Route path="/login"      element={<Login />} />
-
-                  {/* Post-signup onboarding (protected) */}
-                  <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
-
-                  {/* Protected app shell */}
-                  <Route
-                    path="/dashboard"
-                    element={
-                      <ProtectedRoute>
-                        <Layout />
-                      </ProtectedRoute>
-                    }
-                  >
-                    <Route index                element={<Dashboard />} />
-                    <Route path="transactions"  element={<Transactions />} />
-                    <Route path="budgets"       element={<Budgets />} />
-                    <Route path="analytics"     element={<Analytics />} />
-                    <Route path="reports"       element={<Reports />} />
-                    <Route path="profile"       element={<Profile />} />
-                    <Route path="settings"      element={<Settings />} />
-                  </Route>
-
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-              </Suspense>
-            </Router>
-          </FinanceProvider>
-        </CurrencyProvider>
+            <ConfirmProvider>
+              <NotificationProvider>
+                <Router>
+                <ScrollToTop />
+                <Suspense fallback={<LoadingFallback />}>
+                  <Routes>
+                    {/* Public */}
+                    <Route path="/"           element={<LandingPage />} />
+                    <Route path="/about"      element={<About />} />
+                    <Route path="/features"   element={<Features />} />
+                    <Route path="/faqs"       element={<FAQs />} />
+                    <Route path="/login"      element={<Login />} />
+  
+                    {/* Post-signup onboarding (protected) */}
+                    <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
+  
+                    {/* Protected app shell */}
+                    <Route
+                      path="/dashboard"
+                      element={
+                        <ProtectedRoute>
+                          <Layout />
+                        </ProtectedRoute>
+                      }
+                    >
+                      <Route index                element={<Dashboard />} />
+                      <Route path="transactions"  element={<Transactions />} />
+                      <Route path="budgets"       element={<Budgets />} />
+                      <Route path="schedules"    element={<Schedules />} />
+                      <Route path="loans"        element={<Loans />} />
+                      <Route path="analytics"     element={<Analytics />} />
+                      <Route path="reports"       element={<Reports />} />
+                      <Route path="subscriptions" element={<Subscriptions />} />
+                      <Route path="reports"       element={<Reports />} />
+                      <Route path="profile"       element={<Profile />} />
+                      <Route path="settings"      element={<Settings />} />
+                    </Route>
+  
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </Suspense>
+              </Router>
+              </NotificationProvider>
+            </ConfirmProvider>
+        </FinanceProvider>
+      </CurrencyProvider>
       </AuthProvider>
     </AppThemeProvider>
   );

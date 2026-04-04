@@ -195,3 +195,49 @@ export const changePassword = async (req, res) => {
     return res.status(400).json({ error: err.message });
   }
 };
+
+// ── Update avatar ─────────────────────────────────────────────
+export const updateAvatar = async (req, res) => {
+  try {
+    const { image } = req.body; // base64 data URL
+    if (!image) return res.status(400).json({ error: 'No image provided' });
+
+    // 1. Decode base64
+    const base64Data = image.split(',')[1];
+    const buffer = Buffer.from(base64Data, 'base64');
+    const contentType = image.split(';')[0].split(':')[1];
+    const extension = contentType.split('/')[1];
+    const fileName = `${req.user.id}-${Date.now()}.${extension}`;
+
+    // 2. Upload to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('avatars')
+      .upload(fileName, buffer, {
+        contentType,
+        upsert: true,
+      });
+
+    if (uploadError) throw uploadError;
+
+    // 3. Get public URL
+    const { data: { publicUrl } } = supabase.storage
+      .from('avatars')
+      .getPublicUrl(fileName);
+
+    // 4. Update profile in DB
+    const { data: updatedProfile, error: dbError } = await supabase
+      .from('profiles')
+      .update({ avatar_url: publicUrl })
+      .eq('id', req.user.id)
+      .select()
+      .single();
+
+    if (dbError) throw dbError;
+
+    return res.json({ user: { ...updatedProfile, email: req.user.email } });
+
+  } catch (err) {
+    console.log("UPDATE AVATAR ERROR:", err);
+    return res.status(400).json({ error: err.message });
+  }
+};

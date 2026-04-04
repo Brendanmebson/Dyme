@@ -14,6 +14,7 @@ import { Settings, LogOut, User, ChevronDown, Menu as MenuIcon } from 'lucide-re
 import { keyframes } from '@mui/material/styles';
 import { useAuth } from '../../context/AuthContext';
 import CurrencyPicker from '../CurrencyPicker';
+import NotificationBell from '../Notifications/NotificationBell';
 
 const pulse = keyframes`0%,100%{transform:scale(1)}50%{transform:scale(1.08)}`;
 
@@ -93,6 +94,9 @@ const Header = ({
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           {/* Currency picker */}
           <CurrencyPicker />
+
+          {/* Notifications */}
+          <NotificationBell />
 
           {/* Profile */}
           <Box

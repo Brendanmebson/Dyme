@@ -41,14 +41,14 @@ const inputSx = {
 };
 
 const Profile = () => {
-  const { user, updateProfile, localAvatar, setLocalAvatar } = useAuth();
+  const { user, updateProfile } = useAuth();
   const fileRef = useRef();
 
   const fullName     = user?.full_name ?? user?.user_metadata?.full_name ?? '';
   const displayEmail = user?.email ?? '';
 
   const [name, setName]         = useState(fullName);
-  const [avatar, setAvatar]     = useState(localAvatar || user?.avatar_url || user?.user_metadata?.avatar_url || null);
+  const [avatar, setAvatar]     = useState(user?.avatar_url || user?.user_metadata?.avatar_url || null);
   const [avatarDialogOpen, setAvatarDialogOpen] = useState(false);
   const [saving, setSaving]     = useState(false);
   const [saved, setSaved]       = useState(false);
@@ -66,9 +66,9 @@ const Profile = () => {
   React.useEffect(() => {
     if (user) {
       setName(user.full_name ?? user.user_metadata?.full_name ?? '');
-      setAvatar(localAvatar || user.avatar_url || null);
+      setAvatar(user.avatar_url || null);
     }
-  }, [user, localAvatar]);
+  }, [user]);
 
   const initials = fullName
     ? fullName.split(' ').filter(Boolean).map((n) => n[0]).join('').toUpperCase().slice(0, 2)
@@ -76,11 +76,12 @@ const Profile = () => {
 
   const handleAvatarSave = async (dataUrl) => {
     setAvatar(dataUrl);
-    setLocalAvatar(dataUrl);
     try {
       await updateProfile({ avatar_url: dataUrl });
     } catch (err) {
       console.error('Failed to update avatar in context:', err);
+      // Revert if failed
+      setAvatar(user?.avatar_url || null);
     }
   };
 

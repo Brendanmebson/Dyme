@@ -12,6 +12,10 @@ import transactionRoutes  from './routes/transactions.routes.js';
 import budgetRoutes       from './routes/budgets.routes.js';
 import categoryRoutes     from './routes/categories.routes.js';
 import bankingRoutes      from './routes/banking.routes.js';
+import subscriptionRoutes from './routes/subscriptions.routes.js';
+import scheduleRoutes     from './routes/schedules.routes.js';
+import loanRoutes         from './routes/loans.routes.js';
+import notificationRoutes from './routes/notifications.routes.js';
 import { errorHandler }   from './middleware/errorHandler.js';
 
 const app  = express();
@@ -69,6 +73,10 @@ app.use('/api/v1/transactions', apiLimiter,  transactionRoutes);
 app.use('/api/v1/budgets',      apiLimiter,  budgetRoutes);
 app.use('/api/v1/categories',   apiLimiter,  categoryRoutes);
 app.use('/api/v1/banking',      apiLimiter,  bankingRoutes);
+app.use('/api/v1/subscriptions', apiLimiter,  subscriptionRoutes);
+app.use('/api/v1/schedules',     apiLimiter,  scheduleRoutes);
+app.use('/api/v1/loans',         apiLimiter,  loanRoutes);
+app.use('/api/v1/notifications',  apiLimiter,  notificationRoutes);
 
 // ── 404 ───────────────────────────────────────────────────────
 app.use((req, res) => {

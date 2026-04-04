@@ -2,7 +2,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   Home, CreditCard, Target, BarChart3, TrendingUp,
-  ChevronLeft, Sparkles, User, Settings,
+  ChevronLeft, Sparkles, User, Settings, Clock,
 } from 'lucide-react';
 import {
   Drawer, List, ListItemButton, ListItemIcon, ListItemText,
@@ -25,8 +25,11 @@ const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: Home, color: '#f43f6e' },
   { name: 'Transactions', href: '/dashboard/transactions', icon: CreditCard, color: '#7c3aed' },
   { name: 'Budgets', href: '/dashboard/budgets', icon: Target, color: '#10b981' },
+  { name: 'Schedules', href: '/dashboard/schedules', icon: Clock, color: '#10b981' },
+  { name: 'Loans', href: '/dashboard/loans', icon: HandCoins, color: '#a855f7' },
   { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3, color: '#f59e0b' },
   { name: 'Reports', href: '/dashboard/reports', icon: TrendingUp, color: '#3b82f6' },
+  { name: 'Subscriptions', href: '/dashboard/subscriptions', icon: Clock, color: '#ec4899' },
 ];
 
 const bottomNav = [

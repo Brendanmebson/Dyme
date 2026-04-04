@@ -8,7 +8,7 @@ import {
 import { useCurrency } from '../../context/CurrencyContext';
 
 const CustomTooltip = ({ active, payload, label }) => {
-  const { format: formatCurrency } = useCurrency();
+  const { format: formatCurrency, currency } = useCurrency();
   if (!active || !payload?.length) return null;
   return (
     <Box
@@ -25,7 +25,7 @@ const CustomTooltip = ({ active, payload, label }) => {
         <Box key={p.dataKey} sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.25 }}>
           <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: p.color }} />
           <Typography variant="caption" color="text.secondary">
-            {p.name}: <strong style={{ color: 'text.primary' }}>{formatCurrency(p.value)}</strong>
+            {p.name}: <strong style={{ color: 'text.primary' }}>{formatCurrency(p.value, currency.code)}</strong>
           </Typography>
         </Box>
       ))}
@@ -93,7 +93,10 @@ const MonthlyChart = ({ data }) => {
                 <YAxis
                   tick={{ fontSize: isMobile ? 10 : 12, fill: theme.palette.text.secondary }}
                   axisLine={false} tickLine={false}
-                  tickFormatter={(v) => `${currency.symbol}${v}`}
+                  tickFormatter={(v) => {
+                    if (v >= 1000) return `${currency.symbol}${(v / 1000).toFixed(1)}k`;
+                    return `${currency.symbol}${v}`;
+                  }}
                 />
               <Tooltip content={<CustomTooltip />} cursor={{ stroke: theme.palette.divider }} />
               <Area type="monotone" dataKey="income"   name="Income"   stroke="#10b981" strokeWidth={2} fill="url(#incomeGrad)"  dot={false} activeDot={{ r: 4, fill: '#10b981' }} />

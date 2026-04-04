@@ -2,6 +2,7 @@
 // On mobile: table replaced by card list for readability
 import React, { useState } from 'react';
 import { useFinance } from '../context/FinanceContext';
+import { useConfirm } from '../context/ConfirmContext';
 import TransactionModal from '../components/Modals/TransactionModal';
 import { Plus, Search, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
@@ -30,6 +31,7 @@ const Transactions = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const { displayTransactions, deleteTransaction, categories } = useFinance();
+  const { confirm } = useConfirm();
   const { format: formatCurrency } = useCurrency();
   const [isModalOpen, setIsModalOpen]       = useState(false);
   const [searchTerm, setSearchTerm]         = useState('');
@@ -177,7 +179,11 @@ const Transactions = () => {
                           {isIncome ? '+' : '-'}{formatCurrency(t.amount, t.currency)}
                         </Typography>
                         <IconButton size="small"
-                          onClick={() => deleteTransaction(t.realId)}
+                          onClick={() => confirm({
+                            title: 'Delete Transaction',
+                            message: 'Are you sure you want to delete this transaction? This action cannot be undone.',
+                            onConfirm: () => deleteTransaction(t.realId)
+                          })}
                           sx={{
                             color: '#cbd1db', borderRadius: '6px', p: 0.25, mt: 0.25,
                             '&:hover': { color: '#ef4444', bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(239,68,68,0.15)' : '#fee2e2' },
@@ -252,7 +258,11 @@ const Transactions = () => {
                     </TableCell>
                     <TableCell align="center">
                       <IconButton size="small"
-                        onClick={() => deleteTransaction(t.realId)}
+                        onClick={() => confirm({
+                          title: 'Delete Transaction',
+                          message: 'Are you sure you want to delete this transaction? This action cannot be undone.',
+                          onConfirm: () => deleteTransaction(t.realId)
+                        })}
                         sx={{
                           color: '#cbd1db', borderRadius: '8px',
                           '&:hover': { color: '#ef4444', bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(239,68,68,0.15)' : '#fee2e2' },

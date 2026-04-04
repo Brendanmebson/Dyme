@@ -9,6 +9,7 @@ import {
   getMe,
   updateMe,
   changePassword,
+  updateAvatar,
 } from '../controllers/auth.controller.js';
 
 const router = Router();
@@ -20,6 +21,7 @@ router.post('/logout', asyncHandler(logout));
 // Protected routes
 router.get('/me', requireAuth, asyncHandler(getMe));
 router.patch('/me', requireAuth, asyncHandler(updateMe));
+router.post('/avatar', requireAuth, asyncHandler(updateAvatar));
 router.post('/change-password', requireAuth, asyncHandler(changePassword));
 
 export default router;

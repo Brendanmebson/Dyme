@@ -1,6 +1,7 @@
 // Budgets.jsx — Fully Responsive
 import React, { useState } from 'react';
 import { useFinance } from '../context/FinanceContext';
+import { useConfirm } from '../context/ConfirmContext';
 import BudgetModal from '../components/Modals/BudgetModal';
 import {
   Box, Grid, Card, CardContent, Typography, Button,
@@ -27,6 +28,7 @@ const getBudgetStatus = ({ spent, limit, end_date }) => {
 
 const Budgets = () => {
   const { budgets, deleteBudget } = useFinance();
+  const { confirm } = useConfirm();
   const { formatAmount, currency } = useCurrency();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hoveredId, setHoveredId]     = useState(null);
@@ -184,7 +186,11 @@ const Budgets = () => {
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
                       <IconButton
                         size="small"
-                        onClick={() => deleteBudget(budget.id)}
+                        onClick={() => confirm({
+                          title: 'Delete Budget',
+                          message: `Are you sure you want to delete the ${budget.category} budget? This will not delete your transactions.`,
+                          onConfirm: () => deleteBudget(budget.id)
+                        })}
                         sx={{
                           color: '#cbd1db', borderRadius: '8px',
                           '&:hover': { color: '#ef4444', bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(239,68,68,0.15)' : '#fee2e2' },
