@@ -11,6 +11,7 @@ import {
 import { styled, keyframes } from '@mui/material/styles';
 import logofull from '../../assets/Dyme logo full.png';
 import logo from '../../assets/Dyme logo.png';
+import HandCoins from '@mui/icons-material/HandCoins';
 import { useAuth } from '../../context/AuthContext';
 import MenuIcon from '@mui/icons-material/Menu';
 
