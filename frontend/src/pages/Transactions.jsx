@@ -26,6 +26,7 @@ const CATEGORY_COLORS = {
 };
 
 const Transactions = () => {
+  const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const { displayTransactions, deleteTransaction, categories } = useFinance();
