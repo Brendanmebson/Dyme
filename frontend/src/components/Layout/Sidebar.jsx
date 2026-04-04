@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import {
   Drawer, List, ListItemButton, ListItemIcon, ListItemText,
-  Avatar, Typography, Tooltip, IconButton, Box, Divider,
+  Avatar, Typography, Tooltip, Box, Divider, Button,
 } from '@mui/material';
 import { styled, keyframes } from '@mui/material/styles';
 import logofull from '../../assets/Dyme logo full.png';
@@ -143,9 +143,9 @@ const Sidebar = ({ drawerWidth = 240, collapsed, onCollapse, mobileOpen, onMobil
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: 'background.paper', overflow: 'hidden' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2.5, py: 2.5, borderBottom: '1px solid', borderColor: 'divider', minHeight: '72px' }}>
         <Box component="img" src={logofull} alt="Dyme" sx={{ height: 28, width: 'auto' }} />
-        <IconButton onClick={onMobileToggle} size="small" sx={{ borderRadius: '8px', p: 0.75, color: 'text.secondary', '&:hover': { bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.1)' : '#fff1f3', color: '#f43f6e' } }}>
+        <Button onClick={onMobileToggle} size="small" sx={{ minWidth: 0, borderRadius: '8px', p: 0.75, color: 'text.secondary', '&:hover': { bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(244,63,110,0.1)' : '#fff1f3', color: '#f43f6e' } }}>
           <ChevronLeft size={16} />
-        </IconButton>
+        </Button>
       </Box>
 
       <NavItems isCollapsed={false} onItemClick={onMobileToggle} items={navigation} />

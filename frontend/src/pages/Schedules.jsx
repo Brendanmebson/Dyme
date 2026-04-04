@@ -8,7 +8,6 @@ import {
   Avatar, Chip, Tooltip, LinearProgress,
   List, ListItem, ListItemAvatar, ListItemText, ListItemSecondaryAction
 } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
 import { 
   Plus, Calendar, MoreVertical, Trash2, CheckCircle2,
   AlertCircle, TrendingUp, HandCoins, Clock, Timer
@@ -151,9 +150,13 @@ const Schedules = () => {
                           />
                         </Box>
                       </Box>
-                      <IconButton size="small" onClick={() => handleDelete(s.id)} sx={{ flexShrink: 0 }}>
+                      <Button 
+                        size="small" 
+                        onClick={() => handleDelete(s.id)} 
+                        sx={{ minWidth: 0, width: 28, height: 28, p: 0, flexShrink: 0 }}
+                      >
                         <Trash2 size={16} color="#98a2b3" />
-                      </IconButton>
+                      </Button>
                     </Box>
 
                     <Box sx={{ mb: 3 }}>

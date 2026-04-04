@@ -124,7 +124,7 @@ const SubscriptionModal = ({ isOpen, onClose, subscription = null }) => {
         fontFamily: '"Plus Jakarta Sans", sans-serif', fontWeight: 800 
       }}>
         {subscription ? 'Edit Subscription' : 'Add Subscription'}
-        <IconButton onClick={onClose} size="small"><X size={20} /></IconButton>
+        <Button onClick={onClose} size="small" sx={{ minWidth: 0, p: 0.5 }}><X size={20} /></Button>
       </DialogTitle>
 
       <DialogContent sx={{ mt: 1 }}>

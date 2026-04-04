@@ -2,7 +2,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
-  Box, Typography, Button, Slider, IconButton,
+  Box, Typography, Button, Slider,
 } from '@mui/material';
 import { ZoomIn, ZoomOut, RotateCw, X, Check, Upload } from 'lucide-react';
 
@@ -168,9 +168,9 @@ const AvatarEditDialog = ({ open, onClose, onSave, currentAvatar }) => {
           fontFamily='"Plus Jakarta Sans", sans-serif'>
           Edit Profile Picture
         </Typography>
-        <IconButton onClick={onClose} size="small" sx={{ color: 'text.secondary' }}>
+        <Button onClick={onClose} size="small" sx={{ minWidth: 0, p: 0.5, color: 'text.secondary' }}>
           <X size={18} />
-        </IconButton>
+        </Button>
       </DialogTitle>
 
       <DialogContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pt: 1 }}>

@@ -5,7 +5,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -67,7 +67,7 @@ const Header = ({
     >
       <Toolbar sx={{ px: { xs: 2, md: 4 }, minHeight: '64px !important', gap: 2 }}>
         <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', gap: 2 }}>
-          <IconButton
+          <Button
             color="inherit"
             aria-label="open drawer"
             onClick={onMobileToggle}
@@ -76,12 +76,12 @@ const Header = ({
               bgcolor: 'background.paper',
               border: '1px solid', borderColor: 'divider',
               borderRadius: '10px',
-              p: 1,
+              p: 1, minWidth: 0,
               '&:hover': { bgcolor: 'background.default' }
             }}
           >
             <MenuIcon size={20} />
-          </IconButton>
+          </Button>
           
           <Typography variant="caption" sx={{
             color: 'text.secondary', fontWeight: 500,

@@ -7,7 +7,6 @@ import {
   Box, Typography, Button, Card, CardContent, Grid,
   Avatar, Chip, Tooltip, LinearProgress
 } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
 import {
   Plus, Clock, MoreVertical, Trash2, StopCircle,
   AlertTriangle, CheckCircle, ExternalLink
@@ -190,29 +189,31 @@ const Subscriptions = () => {
 
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <Tooltip title="End Subscription">
-                        <IconButton
+                        <Button
                           size="small"
                           onClick={() => handleEndSubscription(sub)}
                           disabled={!sub.is_recurring}
                           sx={{
+                            minWidth: 0, width: 32, height: 32, p: 0,
                             borderRadius: '10px', border: '1px solid', borderColor: 'divider',
                             color: 'text.secondary', '&:hover': { color: '#f59e0b', bgcolor: '#fffbeb' }
                           }}
                         >
                           <StopCircle size={18} />
-                        </IconButton>
+                        </Button>
                       </Tooltip>
                       <Tooltip title="Delete">
-                        <IconButton
+                        <Button
                           size="small"
                           onClick={() => handleDeleteSubscription(sub)}
                           sx={{
+                            minWidth: 0, width: 32, height: 32, p: 0,
                             borderRadius: '10px', border: '1px solid', borderColor: 'divider',
                             color: '#ef4444', '&:hover': { bgcolor: '#fee2e2' }
                           }}
                         >
                           <Trash2 size={18} />
-                        </IconButton>
+                        </Button>
                       </Tooltip>
                       <Box sx={{ flex: 1 }} />
                       <Button

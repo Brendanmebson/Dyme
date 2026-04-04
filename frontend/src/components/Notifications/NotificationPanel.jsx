@@ -1,7 +1,7 @@
 // src/components/Notifications/NotificationPanel.jsx
 import React from 'react';
 import { 
-  Box, Typography, Button, IconButton, List, ListItem, 
+  Box, Typography, Button, List, ListItem, 
   ListItemText, ListItemAvatar, Avatar, Divider, CircularProgress,
   Dialog, DialogTitle, DialogContent, DialogActions
 } from '@mui/material';
@@ -80,13 +80,13 @@ const NotificationItem = ({ notification, onMarkDone, onDelete }) => {
                   Mark as Done
                 </Button>
               )}
-              <IconButton 
+              <Button 
                 size="small" 
                 onClick={() => onDelete(notification.id)}
-                sx={{ color: 'text.disabled', '&:hover': { color: 'error.main' } }}
+                sx={{ minWidth: 0, p: 0.5, color: 'text.disabled', '&:hover': { color: 'error.main' } }}
               >
                 <Trash2 size={16} />
-              </IconButton>
+              </Button>
             </Box>
           </Box>
         }
@@ -114,7 +114,7 @@ const NotificationPanel = ({ onClose }) => {
       {/* Header */}
       <Box sx={{ px: 2.5, py: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid', borderColor: 'divider' }}>
         <Typography variant="h6" fontWeight={800}>Notifications</Typography>
-        <IconButton size="small" onClick={onClose}><X size={20} /></IconButton>
+        <Button size="small" onClick={onClose} sx={{ minWidth: 0, p: 0.5 }}><X size={20} /></Button>
       </Box>
 
       {/* List */}

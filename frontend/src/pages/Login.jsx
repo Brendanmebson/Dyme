@@ -8,7 +8,7 @@ import {
   BarChart3, Target, TrendingUp, UserPlus, LogIn, ArrowLeft,
 } from 'lucide-react';
 import {
-  Box, Typography, TextField, Button, IconButton,
+  Box, Typography, TextField, Button,
   InputAdornment, Alert, CircularProgress, Tabs, Tab,
 } from '@mui/material';
 import { keyframes } from '@mui/material/styles';
@@ -71,9 +71,9 @@ const LoginForm = ({ onSuccess }) => {
         value={password} onChange={(e) => setPassword(e.target.value)} required
         endAdornment={
           <InputAdornment position="end">
-            <IconButton onClick={() => setShowPw(!showPw)} edge="end">
+            <Button onClick={() => setShowPw(!showPw)} sx={{ minWidth: 0, p: 0.5 }}>
               {showPw ? <EyeOff size={18} /> : <Eye size={18} />}
-            </IconButton>
+            </Button>
           </InputAdornment>
         }
       />
@@ -134,9 +134,9 @@ const RegisterForm = ({ onSuccess }) => {
         value={form.password} onChange={set('password')} required
         endAdornment={
           <InputAdornment position="end">
-            <IconButton onClick={() => setShowPw(!showPw)} edge="end">
+            <Button onClick={() => setShowPw(!showPw)} sx={{ minWidth: 0, p: 0.5 }}>
               {showPw ? <EyeOff size={18} /> : <Eye size={18} />}
-            </IconButton>
+            </Button>
           </InputAdornment>
         }
       />
@@ -176,9 +176,10 @@ const Login = () => {
     <Box sx={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, bgcolor: 'background.default' }}>
 
       {/* ─── Back Button ─── */}
-      <IconButton
+      <Button
         onClick={() => navigate('/landing')}
         sx={{
+          minWidth: 0, p: 1,
           position: 'absolute', top: { xs: 20, md: 32 }, left: { xs: 20, md: 32 },
           zIndex: 10,
           bgcolor: { xs: 'transparent', md: 'rgba(255,255,255,0.15)' },
@@ -186,12 +187,13 @@ const Login = () => {
           border: '1px solid',
           borderColor: { xs: '#e2e2e2', md: 'rgba(255,255,255,0.25)' },
           backdropFilter: 'blur(4px)',
+          borderRadius: '12px',
           transition: 'all 0.2s ease',
           '&:hover': { bgcolor: { xs: '#f4f4f4', md: 'rgba(255,255,255,0.25)' }, transform: 'translateY(-1px)' }
         }}
       >
         <ArrowLeft size={20} />
-      </IconButton>
+      </Button>
 
       {/* ─── Theme Toggle ─── */}
       <Box sx={{ position: 'absolute', top: { xs: 20, md: 32 }, right: { xs: 20, md: 32 }, zIndex: 10 }}>

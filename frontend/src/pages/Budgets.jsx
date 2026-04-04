@@ -5,7 +5,7 @@ import { useConfirm } from '../context/ConfirmContext';
 import BudgetModal from '../components/Modals/BudgetModal';
 import {
   Box, Grid, Card, CardContent, Typography, Button,
-  LinearProgress, Chip, IconButton,
+  LinearProgress, Chip,
 } from '@mui/material';
 import { Plus, Target, AlertTriangle, CheckCircle, Trash2, Calendar } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
@@ -184,7 +184,7 @@ const Budgets = () => {
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                      <IconButton
+                      <Button
                         size="small"
                         onClick={() => confirm({
                           title: 'Delete Budget',
@@ -192,6 +192,7 @@ const Budgets = () => {
                           onConfirm: () => deleteBudget(budget.id)
                         })}
                         sx={{
+                          minWidth: 0, p: 0.5,
                           color: '#cbd1db', borderRadius: '8px',
                           '&:hover': { color: '#ef4444', bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(239,68,68,0.15)' : '#fee2e2' },
                           transition: 'all 0.2s ease',
@@ -199,7 +200,7 @@ const Budgets = () => {
                         }}
                       >
                         <Trash2 size={14} />
-                      </IconButton>
+                      </Button>
                       {budget.end_date && (
                         <Typography variant="caption" fontWeight={600} color={differenceInDays(new Date(budget.end_date), new Date()) < 3 ? '#ef4444' : '#98a2b3'} sx={{ fontSize: '0.6rem', mt: 0.5 }}>
                           {differenceInDays(new Date(budget.end_date), new Date()) > 0 

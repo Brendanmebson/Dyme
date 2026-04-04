@@ -1,6 +1,6 @@
 // src/components/Notifications/NotificationBell.jsx
 import React, { useState } from 'react';
-import { Badge, IconButton, Tooltip, Popover } from '@mui/material';
+import { Badge, Button, Tooltip, Popover, Box } from '@mui/material';
 import { Bell } from 'lucide-react';
 import { useNotifications } from '../../context/NotificationContext';
 import NotificationPanel from './NotificationPanel';
@@ -23,10 +23,11 @@ const NotificationBell = () => {
   return (
     <>
       <Tooltip title="Notifications">
-        <IconButton
+        <Button
           color="inherit"
           onClick={handleClick}
           sx={{ 
+            minWidth: 0,
             color: 'text.secondary',
             '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' }
           }}
@@ -34,7 +35,7 @@ const NotificationBell = () => {
           <Badge badgeContent={unreadCount} color="error" overlap="circular">
             <Bell size={22} />
           </Badge>
-        </IconButton>
+        </Button>
       </Tooltip>
 
       <Popover

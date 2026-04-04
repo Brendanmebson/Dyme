@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Dialog, DialogTitle, DialogContent, DialogActions, 
   Box, Typography, Button, TextField, MenuItem, 
-  InputAdornment, IconButton, CircularProgress,
+  InputAdornment, CircularProgress,
   ToggleButton, ToggleButtonGroup, useMediaQuery, useTheme, Slide
 } from '@mui/material';
 import { useFinance } from '../../context/FinanceContext';
@@ -119,7 +119,7 @@ const LoanModal = ({ isOpen, onClose, loan = null }) => {
         fontFamily: '"Plus Jakarta Sans", sans-serif', fontWeight: 800 
       }}>
         {mode === 'add' ? 'New Loan Record' : `Repayment: ${loan.name}`}
-        <IconButton onClick={onClose} size="small"><X size={20} /></IconButton>
+        <Button onClick={onClose} size="small" sx={{ minWidth: 0, p: 0.5 }}><X size={20} /></Button>
       </DialogTitle>
 
       <DialogContent sx={{ mt: 1 }}>

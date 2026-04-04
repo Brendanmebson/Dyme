@@ -8,7 +8,6 @@ import {
   Avatar, Chip, Tooltip, LinearProgress,
   Tab, Tabs, Paper, Divider
 } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
 import { 
   Plus, HandCoins, ArrowDownRight, ArrowUpRight, 
   Trash2, History, Calendar, Calculator, CheckCircle2
@@ -169,9 +168,9 @@ const Loans = () => {
                               {loan.due_date ? `Due ${format(parseISO(loan.due_date), 'MMM d, yyyy')}` : 'No due date'}
                             </Typography>
                           </Box>
-                          <IconButton size="small" onClick={() => handleDelete(loan.id)} sx={{ color: 'text.disabled', '&:hover': { color: '#ef4444' } }}>
+                          <Button size="small" onClick={() => handleDelete(loan.id)} sx={{ minWidth: 0, p: 0.5, color: 'text.disabled', '&:hover': { color: '#ef4444' } }}>
                             <Trash2 size={16} />
-                          </IconButton>
+                          </Button>
                         </Box>
 
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1, alignItems: 'flex-end' }}>

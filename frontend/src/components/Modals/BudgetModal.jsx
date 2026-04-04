@@ -10,7 +10,7 @@ import { useFinance } from '../../context/FinanceContext';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   Box, Button, TextField, Select, MenuItem, FormControl,
-  InputLabel, Typography, IconButton, Checkbox, FormControlLabel,
+  InputLabel, Typography, Checkbox, FormControlLabel,
   List, ListItem, ListItemText, CircularProgress, Divider,
 } from '@mui/material';
 import { X, Calendar, History, ChevronRight, ChevronLeft } from 'lucide-react';
@@ -109,9 +109,9 @@ const BudgetModal = ({ isOpen, onClose }) => {
             {step === 1 ? 'Set a spending limit for a category' : `Select existing ${form.category} transactions to count towards this budget`}
           </Typography>
         </Box>
-        <IconButton onClick={handleClose} size="small" sx={{ borderRadius: '10px', '&:hover': { bgcolor: 'background.default' } }}>
+        <Button onClick={handleClose} size="small" sx={{ minWidth: 0, p: 0.5, borderRadius: '10px', '&:hover': { bgcolor: 'background.default' } }}>
           <X size={18} />
-        </IconButton>
+        </Button>
       </DialogTitle>
 
       <DialogContent sx={{ px: 3, pt: 1, minHeight: 400 }}>

@@ -11,7 +11,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   Box, Button, TextField, Select, MenuItem, FormControl,
   InputLabel, Typography, ToggleButton, ToggleButtonGroup,
-  IconButton, CircularProgress,
+  CircularProgress,
 } from '@mui/material';
 import { X, TrendingUp, TrendingDown, Calendar, Upload, Zap, ArrowRightLeft } from 'lucide-react';
 import { useCurrency } from '../../context/CurrencyContext';
@@ -145,10 +145,10 @@ const TransactionModal = ({ isOpen, onClose }) => {
               {uploading ? 'Importing...' : 'Import Statement'}
             </Button>
           </label>
-          <IconButton onClick={onClose} size="small"
-            sx={{ borderRadius: '10px', '&:hover': { bgcolor: 'background.default' } }}>
+          <Button onClick={onClose} size="small"
+            sx={{ minWidth: 0, p: 0.5, borderRadius: '10px', '&:hover': { bgcolor: 'background.default' } }}>
             <X size={18} />
-          </IconButton>
+          </Button>
         </Box>
       </DialogTitle>
 

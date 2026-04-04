@@ -2,7 +2,7 @@
 import React, { useState, useRef } from 'react';
 import {
   Box, Typography, Avatar, Button, TextField, Divider,
-  CircularProgress, Alert, IconButton, Tooltip, Paper,
+  CircularProgress, Alert, Tooltip, Paper,
 } from '@mui/material';
 import { Camera, Check, Lock, User, Mail, Eye, EyeOff, Pencil } from 'lucide-react';
 import { keyframes } from '@mui/material/styles';
@@ -149,19 +149,19 @@ const Profile = () => {
               {!avatar && initials}
             </Avatar>
             <Tooltip title="Change photo">
-              <IconButton
+              <Button
                 onClick={() => setAvatarDialogOpen(true)}
                 size="small"
                 sx={{
                   position: 'absolute', bottom: -4, right: -4,
-                  bgcolor: '#f43f6e', color: '#fff', width: 30, height: 30,
-                  border: '2px solid #fff',
+                  bgcolor: '#f43f6e', color: '#fff', minWidth: 30, height: 30, p: 0,
+                  border: '2px solid #fff', borderRadius: '50%',
                   '&:hover': { bgcolor: '#e11d56' },
                   boxShadow: '0 2px 8px rgba(244,63,110,0.4)',
                 }}
               >
                 <Camera size={13} />
-              </IconButton>
+              </Button>
             </Tooltip>
           </Box>
           <Box>
@@ -234,9 +234,9 @@ const Profile = () => {
               InputProps={{
                 startAdornment: <Lock size={16} color="#98a2b3" style={{ marginRight: 8 }} />,
                 endAdornment: (
-                  <IconButton size="small" onClick={() => setShowPw((p) => ({ ...p, [key]: !p[key] }))}>
+                  <Button size="small" sx={{ minWidth: 0, p: 0.5 }} onClick={() => setShowPw((p) => ({ ...p, [key]: !p[key] }))}>
                     {showPw[key] ? <EyeOff size={16} color="#98a2b3" /> : <Eye size={16} color="#98a2b3" />}
-                  </IconButton>
+                  </Button>
                 ),
               }}
               sx={inputSx}

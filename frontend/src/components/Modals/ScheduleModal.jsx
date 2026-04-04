@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Dialog, DialogTitle, DialogContent, DialogActions, 
   Box, Typography, Button, TextField, MenuItem, 
-  InputAdornment, IconButton, CircularProgress,
+  InputAdornment, CircularProgress,
   useMediaQuery, useTheme, Slide
 } from '@mui/material';
 import { useFinance } from '../../context/FinanceContext';
@@ -105,7 +105,7 @@ const ScheduleModal = ({ isOpen, onClose, schedule = null }) => {
         fontFamily: '"Plus Jakarta Sans", sans-serif', fontWeight: 800 
       }}>
         {schedule ? 'Edit Schedule' : 'New Income Schedule'}
-        <IconButton onClick={onClose} size="small"><X size={20} /></IconButton>
+        <Button onClick={onClose} size="small" sx={{ minWidth: 0, p: 0.5 }}><X size={20} /></Button>
       </DialogTitle>
 
       <DialogContent sx={{ mt: 1 }}>
