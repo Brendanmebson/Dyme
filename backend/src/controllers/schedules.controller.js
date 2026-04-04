@@ -6,8 +6,8 @@ const ScheduleSchema = z.object({
   amount: z.number().positive(),
   currency: z.string().length(3).optional(),
   frequency: z.string(), // 'daily', 'weekly', 'bi-weekly', 'monthly', 'unstructured'
-  next_expected_date: z.string().or(z.date()).optional(),
-  last_received_date: z.string().or(z.date()).optional(),
+  next_expected_date: z.string().or(z.date()).nullable().optional(),
+  last_received_date: z.string().or(z.date()).nullable().optional(),
   is_active: z.boolean().default(true),
 });
 

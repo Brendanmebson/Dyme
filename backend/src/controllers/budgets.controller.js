@@ -28,6 +28,8 @@ export const getBudgets = async (req, res) => {
     limit:    Number(b.limit_amount),
     spent:    Number(b.spent),
     period:   b.period,
+    start_date: b.start_date,
+    end_date:   b.end_date,
     created_at: b.created_at,
   }));
 

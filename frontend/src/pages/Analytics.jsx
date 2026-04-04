@@ -111,12 +111,12 @@ const Analytics = () => {
       {/* ─── Insight cards ─────────────────────── */}
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }, gap: { xs: 1.5, md: 3 }, mb: { xs: 3, md: 4 } }}>
         <Box sx={{ minWidth: 0 }}>
-          <InsightCard label="Avg Monthly Income" value={formatCurrency(avgIncome)}
+          <InsightCard label="Avg Monthly Income" value={formatCurrency(avgIncome, currency.code)}
             icon={TrendingUp} iconColor="#10b981" iconBg="#d1fae5"
             sub={`Over ${months} months`} />
         </Box>
         <Box sx={{ minWidth: 0 }}>
-          <InsightCard label="Avg Monthly Expenses" value={formatCurrency(avgExpenses)}
+          <InsightCard label="Avg Monthly Expenses" value={formatCurrency(avgExpenses, currency.code)}
             icon={TrendingDown} iconColor="#ef4444" iconBg="#fee2e2"
             sub={`Over ${months} months`} />
         </Box>
@@ -181,7 +181,7 @@ const Analytics = () => {
                               {cat.category}
                             </Typography>
                             <Typography variant="body2" fontWeight={700} color="#101828" sx={{ fontSize: { xs: '0.78rem', md: '0.875rem' } }}>
-                              {formatCurrency(cat.amount)}
+                              {formatCurrency(cat.amount, currency.code)}
                             </Typography>
                           </Box>
                           <Box sx={{ height: 4, borderRadius: '4px', bgcolor: '#f1f3f6', overflow: 'hidden' }}>
@@ -217,7 +217,7 @@ const Analytics = () => {
                       </Box>
                       <Box sx={{ textAlign: 'right' }}>
                         <Typography variant="body2" fontWeight={700} color={isPositive ? '#10b981' : '#ef4444'} sx={{ fontSize: { xs: '0.78rem', md: '0.875rem' } }}>
-                          {isPositive ? '+' : ''}{formatCurrency(Math.abs(m.net))}
+                          {isPositive ? '+' : ''}{formatCurrency(Math.abs(m.net), currency.code)}
                         </Typography>
                         <Typography variant="caption" color="#98a2b3" sx={{ fontSize: { xs: '0.65rem', md: '0.75rem' } }}>
                           {isPositive ? 'surplus' : 'deficit'}

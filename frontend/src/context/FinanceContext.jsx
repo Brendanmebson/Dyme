@@ -247,7 +247,13 @@ export const FinanceProvider = ({ children }) => {
   const enrichedBudgets = React.useMemo(() => {
     return budgets.map((b) => {
       const spent = transactions
-        .filter((t) => t.type === 'expense' && t.category === b.category)
+        .filter((t) => {
+          if (t.type !== 'expense' || t.category !== b.category) return false;
+          const txDate = new Date(t.date);
+          if (b.start_date && txDate < new Date(b.start_date)) return false;
+          if (b.end_date && txDate > new Date(b.end_date)) return false;
+          return true;
+        })
         .reduce((sum, t) => {
           const amountInUSD = getConvertedAmount(t.amount, t.currency);
           const amountInDisplayCurr = amountInUSD * (rates[currency.code] || 1);

@@ -77,7 +77,7 @@ const SpendingChart = ({ data }) => {
               }}>
                 <Typography variant="caption" color="text.secondary" fontWeight={600} sx={{ fontSize: '0.6rem', display: 'block' }}>TOTAL</Typography>
                 <Typography variant="body2" fontWeight={800} color="text.primary" sx={{ fontSize: { xs: '0.8rem', md: '0.875rem' } }}>
-                  {formatCurrency(total)}
+                   {formatCurrency(total)}
                 </Typography>
               </Box>
             </Box>

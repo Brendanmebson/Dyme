@@ -7,7 +7,7 @@ const LoanSchema = z.object({
   remaining_amount: z.number().nonnegative(),
   currency: z.string().length(3).optional(),
   type: z.enum(['lent', 'borrowed']),
-  due_date: z.string().or(z.date()).optional(),
+  due_date: z.string().or(z.date()).nullable().optional(),
   description: z.string().optional(),
 });
 
