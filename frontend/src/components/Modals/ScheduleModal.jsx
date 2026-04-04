@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { 
   Dialog, DialogTitle, DialogContent, DialogActions, 
   Box, Typography, Button, TextField, MenuItem, 
-  InputAdornment, IconButton, CircularProgress
+  InputAdornment, IconButton, CircularProgress,
+  useMediaQuery, useTheme, Slide
 } from '@mui/material';
 import { useFinance } from '../../context/FinanceContext';
 import { useCurrency } from '../../context/CurrencyContext';
@@ -16,9 +17,15 @@ const FREQUENCY_OPTIONS = [
   { value: 'unstructured', label: 'Unstructured (Project-based)' },
 ];
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 const ScheduleModal = ({ isOpen, onClose, schedule = null }) => {
   const { addSchedule, updateSchedule } = useFinance();
   const { currency } = useCurrency();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   
   const [formData, setFormData] = useState({
     name: '',
@@ -84,8 +91,13 @@ const ScheduleModal = ({ isOpen, onClose, schedule = null }) => {
       onClose={onClose} 
       maxWidth="xs" 
       fullWidth
+      fullScreen={isMobile}
+      TransitionComponent={isMobile ? Transition : undefined}
       PaperProps={{
-        sx: { borderRadius: '20px', p: 1 }
+        sx: { 
+          borderRadius: isMobile ? 0 : '20px', 
+          p: isMobile ? 0 : 1 
+        }
       }}
     >
       <DialogTitle sx={{ 

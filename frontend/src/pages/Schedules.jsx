@@ -60,10 +60,17 @@ const Schedules = () => {
 
   return (
     <Box sx={{ pt: { xs: 3, md: 4 } }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: { xs: 'column', sm: 'row' },
+        justifyContent: 'space-between', 
+        alignItems: { xs: 'flex-start', sm: 'center' }, 
+        gap: 2,
+        mb: 4 
+      }}>
         <Box>
           <Typography variant="h4" fontWeight={800} color="text.primary" 
-            fontFamily='"Plus Jakarta Sans", sans-serif' sx={{ mb: 0.5 }}>
+            fontFamily='"Plus Jakarta Sans", sans-serif' sx={{ mb: 0.5, fontSize: { xs: '1.75rem', md: '2.142rem' } }}>
             Income Schedules
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -72,6 +79,7 @@ const Schedules = () => {
         </Box>
         <Button
           variant="contained"
+          fullWidth={{ xs: true, sm: false }}
           startIcon={<Plus size={18} />}
           onClick={() => setIsModalOpen(true)}
           sx={{
@@ -114,17 +122,18 @@ const Schedules = () => {
                   '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 12px 24px rgba(0,0,0,0.08)' }
                 }}>
                   <CardContent sx={{ p: 3 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                      <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, gap: 1 }}>
+                      <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center', overflow: 'hidden' }}>
                         <Box sx={{ 
                           width: 40, height: 40, borderRadius: '12px', 
                           bgcolor: 'rgba(16, 185, 129, 0.1)', color: '#10b981',
-                          display: 'flex', alignItems: 'center', justifyContent: 'center'
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          flexShrink: 0
                         }}>
                           {isUnstructured ? <HandCoins size={20} /> : <Clock size={20} />}
                         </Box>
-                        <Box>
-                          <Typography variant="subtitle1" fontWeight={800} color="text.primary">
+                        <Box sx={{ minWidth: 0 }}>
+                          <Typography variant="subtitle1" fontWeight={800} color="text.primary" noWrap>
                             {s.name}
                           </Typography>
                           <Chip 
@@ -137,7 +146,7 @@ const Schedules = () => {
                           />
                         </Box>
                       </Box>
-                      <IconButton size="small" onClick={() => handleDelete(s.id)}>
+                      <IconButton size="small" onClick={() => handleDelete(s.id)} sx={{ flexShrink: 0 }}>
                         <Trash2 size={16} color="#98a2b3" />
                       </IconButton>
                     </Box>

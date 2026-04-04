@@ -51,10 +51,17 @@ const Loans = () => {
 
   return (
     <Box sx={{ pt: { xs: 3, md: 4 } }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: { xs: 'column', sm: 'row' },
+        justifyContent: 'space-between', 
+        alignItems: { xs: 'flex-start', sm: 'center' }, 
+        gap: 2,
+        mb: 4 
+      }}>
         <Box>
           <Typography variant="h4" fontWeight={800} color="text.primary" 
-            fontFamily='"Plus Jakarta Sans", sans-serif' sx={{ mb: 0.5 }}>
+            fontFamily='"Plus Jakarta Sans", sans-serif' sx={{ mb: 0.5, fontSize: { xs: '1.75rem', md: '2.142rem' } }}>
             Loans & Debts
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -63,6 +70,7 @@ const Loans = () => {
         </Box>
         <Button
           variant="contained"
+          fullWidth={{ xs: true, sm: false }}
           startIcon={<Plus size={18} />}
           onClick={() => setIsModalOpen(true)}
           sx={{
@@ -77,18 +85,18 @@ const Loans = () => {
       </Box>
 
       {/* Summary Cards */}
-      <Grid container spacing={3} sx={{ mb: 4 }}>
+      <Grid container spacing={2} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6}>
           <Card sx={{ borderRadius: '20px', bgcolor: '#f0fdf4', border: '1px solid #d1fae5', boxShadow: 'none' }}>
-            <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-              <Box sx={{ width: 48, height: 48, borderRadius: '14px', bgcolor: '#10b981', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <CardContent sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1.5, sm: 2.5 }, p: { xs: 2, sm: 3 } }}>
+              <Box sx={{ width: 44, height: 44, borderRadius: '14px', bgcolor: '#10b981', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <ArrowUpRight size={24} />
               </Box>
               <Box>
                 <Typography variant="caption" fontWeight={700} color="#065f46" sx={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   Owed to you
                 </Typography>
-                <Typography variant="h5" fontWeight={800} color="#064e3b">
+                <Typography variant="h5" fontWeight={800} color="#064e3b" sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }}>
                   {formatAmount(totalOwedToMe)}
                 </Typography>
               </Box>
@@ -97,15 +105,15 @@ const Loans = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Card sx={{ borderRadius: '20px', bgcolor: '#fef2f2', border: '1px solid #fecaca', boxShadow: 'none' }}>
-            <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-              <Box sx={{ width: 48, height: 48, borderRadius: '14px', bgcolor: '#ef4444', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <CardContent sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1.5, sm: 2.5 }, p: { xs: 2, sm: 3 } }}>
+              <Box sx={{ width: 44, height: 44, borderRadius: '14px', bgcolor: '#ef4444', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <ArrowDownRight size={24} />
               </Box>
               <Box>
                 <Typography variant="caption" fontWeight={700} color="#991b1b" sx={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   You owe
                 </Typography>
-                <Typography variant="h5" fontWeight={800} color="#7f1d1d">
+                <Typography variant="h5" fontWeight={800} color="#7f1d1d" sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }}>
                   {formatAmount(totalIOwe)}
                 </Typography>
               </Box>

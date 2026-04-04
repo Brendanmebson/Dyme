@@ -3,16 +3,22 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions, 
   Box, Typography, Button, TextField, MenuItem, 
   InputAdornment, IconButton, CircularProgress,
-  ToggleButton, ToggleButtonGroup
+  ToggleButton, ToggleButtonGroup, useMediaQuery, useTheme, Slide
 } from '@mui/material';
 import { useFinance } from '../../context/FinanceContext';
 import { useCurrency } from '../../context/CurrencyContext';
 import { X, Check, Calendar, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { format } from 'date-fns';
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 const LoanModal = ({ isOpen, onClose, loan = null }) => {
   const { addLoan, updateLoan, addTransaction } = useFinance();
   const { currency } = useCurrency();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   
   const [mode, setMode] = useState('add'); // 'add' or 'repayment'
   const [formData, setFormData] = useState({
@@ -99,8 +105,13 @@ const LoanModal = ({ isOpen, onClose, loan = null }) => {
       onClose={onClose} 
       maxWidth="xs" 
       fullWidth
+      fullScreen={isMobile}
+      TransitionComponent={isMobile ? Transition : undefined}
       PaperProps={{
-        sx: { borderRadius: '20px', p: 1 }
+        sx: { 
+          borderRadius: isMobile ? 0 : '20px', 
+          p: isMobile ? 0 : 1 
+        }
       }}
     >
       <DialogTitle sx={{ 

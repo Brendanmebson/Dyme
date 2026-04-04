@@ -3,13 +3,13 @@ import { useFinance } from '../context/FinanceContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { useConfirm } from '../context/ConfirmContext';
 import SubscriptionModal from '../components/Modals/SubscriptionModal';
-import { 
-  Box, Typography, Button, Card, CardContent, Grid, 
+import {
+  Box, Typography, Button, Card, CardContent, Grid,
   Avatar, Chip, IconButton, Tooltip, LinearProgress
 } from '@mui/material';
-import { 
-  Plus, Clock, MoreVertical, Trash2, StopCircle, 
-  AlertTriangle, CheckCircle, ExternalLink 
+import {
+  Plus, Clock, MoreVertical, Trash2, StopCircle,
+  AlertTriangle, CheckCircle, ExternalLink
 } from 'lucide-react';
 import { format, differenceInDays, parseISO } from 'date-fns';
 
@@ -57,10 +57,17 @@ const Subscriptions = () => {
   return (
     <Box sx={{ pt: { xs: 3, md: 4 } }}>
       {/* Header */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: { xs: 'column', sm: 'row' },
+        justifyContent: 'space-between', 
+        alignItems: { xs: 'flex-start', sm: 'center' }, 
+        gap: 2,
+        mb: 4 
+      }}>
         <Box>
-          <Typography variant="h4" fontWeight={800} color="text.primary" 
-            fontFamily='"Plus Jakarta Sans", sans-serif' sx={{ mb: 0.5 }}>
+          <Typography variant="h4" fontWeight={800} color="text.primary"
+            fontFamily='"Plus Jakarta Sans", sans-serif' sx={{ mb: 0.5, fontSize: { xs: '1.75rem', md: '2.142rem' } }}>
             Subscriptions
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -69,6 +76,7 @@ const Subscriptions = () => {
         </Box>
         <Button
           variant="contained"
+          fullWidth={{ xs: true, sm: false }}
           startIcon={<Plus size={18} />}
           onClick={() => setIsModalOpen(true)}
           sx={{
@@ -103,46 +111,48 @@ const Subscriptions = () => {
           subscriptions.map((sub) => {
             const status = getStatus(sub.next_billing_date);
             const daysLeft = differenceInDays(parseISO(sub.next_billing_date), new Date());
-            
+
             return (
               <Grid item xs={12} sm={6} lg={4} key={sub.id}>
-                <Card sx={{ 
+                <Card sx={{
                   borderRadius: '20px', border: '1px solid', borderColor: 'divider',
                   boxShadow: '0 1px 3px rgba(0,0,0,0.05)', transition: 'all 0.3s ease',
                   '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 12px 24px rgba(0,0,0,0.08)' }
                 }}>
                   <CardContent sx={{ p: 3 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-                      <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                        <Avatar 
-                          src={sub.logo_url} 
-                          sx={{ 
-                            width: 48, height: 48, borderRadius: '12px',
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3, gap: 1 }}>
+                      <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center', overflow: 'hidden' }}>
+                        <Avatar
+                          src={sub.logo_url}
+                          sx={{
+                            width: { xs: 40, md: 48 }, height: { xs: 40, md: 48 }, borderRadius: '12px',
                             bgcolor: (theme) => theme.palette.mode === 'dark' ? '#2d2d2d' : '#f8f9fa',
                             boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-                            color: 'text.primary', fontWeight: 800
+                            color: 'text.primary', fontWeight: 800, flexShrink: 0
                           }}
                         >
                           {sub.name[0].toUpperCase()}
                         </Avatar>
-                        <Box>
-                          <Typography variant="subtitle1" fontWeight={800} color="text.primary">
+                        <Box sx={{ minWidth: 0 }}>
+                          <Typography variant="subtitle1" fontWeight={800} color="text.primary" noWrap>
                             {sub.name}
                           </Typography>
-                          <Typography variant="caption" color="text.secondary" fontWeight={600}>
+                          <Typography variant="caption" color="text.secondary" fontWeight={600} display="block">
                             {sub.frequency.replace('_', ' ')}
                           </Typography>
                         </Box>
                       </Box>
-                      <Chip 
-                        label={status.label} 
-                        size="small" 
+                      <Chip
+                        label={status.label}
+                        size="small"
                         icon={<status.icon size={12} color={status.color} />}
-                        sx={{ 
-                          bgcolor: status.bg, color: status.color, 
+                        sx={{
+                          bgcolor: status.bg, color: status.color,
                           fontWeight: 700, borderRadius: '8px', border: 'none',
-                          '& .MuiChip-icon': { color: 'inherit' }
-                        }} 
+                          flexShrink: 0,
+                          '& .MuiChip-icon': { color: 'inherit' },
+                          '& .MuiChip-label': { px: 1 }
+                        }}
                       />
                     </Box>
 
@@ -164,12 +174,12 @@ const Subscriptions = () => {
                           {daysLeft < 0 ? 'Overdue' : daysLeft === 0 ? 'Today' : `${daysLeft} days left`}
                         </Typography>
                       </Box>
-                      <LinearProgress 
-                        variant="determinate" 
-                        value={Math.max(0, Math.min(100, (30 - daysLeft) / 30 * 100))} 
-                        sx={{ 
+                      <LinearProgress
+                        variant="determinate"
+                        value={Math.max(0, Math.min(100, (30 - daysLeft) / 30 * 100))}
+                        sx={{
                           height: 6, borderRadius: '3px', bgcolor: 'divider',
-                          '& .MuiLinearProgress-bar': { 
+                          '& .MuiLinearProgress-bar': {
                             bgcolor: status.color,
                             borderRadius: '3px'
                           }
@@ -179,11 +189,11 @@ const Subscriptions = () => {
 
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <Tooltip title="End Subscription">
-                        <IconButton 
-                          size="small" 
+                        <IconButton
+                          size="small"
                           onClick={() => handleEndSubscription(sub)}
                           disabled={!sub.is_recurring}
-                          sx={{ 
+                          sx={{
                             borderRadius: '10px', border: '1px solid', borderColor: 'divider',
                             color: 'text.secondary', '&:hover': { color: '#f59e0b', bgcolor: '#fffbeb' }
                           }}
@@ -192,10 +202,10 @@ const Subscriptions = () => {
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Delete">
-                        <IconButton 
-                          size="small" 
+                        <IconButton
+                          size="small"
                           onClick={() => handleDeleteSubscription(sub)}
-                          sx={{ 
+                          sx={{
                             borderRadius: '10px', border: '1px solid', borderColor: 'divider',
                             color: '#ef4444', '&:hover': { bgcolor: '#fee2e2' }
                           }}
@@ -204,12 +214,12 @@ const Subscriptions = () => {
                         </IconButton>
                       </Tooltip>
                       <Box sx={{ flex: 1 }} />
-                      <Button 
-                        size="small" 
-                        variant="text" 
+                      <Button
+                        size="small"
+                        variant="text"
                         endIcon={<ExternalLink size={14} />}
                         onClick={() => openEditModal(sub)}
-                        sx={{ 
+                        sx={{
                           textTransform: 'none', fontWeight: 700, color: '#f43f6e',
                           '&:hover': { bgcolor: 'transparent', textDecoration: 'underline' }
                         }}
@@ -225,9 +235,9 @@ const Subscriptions = () => {
         )}
       </Grid>
 
-      <SubscriptionModal 
-        isOpen={isModalOpen} 
-        onClose={handleCloseModal} 
+      <SubscriptionModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
         subscription={selectedSub}
       />
     </Box>
