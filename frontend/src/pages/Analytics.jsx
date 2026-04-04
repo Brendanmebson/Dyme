@@ -44,14 +44,15 @@ const InsightCard = ({ label, value, sub, icon: Icon, iconColor, iconBg }) => (
 
 const Analytics = () => {
   const { getMonthlyData, getSpendingByCategory } = useFinance();
-  const { format: formatCurrency } = useCurrency();
+  const { currency, rates, format: formatCurrency } = useCurrency();
   const [period, setPeriod] = useState('6months');
   const months = period === '6months' ? 6 : 12;
+
+  const rate = rates[currency.code] || 1;
 
   const monthlyChartData = Array.from({ length: months }, (_, i) => {
     const date = subMonths(new Date(), months - 1 - i);
     const { income, expenses } = getMonthlyData(date);
-    const rate = useCurrency().rates[useCurrency().currency.code] || 1;
     return { 
       month: format(date, 'MMM'), 
       income: income * rate, 
