@@ -86,34 +86,34 @@ const Loans = () => {
 
       {/* Summary Cards */}
       <Grid container spacing={2} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6}>
-          <Card sx={{ borderRadius: '20px', bgcolor: '#f0fdf4', border: '1px solid #d1fae5', boxShadow: 'none' }}>
-            <CardContent sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1.5, sm: 2.5 }, p: { xs: 2, sm: 3 } }}>
-              <Box sx={{ width: 44, height: 44, borderRadius: '14px', bgcolor: '#10b981', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <ArrowUpRight size={24} />
+        <Grid item xs={6}>
+          <Card sx={{ borderRadius: '20px', bgcolor: '#f0fdf4', border: '1px solid #d1fae5', boxShadow: 'none', height: '100%' }}>
+            <CardContent sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'flex-start', md: 'center' }, gap: { xs: 1, md: 2.5 }, p: { xs: 2, md: 3 } }}>
+              <Box sx={{ width: { xs: 32, md: 44 }, height: { xs: 32, md: 44 }, borderRadius: '10px', bgcolor: '#10b981', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <ArrowUpRight size={18} />
               </Box>
               <Box>
-                <Typography variant="caption" fontWeight={700} color="#065f46" sx={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                <Typography variant="caption" fontWeight={700} color="#065f46" sx={{ textTransform: 'uppercase', letterSpacing: '0.05em', fontSize: { xs: '0.65rem', md: '0.75rem' } }}>
                   Owed to you
                 </Typography>
-                <Typography variant="h5" fontWeight={800} color="#064e3b" sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }}>
+                <Typography variant="h5" fontWeight={800} color="#064e3b" sx={{ fontSize: { xs: '1rem', md: '1.5rem' } }}>
                   {formatAmount(totalOwedToMe)}
                 </Typography>
               </Box>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Card sx={{ borderRadius: '20px', bgcolor: '#fef2f2', border: '1px solid #fecaca', boxShadow: 'none' }}>
-            <CardContent sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1.5, sm: 2.5 }, p: { xs: 2, sm: 3 } }}>
-              <Box sx={{ width: 44, height: 44, borderRadius: '14px', bgcolor: '#ef4444', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <ArrowDownRight size={24} />
+        <Grid item xs={6}>
+          <Card sx={{ borderRadius: '20px', bgcolor: '#fef2f2', border: '1px solid #fecaca', boxShadow: 'none', height: '100%' }}>
+            <CardContent sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'flex-start', md: 'center' }, gap: { xs: 1, md: 2.5 }, p: { xs: 2, md: 3 } }}>
+              <Box sx={{ width: { xs: 32, md: 44 }, height: { xs: 32, md: 44 }, borderRadius: '10px', bgcolor: '#ef4444', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <ArrowDownRight size={18} />
               </Box>
               <Box>
-                <Typography variant="caption" fontWeight={700} color="#991b1b" sx={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                <Typography variant="caption" fontWeight={700} color="#991b1b" sx={{ textTransform: 'uppercase', letterSpacing: '0.05em', fontSize: { xs: '0.65rem', md: '0.75rem' } }}>
                   You owe
                 </Typography>
-                <Typography variant="h5" fontWeight={800} color="#7f1d1d" sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }}>
+                <Typography variant="h5" fontWeight={800} color="#7f1d1d" sx={{ fontSize: { xs: '1rem', md: '1.5rem' } }}>
                   {formatAmount(totalIOwe)}
                 </Typography>
               </Box>

@@ -5,8 +5,9 @@ import { useConfirm } from '../context/ConfirmContext';
 import SubscriptionModal from '../components/Modals/SubscriptionModal';
 import {
   Box, Typography, Button, Card, CardContent, Grid,
-  Avatar, Chip, IconButton, Tooltip, LinearProgress
+  Avatar, Chip, Tooltip, LinearProgress
 } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import {
   Plus, Clock, MoreVertical, Trash2, StopCircle,
   AlertTriangle, CheckCircle, ExternalLink
@@ -57,13 +58,13 @@ const Subscriptions = () => {
   return (
     <Box sx={{ pt: { xs: 3, md: 4 } }}>
       {/* Header */}
-      <Box sx={{ 
-        display: 'flex', 
+      <Box sx={{
+        display: 'flex',
         flexDirection: { xs: 'column', sm: 'row' },
-        justifyContent: 'space-between', 
-        alignItems: { xs: 'flex-start', sm: 'center' }, 
+        justifyContent: 'space-between',
+        alignItems: { xs: 'flex-start', sm: 'center' },
         gap: 2,
-        mb: 4 
+        mb: 4
       }}>
         <Box>
           <Typography variant="h4" fontWeight={800} color="text.primary"
