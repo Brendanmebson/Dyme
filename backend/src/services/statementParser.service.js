@@ -14,7 +14,25 @@ export const parseStatement = async (fileBuffer, fileName, userId, currency = 'U
 
     if (lowerName.endsWith('.csv')) {
       // Handle CSV
-      records = parse(fileBuffer.toString(), {
+      const content = fileBuffer.toString();
+      const lines = content.split(/\r?\n/).filter(l => l.trim().length > 0);
+      
+      // Heuristic: Find first line that looks like a header (contains at least 2 keywords)
+      const headerKeywords = ['date', 'description', 'amount', 'narrative', 'memo', 'transaction', 'debit', 'credit', 'balance', 'particulars'];
+      let headerLineIndex = 0;
+      for (let i = 0; i < Math.min(lines.length, 20); i++) {
+        const line = lines[i].toLowerCase();
+        const matches = headerKeywords.filter(k => line.includes(k)).length;
+        if (matches >= 2) {
+          headerLineIndex = i;
+          break;
+        }
+      }
+
+      // Re-join from the header line onwards
+      const csvData = lines.slice(headerLineIndex).join('\n');
+
+      records = parse(csvData, {
         columns: true,
         skip_empty_lines: true,
         trim: true,
@@ -30,7 +48,7 @@ export const parseStatement = async (fileBuffer, fileName, userId, currency = 'U
       const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
       
       // Heuristic: Find the header row (scan first 20 rows)
-      const headerKeywords = ['date', 'description', 'amount', 'narrative', 'memo', 'transaction'];
+      const headerKeywords = ['date', 'description', 'amount', 'narrative', 'memo', 'transaction', 'debit', 'credit', 'balance', 'particulars'];
       let headerRowIndex = 0;
       for (let i = 0; i < Math.min(rows.length, 20); i++) {
         const row = rows[i];
@@ -56,39 +74,76 @@ export const parseStatement = async (fileBuffer, fileName, userId, currency = 'U
     // Map common header variations
     const headerMaps = {
       date: ['date', 'transaction date', 'value date', 'booking date', 'pstng date', 'tran date', 'val date'],
-      desc: ['description', 'memo', 'narrative', 'transaction details', 'remarks', 'payee', 'particulars'],
-      amount: ['amount', 'transaction amount', 'value', 'withdrawal', 'deposit', 'credit', 'debit', 'balance'],
-      type: ['type', 'transaction type', 'cr/dr', 'credit/debit', 'direction'],
+      desc: ['description', 'memo', 'narrative', 'transaction details', 'remarks', 'payee', 'particulars', 'reference', 'ref'],
+      amount: ['amount', 'transaction amount', 'value', 'transaction value'],
+      debit: ['withdrawal', 'debit', 'dr', 'paid out', 'expense'],
+      credit: ['deposit', 'credit', 'cr', 'paid in', 'income'],
+      balance: ['balance', 'balance after', 'closing balance'],
+      type: ['type', 'transaction type', 'cr/dr', 'credit/debit', 'direction', 'chanel', 'channel'],
     };
 
     return records.map((row) => {
       const keys = Object.keys(row);
       const findKey = (searchTerms) => 
-        keys.find(k => searchTerms.some(term => k.toLowerCase().includes(term)));
+        keys.find(k => {
+          const kl = k.toLowerCase().trim();
+          return searchTerms.some(term => {
+            const tl = term.toLowerCase();
+            // Exact match or contains as a whole word
+            if (tl.length <= 3) {
+              return kl === tl || new RegExp(`\\b${tl}\\b`).test(kl);
+            }
+            return kl.includes(tl);
+          });
+        });
 
       const dateKey = findKey(headerMaps.date);
       const descKey = findKey(headerMaps.desc);
       const amountKey = findKey(headerMaps.amount);
+      const debitKey = findKey(headerMaps.debit);
+      const creditKey = findKey(headerMaps.credit);
+      const balanceKey = findKey(headerMaps.balance);
       const typeKey = findKey(headerMaps.type);
 
-      // Handle Amount
-      let rawAmount = String(row[amountKey] || '0');
-      let amount = Math.abs(parseFloat(rawAmount.replace(/[^0-9.-]/g, '')) || 0);
-
-      // Income vs Expense heuristics
+      // Handle Amount logic
+      let amount = 0;
       let type = 'expense';
-      const rawType = String(row[typeKey] || '').toLowerCase();
-      const rawDesc = String(row[descKey] || '').toLowerCase();
-      
-      // Heuristic 1: Explicit type column
-      if (rawType.includes('credit') || rawType.includes('cr') || rawType.includes('in') || rawType.includes('deposit')) {
+
+      // 1. Try dedicated Debit/Credit columns
+      const rawDebit = String(row[debitKey] || '').replace(/[^0-9.-]/g, '');
+      const rawCredit = String(row[creditKey] || '').replace(/[^0-9.-]/g, '');
+      const debitVal = Math.abs(parseFloat(rawDebit) || 0);
+      const creditVal = Math.abs(parseFloat(rawCredit) || 0);
+
+      if (debitVal > 0 && creditVal > 0) {
+        // Unusual case where both have values, use the larger one or handle as needed
+        // For now, if both exist, we'll favor the one that matches common patterns
+        amount = debitVal + creditVal; // Maybe they split a transaction? Unlikely but safe.
+      } else if (debitVal > 0) {
+        amount = debitVal;
+        type = 'expense';
+      } else if (creditVal > 0) {
+        amount = creditVal;
         type = 'income';
       } 
-      // Heuristic 2: Positive value in an "Amount" column often means income if it's not a debit column
-      else if (parseFloat(rawAmount.replace(/,/g, '')) > 0) {
-        if (!amountKey?.toLowerCase().includes('debit') && !amountKey?.toLowerCase().includes('withdrawal')) {
+      // 2. Fallback to generic "Amount" column
+      else if (amountKey) {
+        let rawAmount = String(row[amountKey] || '0');
+        amount = Math.abs(parseFloat(rawAmount.replace(/[^0-9.-]/g, '')) || 0);
+        
+        // Income vs Expense heuristics for generic amount
+        const rawType = String(row[typeKey] || '').toLowerCase();
+        
+        if (rawType.includes('credit') || rawType.includes('cr') || rawType.includes('in') || rawType.includes('deposit')) {
+          type = 'income';
+        } else if (parseFloat(rawAmount.replace(/,/g, '')) > 0) {
            type = 'income';
         }
+      }
+      // 3. Last fallback: Balance change (rarely used but good to have)
+      else if (balanceKey) {
+        // We can't easily calculate amount from a single balance row without the previous one
+        // so we'll just skip or default.
       }
 
       // Date normalization
@@ -96,11 +151,9 @@ export const parseStatement = async (fileBuffer, fileName, userId, currency = 'U
       let date = new Date().toISOString().split('T')[0];
       
       if (dateValue) {
-        // If SheetJS parsed it as a Date object (cellDates: true)
         if (dateValue instanceof Date) {
           date = dateValue.toISOString().split('T')[0];
         } else {
-          // Fallback parsing for strings
           const parsedDate = new Date(dateValue);
           if (!isNaN(parsedDate)) {
             date = parsedDate.toISOString().split('T')[0];
