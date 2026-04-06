@@ -59,7 +59,7 @@ const SubscriptionModal = ({ isOpen, onClose, subscription = null }) => {
     if (subscription) {
       setFormData({
         ...subscription,
-        next_billing_date: sub.next_billing_date.split('T')[0],
+        next_billing_date: subscription.next_billing_date.split('T')[0],
       });
     } else {
       setFormData({
