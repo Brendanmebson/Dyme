@@ -39,32 +39,55 @@ export const parseStatement = async (fileBuffer, fileName, userId, currency = 'U
         relax_column_count: true,
       });
     } else if (lowerName.endsWith('.xlsx') || lowerName.endsWith('.xls') || lowerName.endsWith('.xslx')) {
-      // Handle Excel
+      // Handle Excel (Multi-Sheet)
       const workbook = XLSX.read(fileBuffer, { type: 'buffer', cellDates: true });
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-      
-      // Convert to array of arrays first to find the header row
-      const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
-      
-      // Heuristic: Find the header row (scan first 20 rows)
-      const headerKeywords = ['date', 'description', 'amount', 'narrative', 'memo', 'transaction', 'debit', 'credit', 'balance', 'particulars'];
-      let headerRowIndex = 0;
-      for (let i = 0; i < Math.min(rows.length, 20); i++) {
-        const row = rows[i];
-        const rowString = row.join(' ').toLowerCase();
-        const matches = headerKeywords.filter(k => rowString.includes(k)).length;
-        if (matches >= 2) { // At least two keywords found
-          headerRowIndex = i;
-          break;
-        }
-      }
+      let allRecords = [];
 
-      // Convert to JSON using the found header row
-      records = XLSX.utils.sheet_to_json(worksheet, { 
-        range: headerRowIndex,
-        defval: '' 
-      });
+      for (const sheetName of workbook.SheetNames) {
+        const worksheet = workbook.Sheets[sheetName];
+        const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
+        if (rows.length === 0) continue;
+
+        // Heuristic: Find the header row (scan first 20 rows)
+        const headerKeywords = ['date', 'description', 'amount', 'narrative', 'memo', 'transaction', 'debit', 'credit', 'balance', 'particulars'];
+        let headerRowIndex = -1;
+        for (let i = 0; i < Math.min(rows.length, 20); i++) {
+          const row = rows[i];
+          const rowString = row.join(' ').toLowerCase();
+          const matches = headerKeywords.filter(k => rowString.includes(k)).length;
+          if (matches >= 2) { 
+            headerRowIndex = i;
+            break;
+          }
+        }
+
+        let sheetRecords = [];
+        if (headerRowIndex !== -1) {
+          // Found header, use it
+          sheetRecords = XLSX.utils.sheet_to_json(worksheet, { 
+            range: headerRowIndex,
+            defval: '' 
+          });
+        } else {
+          // NO HEADER FOUND: Fallback for OPay (8 columns, specific type signature)
+          const firstRow = rows[0] || [];
+          if (firstRow.length === 8 && /^\d{2} [a-z]{3} \d{4}/i.test(String(firstRow[1]))) {
+            // Likely OPay: Map by position
+            sheetRecords = rows.map(r => ({
+              '__date_pos__': r[1],
+              '__desc_pos__': r[2],
+              '__debit_pos__': r[3],
+              '__credit_pos__': r[4],
+              '__id_pos__': r[7]
+            }));
+          } else {
+            // Generic fallback: Treat Row 0 as header if it has something
+            sheetRecords = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+          }
+        }
+        allRecords = allRecords.concat(sheetRecords);
+      }
+      records = allRecords;
     } else {
       throw new Error('Unsupported file format. Please use .csv, .xlsx, or .xls');
     }
@@ -73,11 +96,11 @@ export const parseStatement = async (fileBuffer, fileName, userId, currency = 'U
 
     // Map common header variations
     const headerMaps = {
-      date: ['date', 'transaction date', 'value date', 'booking date', 'pstng date', 'tran date', 'val date'],
-      desc: ['description', 'memo', 'narrative', 'transaction details', 'remarks', 'payee', 'particulars', 'reference', 'ref'],
+      date: ['date', 'transaction date', 'value date', 'booking date', 'pstng date', 'tran date', 'val date', '__date_pos__'],
+      desc: ['description', 'memo', 'narrative', 'transaction details', 'remarks', 'payee', 'particulars', 'reference', 'ref', '__desc_pos__'],
       amount: ['amount', 'transaction amount', 'value', 'transaction value'],
-      debit: ['withdrawal', 'debit', 'dr', 'paid out', 'expense'],
-      credit: ['deposit', 'credit', 'cr', 'paid in', 'income'],
+      debit: ['withdrawal', 'debit', 'dr', 'paid out', 'expense', '__debit_pos__'],
+      credit: ['deposit', 'credit', 'cr', 'paid in', 'income', '__credit_pos__'],
       balance: ['balance', 'balance after', 'closing balance'],
       type: ['type', 'transaction type', 'cr/dr', 'credit/debit', 'direction', 'chanel', 'channel'],
     };
