@@ -88,10 +88,10 @@ export const CurrencyProvider = ({ children }) => {
   // Format an amount in a specific currency WITHOUT converting it
   const formatAmount = useCallback((amount, currencyCode = 'USD') => {
     if (amount === null || amount === undefined || isNaN(amount)) return `${CURRENCIES[currencyCode]?.symbol || '$'}0.00`;
-    
+
     let value = Number(amount);
     value = Math.round(value * 100) / 100;
-    
+
     const curr = CURRENCIES[currencyCode] || CURRENCIES.USD;
 
     return new Intl.NumberFormat(curr.locale, {
