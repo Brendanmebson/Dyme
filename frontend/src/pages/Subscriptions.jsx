@@ -161,7 +161,7 @@ const Subscriptions = () => {
                         Renewal Price
                       </Typography>
                       <Typography variant="h5" fontWeight={800} color="text.primary" sx={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
-                        {formatAmount(sub.price, sub.currency)}
+                        {formatAmount(sub.amount, sub.currency)}
                       </Typography>
                     </Box>
 

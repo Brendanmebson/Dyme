@@ -44,7 +44,7 @@ const SubscriptionModal = ({ isOpen, onClose, subscription = null }) => {
   
   const [formData, setFormData] = useState({
     name: '',
-    price: '',
+    amount: '',
     currency: currency.code,
     frequency: '1_month',
     is_recurring: true,
@@ -64,7 +64,7 @@ const SubscriptionModal = ({ isOpen, onClose, subscription = null }) => {
     } else {
       setFormData({
         name: '',
-        price: '',
+        amount: '',
         currency: currency.code,
         frequency: '1_month',
         is_recurring: true,
@@ -75,7 +75,7 @@ const SubscriptionModal = ({ isOpen, onClose, subscription = null }) => {
   }, [subscription, currency]);
 
   const handleSubmit = async () => {
-    if (!formData.name || !formData.price) {
+    if (!formData.name || !formData.amount) {
       setError('Please fill in all required fields');
       return;
     }
@@ -87,12 +87,12 @@ const SubscriptionModal = ({ isOpen, onClose, subscription = null }) => {
       if (subscription) {
         await updateSubscription(subscription.id, {
           ...formData,
-          price: Number(formData.price),
+          amount: Number(formData.amount),
         });
       } else {
         await addSubscription({
           ...formData,
-          price: Number(formData.price),
+          amount: Number(formData.amount),
           next_billing_date: new Date(formData.next_billing_date).toISOString(),
         });
       }
@@ -176,10 +176,10 @@ const SubscriptionModal = ({ isOpen, onClose, subscription = null }) => {
           {/* Price & Currency */}
           <Box sx={{ display: 'flex', gap: 2 }}>
             <TextField
-              label="Price"
+              label="Amount"
               type="number"
-              value={formData.price}
-              onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
+              value={formData.amount}
+              onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))}
               sx={{ flex: 1 }}
               InputProps={{
                 startAdornment: <InputAdornment position="start">{currency.symbol}</InputAdornment>,
