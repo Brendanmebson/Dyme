@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Button, Container } from '@mui/material';
 import {
-  ArrowRight, BarChart3, Shield, Zap, Target, TrendingUp,
-  CreditCard, Check, ArrowUpRight, Menu, X, Building2, Link2,
+  LayoutGrid, ArrowRightLeft, HandCoins, Clock, Target, ArrowRight, Calendar, TrendingUp, FileText, BarChart3
 } from 'lucide-react';
+import { Shield, Zap, CreditCard, Check, ArrowUpRight, Menu, X, Building2, Link2 } from 'lucide-react';
 import { keyframes } from '@mui/material/styles';
 import { useTheme } from '@mui/material/styles';
 import ThemeToggle from '../components/ThemeToggle';
@@ -15,6 +15,14 @@ import logo from '../assets/Dyme logo.png';
 import FooterBackground from '../components/Landing/FooterBackground';
 import LandingNavbar from '../components/Landing/LandingNavbar';
 import LandingFooter from '../components/Landing/LandingFooter';
+import PremiumFeatureBlock from '../components/Landing/PremiumFeatureBlock';
+// ─── Mockup Screenshots ───────────────────────────────────
+import mockupDashboard    from '../assets/mockups/iPhone-13-PRO-dymedashboard.vercel.app (1).png';
+import mockupBudgets       from '../assets/mockups/iPhone-13-PRO-dymedashboard.vercel.app (4).png';
+import mockupTransactions  from '../assets/mockups/iPhone-13-PRO-dymedashboard.vercel.app (5).png';
+import mockupLoans         from '../assets/mockups/iPhone-13-PRO-dymedashboard.vercel.app (6).png';
+import mockupSubscriptions from '../assets/mockups/iPhone-13-PRO-dymedashboard.vercel.app (8).png';
+import mockupAnalytics     from '../assets/mockups/iPhone-13-PRO-dymedashboard.vercel.app (10).png';
 
 // ─── Keyframes ───────────────────────────────────────────
 const floatA = keyframes`
@@ -402,56 +410,91 @@ const LandingPage = () => {
       </Box>
 
       {/* ══════════════════════════════════════
-          FEATURES
+          FEATURES SHOWCASE
       ══════════════════════════════════════ */}
-      <Box component="section" id="features" sx={{ py: { xs: 10, md: 10 }, bgcolor: 'background.default' }}>
+      <Box component="section" id="features" sx={{ py: { xs: 10, md: 12 }, bgcolor: 'background.default' }}>
         <Container maxWidth="lg">
-          <Box sx={{ display: 'flex', gap: { xs: 4, md: 10 }, flexWrap: 'wrap', mb: 10, alignItems: 'flex-start' }}>
-            <Box sx={{ flex: '0 0 auto', maxWidth: 480 }}>
-              <Typography sx={{ ...overline }}>Features</Typography>
-              <Typography sx={{ ...sectionHead, fontSize: { xs: '2.2rem', md: '3.2rem' } }}>
-                Everything you need,<br />nothing you don't.
-              </Typography>
-            </Box>
-            <Box sx={{ flex: '1 1 260px', pt: { md: 1.5 } }}>
-              <Typography sx={{ fontSize: '1rem', color: 'text.secondary', lineHeight: 1.8, maxWidth: 360 }}>
-                Dyme is built around simplicity. We cut the bloat, kept the power, and made it actually pleasant to use every day.
-              </Typography>
-            </Box>
+          <Box sx={{ textAlign: 'center', mb: 10 }}>
+            <Typography sx={{ ...overline }}>The Ecosystem</Typography>
+            <Typography sx={{ ...sectionHead, fontSize: { xs: '2.5rem', md: '4rem' } }}>
+              Everything in one place.
+            </Typography>
+            <Typography sx={{ fontSize: '1.2rem', color: 'text.secondary', mt: 2, maxWidth: 640, mx: 'auto' }}>
+              Dyme is more than just a tracker. It's a complete financial suite designed for the modern user.
+            </Typography>
           </Box>
 
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', border: '1px solid', borderColor: 'divider', borderRadius: '20px', overflow: 'hidden' }}>
-            {FEATURES.map((f, i) => {
-              const col = i % 3;
-              const row = Math.floor(i / 3);
-              const totalRows = Math.ceil(FEATURES.length / 3);
-              const isLastRow = row === totalRows - 1;
-              const isLastCol = col === 2;
-              return (
-                <Box
-                  key={i}
-                  sx={{
-                    width: { xs: '100%', sm: '50%', md: '33.333%' },
-                    flexShrink: 0,
-                    p: { xs: 3, md: 4 },
-                    borderBottom: '1px solid', borderColor: 'divider',
-                    borderRight: { md: '1px solid', lg: 'none' }, borderColor: 'divider',
-                    bgcolor: 'background.paper',
-                    transition: 'all 0.22s',
-                    '&:hover': { bgcolor: (theme) => theme.palette.mode === 'dark' ? '#1a1a1a' : '#fff8f9' },
-                    cursor: 'default',
-                    boxSizing: 'border-box',
-                  }}
-                >
-                  <Box sx={{ mb: 3, width: 44, height: 44, borderRadius: '12px', border: '1.5px solid rgba(244,63,110,0.2)', bgcolor: 'rgba(244,63,110,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f43f6e' }}>
-                    <f.icon size={20} strokeWidth={1.5} />
-                  </Box>
-                  <Typography sx={{ fontFamily: '"Syne", sans-serif', fontWeight: 700, fontSize: '0.975rem', color: 'text.primary', mb: 1.25 }}>{f.title}</Typography>
-                  <Typography sx={{ fontSize: '0.85rem', color: 'text.secondary', lineHeight: 1.75 }}>{f.desc}</Typography>
-                  <Box sx={{ mt: 2.5 }}><ArrowUpRight size={15} color="rgba(244,63,110,0.3)" /></Box>
-                </Box>
-              );
-            })}
+          <Box sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
+            gap: 6
+          }}>
+            <PremiumFeatureBlock
+              layout="vertical"
+              icon={LayoutGrid}
+              featureName="Dashboard"
+              title={<>Your money,<br />at a glance.</>}
+              description="Get a real-time overview of your net worth, monthly income, spending, and financial health — all in one view."
+              image={mockupDashboard}
+            />
+            <PremiumFeatureBlock
+              layout="vertical"
+              icon={Target}
+              featureName="Budgets"
+              title={<>Spend smarter,<br />live better.</>}
+              description="Set monthly limits per category and receive proactive nudges before you overspend."
+              image={mockupBudgets}
+            />
+            <PremiumFeatureBlock
+              layout="vertical"
+              icon={ArrowRightLeft}
+              featureName="Transactions"
+              title={<>Every penny,<br />accounted for.</>}
+              description="Clean, searchable, and beautifully organized. Track every expense and income with precision and ease."
+              image={mockupTransactions}
+            />
+            <PremiumFeatureBlock
+              layout="vertical"
+              icon={HandCoins}
+              featureName="Loans & Debts"
+              title="Simplify your debts."
+              description="Keep a transparent record of money lent to friends or borrowed from others. Integrated repayment tracking."
+              image={mockupLoans}
+            />
+            <PremiumFeatureBlock
+              layout="vertical"
+              icon={Calendar}
+              featureName="Schedules"
+              title="Automate your income."
+              description="Set up recurring or project-based income schedules to never miss an expected payment."
+              image={mockupLoans}
+            />
+            <PremiumFeatureBlock
+              layout="vertical"
+              icon={Clock}
+              featureName="Subscriptions"
+              title="No more surprise bills."
+              description="A bird's-eye view of all your recurring costs. Get alerts before renewals and track your monthly burn rate."
+              image={mockupSubscriptions}
+            />
+            <PremiumFeatureBlock
+              layout="vertical"
+              icon={TrendingUp}
+              featureName="Analytics"
+              title="Deep financial insights."
+              description="Visualize your spending habits with interactive charts and detailed breakdowns of your net worth."
+              image={mockupAnalytics}
+            />
+          </Box>
+          <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+            <PremiumFeatureBlock
+              layout="vertical"
+              icon={FileText}
+              featureName="Reports"
+              title="Exportable Summaries."
+              description="Generate professional PDF or CSV reports for your personal review or tax filing needs."
+              image={mockupAnalytics}
+            />
           </Box>
         </Container>
       </Box>

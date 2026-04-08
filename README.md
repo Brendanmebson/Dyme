@@ -41,6 +41,24 @@ Set monthly limits for specific categories and track your progress with smart pr
 - **✨ Historical Inclusion**: Optionally include existing transactions when creating a new budget.
 - **✨ Visual Alerts**: See when you're nearing or exceeding your limits.
 
+### 🏦 Loans & Debts Tracking
+Keep a clear record of money you've lent to friends or borrowed from others.
+- **💎 Repayment Progress**: Visual progress bars show exactly how much has been repaid.
+- **💎 Transaction Integration**: Automatically log repayments as transactions in your history.
+- **💎 Categorized Views**: Easily switch between "Lent Money" and "Borrowed Money".
+
+### 📅 Income Schedules
+Automate your income tracking by setting up recurring or project-based schedules.
+- **💰 Smart Automation**: Mark expected income as received to instantly log transactions.
+- **💰 Overdue Alerts**: Never miss an expected payment with visual indicators for overdue schedules.
+- **💰 Flexible Frequency**: Support for monthly, weekly, or unstructured freelance income.
+
+### 💳 Subscription Management
+Take control of your recurring costs and avoid surprise charges.
+- **🔔 Renewal Alerts**: Clear "Due Soon" and "Approaching" indicators for upcoming renewals.
+- **🔔 Price Tracking**: Monitor renewal prices for all your services like Vercel, Netflix, and more.
+- **🔔 Days Remaining**: Real-time countdown to your next billing date.
+
 ### 👤 Profile & Security
 - **🎨 Persistence Engine**: Robust profile picture management with intelligent local caching for 100% reliability.
 - **🔐 Zero-Wait Landing**: Optimized "Fast Auth" logic that allows public pages to render instantly.
